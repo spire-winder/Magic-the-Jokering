@@ -7,52 +7,69 @@ function pseudorandom_f_range(seed, min, max)
 end
 
 function buff_card(card, amount)
-	G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-		local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
-		local rank_suffix = math.fmod(card.base.id + amount - 2, 13) + 2
-		if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
-		elseif rank_suffix == 10 then rank_suffix = 'T'
-		elseif rank_suffix == 11 then rank_suffix = 'J'
-		elseif rank_suffix == 12 then rank_suffix = 'Q'
-		elseif rank_suffix == 13 then rank_suffix = 'K'
-		elseif rank_suffix == 14 then rank_suffix = 'A'
+
+	for i=1,amount do
+		local rank_data = SMODS.Ranks[card.base.value]
+			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
+			local new_rank
+				if behavior.ignore or not next(rank_data.next) then
+					return true
+				elseif behavior.random then
+					-- TODO doesn't respect in_pool
+					new_rank = pseudorandom_element(rank_data.next, pseudoseed('buff_card'))
+				else
+					local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
+					new_rank = rank_data.next[ii]
+				end
+				assert(SMODS.change_base(card, nil, new_rank))
 		end
-		card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
-	return true end }))
 end
 
 function damage_card(card, amount)
-	G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-		local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
-		local rank_suffix = card.base.id - amount
-		if rank_suffix < 2 then
-			if card.ability.name == 'Glass Card' then 
-                card:shatter()
-            else
-                card:start_dissolve(nil, i == #G.hand.highlighted)
-            end
-		else
-			rank_suffix = math.fmod(rank_suffix - 2, 13) + 2
-			if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
-			elseif rank_suffix == 10 then rank_suffix = 'T'
-			elseif rank_suffix == 11 then rank_suffix = 'J'
-			elseif rank_suffix == 12 then rank_suffix = 'Q'
-			elseif rank_suffix == 13 then rank_suffix = 'K'
-			elseif rank_suffix == 14 then rank_suffix = 'A'
-			end
-			card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+	amount = amount + damage_increase(card)
+	for i=1,amount do
+		local rank_data = SMODS.Ranks[card.base.value]
+			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
+			local new_rank
+				if behavior.ignore then
+					return true
+				elseif not next(rank_data.previous) then
+					if card.ability.name == 'Glass Card' then 
+						card:shatter()
+					else
+						card:start_dissolve(nil, i == #G.hand.highlighted)
+					end
+					return true
+				elseif behavior.random then
+					-- TODO doesn't respect in_pool
+					new_rank = pseudorandom_element(rank_data.next, pseudoseed('damage_card'))
+				else
+					local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
+					new_rank = rank_data.previous[ii]
+				end
+				assert(SMODS.change_base(card, nil, new_rank))
 		end
-	return true end }))
 end
 
-function damage_increase()
-	amount = 0
+function damage_increase(card)
+	local amount = 0
 	local torbrans = find_joker("mtg-torbran")
 	if torbrans[1] then
 		for i=1,#torbrans do
 			if torbrans[i] ~= card then
 				amount = amount + torbrans[i].ability.extra.damage_bonus
 			end
+		end
+	end
+	return amount
+end
+
+function total_shop_discount()
+	local amount = 0
+	local helms = find_joker("mtg-helmofawakening")
+	if helms[1] then
+		for i=1,#helms do
+			amount = amount + helms[i].ability.extra.discount
 		end
 	end
 	return amount
@@ -78,7 +95,8 @@ function instant_win()
 end
 
 
-function deal_damage(card, amount)
+function damage_blind(card, amount)
+	amount = amount + damage_increase(card)
 	local total_chips = amount * G.GAME.blind.chips / 20
 	G.E_MANAGER:add_event(Event({
 		trigger = "before",
@@ -123,14 +141,7 @@ function deal_damage(card, amount)
 end
 
 function bonus_damage(card, amount)
-	local torbrans = find_joker("mtg-torbran")
-	if torbrans[1] then
-		for i=1,#torbrans do
-			if torbrans[i] ~= card then
-				amount = amount + torbrans[i].ability.extra.damage_bonus
-			end
-		end
-	end
+	amount = amount + damage_increase(card)
 	local total_chips = amount * G.GAME.blind.chips / 20
 	G.E_MANAGER:add_event(Event({
 		trigger = "before",
@@ -162,8 +173,36 @@ function loc_colour(_c, _default)
 	  G.ARGS.LOC_COLOURS.diamond = G.C.SUITS.Diamonds
 	  G.ARGS.LOC_COLOURS.spade = G.C.SUITS.Spades
 	  G.ARGS.LOC_COLOURS.club = G.C.SUITS.Clubs
-	  G.ARGS.LOC_COLOURS.hel_ascendant = G.C.HEL_ASCENDANT
+	  G.ARGS.LOC_COLOURS.clover = HEX('47f034')
 	  return lc(_c, _default)
+end
+
+function init_clover()
+	suit_clovers = SMODS.Suit {
+		key = 'Clovers',
+		card_key = 'L',
+		hc_atlas = 'mtg_hc_cards',
+		lc_atlas = 'mtg_lc_cards',
+		hc_ui_atlas = 'mtg_hc_ui',
+		lc_ui_atlas = 'mtg_lc_ui',
+		pos = { y = 0 },
+		ui_pos = { x = 0, y = 1 },
+		hc_colour = HEX('47f034'),
+		lc_colour = HEX('38ae2a'),
+	}
+end
+
+function update_ranks()
+	for k, v in pairs(SMODS.Ranks) do
+		for _, r in ipairs(v.next) do
+		  local rank = SMODS.Ranks[r]
+		  if not rank.previous then
+			rank.previous = {}
+		  end
+		  table.insert(rank.previous, v.key)
+		end
+	  end
+	SMODS.Ranks["2"].previous = { }
 end
 
 G.FUNCS.can_reserve_card = function(e)

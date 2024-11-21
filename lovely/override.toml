@@ -63,6 +63,8 @@ payload = '''
 		return true
 	elseif suit == 'Clubs' and next(find_joker('mtg-harbinger')) then
 		return true 
+	elseif suit == suit_clovers.key and next(find_joker('mtg-yavimaya')) then
+		return true 
     end
 '''
 match_indent = true
@@ -124,6 +126,54 @@ match_indent = true
 target = "functions/common_events.lua"
 pattern = '''localize\('ph_mr_bones'\)..' '\}, colours = \{G.C.FILTER'''
 position = 'at'
-# match_indent = true
+match_indent = true
 line_prepend = ''
 payload = '''(G.GAME.current_round.instant_win and "OBLITERATED" or localize('ph_mr_bones'))..' '}, colours = {(G.C.FILTER)'''
+
+
+# rats - negative if you have a copy
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "card:set_edition(edition)"
+position = "at"
+payload = '''
+    if card.ability.name == "mtg-relentlessrats" and next(SMODS.find_card("j_mtg_relentlessrats")) then
+		card:set_edition("e_negative", true, nil, true)
+	else
+        card:set_edition(edition)
+    end
+'''
+match_indent = true
+
+# Joker Sell List
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = 'self:calculate_joker{selling_self = true}'
+position = "before"
+payload = '''
+if self.config.center.set == 'Joker' then
+	if G.GAME.jokers_sold then
+		local contained = false
+		for i = 1, #G.GAME.jokers_sold do
+			if self.config.center.key == G.GAME.jokers_sold[i] then contained = true end
+		end
+		if not contained then table.insert(G.GAME.jokers_sold, self.config.center.key) end
+	else
+		G.GAME.jokers_sold = {self.config.center.key}
+	end
+end
+'''
+match_indent = true
+
+# Discount
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.cost = math.max(1, math.floor((self.base_cost + self.extra_cost + 0.5)*(100-G.GAME.discount_percent)/100))"
+position = "after"
+payload = '''
+    self.cost = math.max(1, self.cost - total_shop_discount())
+'''
+match_indent = true
