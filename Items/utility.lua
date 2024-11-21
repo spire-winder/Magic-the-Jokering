@@ -173,7 +173,7 @@ function loc_colour(_c, _default)
 	  G.ARGS.LOC_COLOURS.diamond = G.C.SUITS.Diamonds
 	  G.ARGS.LOC_COLOURS.spade = G.C.SUITS.Spades
 	  G.ARGS.LOC_COLOURS.club = G.C.SUITS.Clubs
-	  G.ARGS.LOC_COLOURS.clover = HEX('47f034')
+	  G.ARGS.LOC_COLOURS.clover = HEX('3dad2f')
 	  return lc(_c, _default)
 end
 
@@ -187,8 +187,8 @@ function init_clover()
 		lc_ui_atlas = 'mtg_lc_ui',
 		pos = { y = 0 },
 		ui_pos = { x = 0, y = 1 },
-		hc_colour = HEX('47f034'),
-		lc_colour = HEX('38ae2a'),
+		hc_colour = HEX('3dad2f'),
+		lc_colour = HEX('359229'),
 	}
 end
 

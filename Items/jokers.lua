@@ -121,28 +121,25 @@ SMODS.Joker {
 	name = "mtg-evincar",
 	key = "evincar",
 	pos = { x = 4, y = 3 },
-	config = { extra = { bonus_chips = 30, bonus_mult = 5, neg_chips = 30, neg_mult = 5} },
+	config = { extra = {bonus_mult = 10, neg_mult = 10} },
   order = 5,
 	rarity = 2,
 	cost = 8,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = { extra = 1 } }
-		return { vars = { center.ability.extra.bonus_chips, center.ability.extra.bonus_mult, center.ability.extra.neg_chips, center.ability.extra.neg_mult} }
+		return { vars = { center.ability.extra.bonus_mult, center.ability.extra.neg_mult} }
 	end,
 	calculate = function(self, card, context)
     if context.individual then
       if context.cardarea == G.play then
         if context.other_card:is_suit('Spades') then
           return {
-            chips = card.ability.extra.bonus_chips,
             mult = card.ability.extra.bonus_mult,
             card = card
           }
         else
           return {
-            chips = - card.ability.extra.neg_chips,
-            mult = - card.ability.extra.neg_mult,
+            mult = -1 * card.ability.extra.neg_mult,
             card = card
           }
         end

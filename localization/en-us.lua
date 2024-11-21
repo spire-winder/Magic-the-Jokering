@@ -64,10 +64,10 @@ return {
             j_mtg_evincar = {
                 name = "Ascendant Evincar",
                 text = {
-                    "Played cards with {C:spade}Spade{} suit give {C:chips}+#1#{} Chips",
-                    "and {C:mult}+#2#{} Mult when scored",
-                    "Played cards without {C:spade}Spade{} suit give {C:chips}-#3#{} Chips",
-                    "and {C:mult}-#4#{} Mult when scored",
+                    "Played cards with {C:spade}Spade{} suit",
+                    "give {C:mult}+#1#{} Mult when scored",
+                    "Played cards without {C:spade}Spade{} suit",
+                    "give {C:mult}-#2#{} Mult when scored",
                 },
             },
             j_mtg_relentlessrats = {

@@ -355,7 +355,7 @@ order = 8,
     return {  }
   end,
 can_use = function(self, card)
-    return G.GAME.jokers_sold and #G.GAME.jokers_sold
+    return (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers)
 end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card
@@ -658,7 +658,7 @@ order = 16,
     return {}
   end,
 can_use = function(self, card)
-    return G.STATE == G.STATES.SELECTING_HAND and not G.GAME.blind.boss
+    return G.STATE == G.STATES.SELECTING_HAND
 end,
 use = function(self, card, area, copier)
   local used_tarot = card or copier
