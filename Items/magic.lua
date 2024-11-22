@@ -63,39 +63,7 @@ use = function(self, card, area, copier)
   end
 }))
 for i = 1, #G.hand.highlighted do
-  local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
-  G.E_MANAGER:add_event(Event({
-      trigger = 'after',
-      delay = 0.15,
-      func = function()
-          G.hand.highlighted[i]:flip(); play_sound('card1', percent); G.hand.highlighted[i]:juice_up(0.3,
-              0.3); return true
-      end
-  }))
-end
-delay(0.2)
-for i = 1, #G.hand.highlighted do
-  G.E_MANAGER:add_event(Event({
-      trigger = 'after',
-      delay = 0.1,
-      func = function()
-        local _card = G.hand.highlighted[i]
-        buff_card(_card, card.ability.extra.strength, G.GAME.mtg_storm_count)
-        return true
-      end
-  }))
-end
-for i = 1, #G.hand.highlighted do
-  local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
-  G.E_MANAGER:add_event(Event({
-      trigger = 'after',
-      delay = 0.15,
-      func = function()
-          G.hand.highlighted[i]:flip(); play_sound('tarot2', percent, 0.6); G.hand.highlighted[i]
-              :juice_up(
-                  0.3, 0.3); return true
-      end
-  }))
+  buff_card(G.hand.highlighted[i], card.ability.extra.strength, G.GAME.mtg_storm_count)
 end
 G.E_MANAGER:add_event(Event({
   trigger = 'after',
@@ -105,6 +73,42 @@ G.E_MANAGER:add_event(Event({
   end
 }))
 delay(0.5)
+end,
+}
+
+--raise the alarm
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-raisethealarm",
+  key = "raisethealarm",
+  pos = {
+      x = 1,
+      y = 2
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 19,
+  config = { extra = {guys = 2}},
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = { key = "r_mtg_soldier", set = "Other", config = { extra = 1 } , vars = { 2 } }
+    return { vars = {card.ability.extra.guys}}
+  end,
+can_use = function(self, card)
+    return #G.hand.cards > 0
+end,
+use = function(self, card, area, copier)
+  local used_tarot = card or copier
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        play_sound('tarot1')
+        used_tarot:juice_up(0.3, 0.5)
+        return true end }))
+          G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4,func = function()
+            local _suit, _rank = SMODS.Suits["Diamonds"].card_key, "2"
+            for i=1,card.ability.extra.guys do
+              create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_soldier}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+            end
+            return true end }))
 end,
 }
 
@@ -269,6 +273,55 @@ G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
     card_eval_status_text(card or copier, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
     G.GAME.blind:disable()
 end
+end,
+}
+
+--Bloodsoaked Altar
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-bloodsoakedaltar",
+  key = "bloodsoakedaltar",
+  pos = {
+      x = 7,
+      y = 1
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 10,
+  config = {extra = { targets = 1}},
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = { key = "r_mtg_demon", set = "Other", config = { extra = 1 } , vars = { 2 } }
+    return { vars = { card.ability.extra.targets} }
+  end,
+can_use = function(self, card)
+    return #G.hand.highlighted <= card.ability.extra.targets and #G.hand.highlighted > 0
+end,
+use = function(self, card, area, copier)
+  destroyed_cards = {}
+  local used_tarot = card or copier
+  for i=#G.hand.highlighted, 1, -1 do
+    destroyed_cards[#destroyed_cards+1] = G.hand.highlighted[i]
+end
+G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+    play_sound('tarot1')
+    used_tarot:juice_up(0.3, 0.5)
+    return true end }))
+G.E_MANAGER:add_event(Event({
+    trigger = 'after',
+    delay = 0.2,
+    func = function() 
+        for i=#G.hand.highlighted, 1, -1 do
+            local card = G.hand.highlighted[i]
+            destroy_card(card, i == #G.hand.highlighted)
+        end
+        return true end }))
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+            local _suit, _rank = SMODS.Suits["Spades"].card_key, "6"
+    create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_demon}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+    return true
+  end
+  }))
 end,
 }
 
@@ -583,11 +636,11 @@ can_use = function(self, card)
 end,
 use = function(self, card, area, copier)
   local used_tarot = card or copier
-      G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i, func = function()
+      G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
         play_sound('tarot1')
         used_tarot:juice_up(0.3, 0.5)
         return true end }))
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i, func = function()
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
           if #G.hand.highlighted < 1 then
             damage_blind(card, card.ability.extra.damage, G.GAME.mtg_storm_count)
           else
@@ -825,44 +878,14 @@ use = function(self, card, area, copier)
                     return true
                 end
             }))
-            for i = 1, #G.hand.highlighted do
-                local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.15,
-                    func = function()
-                        G.hand.highlighted[i]:flip(); play_sound('card1', percent); G.hand.highlighted[i]:juice_up(0.3,
-                            0.3); return true
-                    end
-                }))
-            end
-            delay(0.2)
             local clover_count = 0
           for i = 1, #G.hand.cards do
                   if G.hand.cards[i]:is_suit(suit_clovers.key) then clover_count = clover_count + 1 end
           end
             for i = 1, #G.hand.highlighted do
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.1,
-                    func = function()
+                
                       local _card = G.hand.highlighted[i]
                       buff_card(_card, card.ability.extra.strength * clover_count)
-                      return true
-                    end
-                }))
-            end
-            for i = 1, #G.hand.highlighted do
-                local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.15,
-                    func = function()
-                        G.hand.highlighted[i]:flip(); play_sound('tarot2', percent, 0.6); G.hand.highlighted[i]
-                            :juice_up(
-                                0.3, 0.3); return true
-                    end
-                }))
             end
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -946,39 +969,8 @@ use = function(self, card, area, copier)
                 end
             }))
             for i = 1, #G.hand.highlighted do
-                local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.15,
-                    func = function()
-                        G.hand.highlighted[i]:flip(); play_sound('card1', percent); G.hand.highlighted[i]:juice_up(0.3,
-                            0.3); return true
-                    end
-                }))
-            end
-            delay(0.2)
-            for i = 1, #G.hand.highlighted do
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.1,
-                    func = function()
-                      local _card = G.hand.highlighted[i]
-                      buff_card(_card, card.ability.extra.strength)
-                      return true
-                    end
-                }))
-            end
-            for i = 1, #G.hand.highlighted do
-                local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.15,
-                    func = function()
-                        G.hand.highlighted[i]:flip(); play_sound('tarot2', percent, 0.6); G.hand.highlighted[i]
-                            :juice_up(
-                                0.3, 0.3); return true
-                    end
-                }))
+              local _card = G.hand.highlighted[i]
+              buff_card(_card, card.ability.extra.strength)
             end
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -1023,39 +1015,9 @@ use = function(self, card, area, copier)
       end
   }))
   for i = 1, #G.hand.cards do
-      local percent = 1.15 - (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
-      G.E_MANAGER:add_event(Event({
-          trigger = 'after',
-          delay = 0.15,
-          func = function()
-              G.hand.cards[i]:flip(); play_sound('card1', percent); G.hand.cards[i]:juice_up(0.3,
-                  0.3); return true
-          end
-      }))
-  end
-  delay(0.2)
-  for i = 1, #G.hand.cards do
-      G.E_MANAGER:add_event(Event({
-          trigger = 'after',
-          delay = 0.1,
-          func = function()
+      
               local _card = G.hand.cards[i]
-              buff_card(_card, card.ability.extra.strength)
-              return true
-          end
-      }))
-  end
-  for i = 1, #G.hand.cards do
-      local percent = 0.85 + (i - 0.999) / (#G.hand.cards - 0.998) * 0.3
-      G.E_MANAGER:add_event(Event({
-          trigger = 'after',
-          delay = 0.15,
-          func = function()
-              G.hand.cards[i]:flip(); play_sound('tarot2', percent, 0.6); G.hand.cards[i]
-                  :juice_up(
-                      0.3, 0.3); return true
-          end
-      }))
+              buff_card(_card, card.ability.extra.strength, 1, false, true)
   end
   G.E_MANAGER:add_event(Event({
       trigger = 'after',

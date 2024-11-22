@@ -14,10 +14,54 @@ function pseudorandom_f_range(seed, min, max)
 	return val
 end
 
-function buff_card(card, amount, repetition)
+function buff_card(card, amount, repetition, before, blocking, random_enhancement)
 	if not repetition then repetition = 1 end
-	for i=1,amount * repetition do
-		local rank_data = SMODS.Ranks[card.base.value]
+	if not blocking then blocking = false end
+	if not before then before = "after" else before = "before" end
+	G.E_MANAGER:add_event(Event({
+		blocking = blocking,
+		trigger = before,
+		delay = 0.15,
+		func = function()
+			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
+				0.3); return true
+		end
+	}))
+	G.E_MANAGER:add_event(Event({
+		blocking = blocking,
+		trigger = before,
+		delay = 0.1,
+		func = function()
+			for i=1,amount * repetition do
+				increase_rank(card)
+				end
+		  return true
+		end
+	}))
+	if random_enhancement then
+		local cen_pool = {}
+		for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
+		  if v.key ~= 'm_stone' and not v.overrides_base_rank then
+			cen_pool[#cen_pool + 1] = v
+		  end
+		end
+		local enhancement = pseudorandom_element(cen_pool, pseudoseed("mtg-powermatrix"))
+		card:set_ability(enhancement, nil, true)
+	end
+		G.E_MANAGER:add_event(Event({
+			blocking = blocking,
+			trigger = before,
+			delay = 0.15,
+			func = function()
+				card:flip(); play_sound('tarot2', 0.85, 0.6); card
+					:juice_up(
+						0.3, 0.3); return true
+			end
+		}))
+end
+
+function increase_rank(card)
+	local rank_data = SMODS.Ranks[card.base.value]
 			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
 			local new_rank
 				if behavior.ignore or not next(rank_data.next) then
@@ -29,22 +73,10 @@ function buff_card(card, amount, repetition)
 					new_rank = rank_data.next[ii]
 				end
 				assert(SMODS.change_base(card, nil, new_rank))
-		end
 end
 
-function destroy_card(card, noise)
-	if card.ability.name == 'Glass Card' then 
-		card:shatter()
-	else
-		card:start_dissolve(nil, noise)
-	end
-end
-
-function damage_card(card, amount, repetition)
-	if not repetition then repetition = 1 end
-	amount = modify_damage(card, amount)
-	for i=1,amount * repetition do
-		local rank_data = SMODS.Ranks[card.base.value]
+function decrease_rank(card)
+	local rank_data = SMODS.Ranks[card.base.value]
 			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
 			local new_rank
 				if behavior.ignore then
@@ -60,7 +92,47 @@ function damage_card(card, amount, repetition)
 					new_rank = rank_data.previous[ii]
 				end
 				assert(SMODS.change_base(card, nil, new_rank))
+			end
+
+function destroy_card(card, noise)
+	if card.ability.name == 'Glass Card' then 
+		card:shatter()
+	else
+		card:start_dissolve(nil, noise)
+	end
+end
+
+function damage_card(card, amount, repetition)
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.15,
+		func = function()
+			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
+				0.3); return true
 		end
+	}))
+	if not repetition then repetition = 1 end
+	amount = modify_damage(card, amount)
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.1,
+		func = function()
+			for i=1,amount * repetition do
+				decrease_rank(card)
+		end
+		  return true
+		end
+	}))
+	G.E_MANAGER:add_event(Event({
+		trigger = 'after',
+		delay = 0.15,
+		func = function()
+			card:flip(); play_sound('tarot2', 0.85, 0.6); card
+				:juice_up(
+					0.3, 0.3); return true
+		end
+	}))
+	
 end
 
 function modify_damage(card, amount)
@@ -84,6 +156,14 @@ end
 
 function damage_multiple(card)
 	local amount = 1
+	local fiery = SMODS.find_card("j_mtg_emancipation")
+	if fiery[1] then
+		for i=1,#fiery do
+			if fiery[i] ~= card then
+				amount = amount * fiery[i].ability.extra.damage_mult
+			end
+		end
+	end
 	return amount
 end
 

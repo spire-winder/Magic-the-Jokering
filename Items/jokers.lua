@@ -257,6 +257,24 @@ rarity = 3,
   end
 }
 
+--Fiery Emancipation
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-emancipation",
+	key = "emancipation",
+	pos = { x = 2, y = 4 },
+	config = { extra = { damage_mult = 3} },
+  order = 10,
+	rarity = 3,
+	cost = 8,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { } }
+	end,
+	calculate = function(self, card, context)
+    end
+}
+
 --vortex
 SMODS.Joker { 
 	object_type = "Joker",
@@ -593,7 +611,7 @@ SMODS.Joker {
     local temp_ID = G.hand.cards[1].base.id
     local smallest = G.hand.cards[1]
                         for i=1, #G.hand.cards do
-                            if temp_ID >= G.hand.cards[i].base.id and has_rank(G.hand.cards[i]) then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
                         end
                         if smallest.debuff then
                                 return {
@@ -696,45 +714,12 @@ SMODS.Joker {
   if context.first_hand_drawn then
     local eval = function() return G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
         juice_card_until(card, eval, true)
-  elseif context.discard then
+  elseif context.pre_discard then
       if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
         local _card = context.full_hand[1]
-        G.E_MANAGER:add_event(Event({
-          trigger = 'after',
-          delay = 0.15,
-          func = function()
-            _card:flip(); play_sound('card1', 1.15); _card:juice_up(0.3,
-                  0.3); return true
-          end
-      }))
-        G.E_MANAGER:add_event(Event({
-          trigger = 'after',
-          delay = 0.1,
-          func = function()
-            local cen_pool = {}
-            for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
-              if v.key ~= 'm_stone' and not v.overrides_base_rank then
-                cen_pool[#cen_pool + 1] = v
-              end
-            end
-            local enhancement = pseudorandom_element(cen_pool, pseudoseed("mtg-powermatrix"))
-            _card:set_ability(enhancement, nil, true)
-            buff_card(_card, card.ability.extra.buff)
-            return true
-          end
-      }))
-      G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        delay = 0.15,
-        func = function()
-          _card:flip(); play_sound('tarot2', 0.85, 0.6); _card:juice_up(0.3, 0.3); return true
-        end
-    }))
-        return {
-            message = localize('mtg_buff_ex'),
-            card = card
-        }
-    end
+        buff_card(_card, card.ability.extra.buff, 1, true, true, true)
+        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+      end
     end
 end
 }

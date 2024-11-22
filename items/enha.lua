@@ -10,7 +10,90 @@
         end
         return { vars = { self.config.extra.max, suit_text, colours = {suit_color}} }
 
-	end]]
+end]]
+
+token_shark = SMODS.Enhancement {
+	object_type = "Enhancement",
+	key = "shark",
+	atlas = "mtg_atlas",
+	pos = { x = 0, y = 6 },
+	config = {},
+    overrides_base_rank = true,
+    weight = 0,
+	loc_vars = function(self, info_queue, card)
+        return { vars = { } }
+	end,
+    calculate = function(self, card, context, effect)
+        if context.cardarea == G.play and not context.repetition then
+            
+        end
+    end
+}
+token_shark.force_value = "2"
+token_shark.force_suit = "Clubs"
+
+token_soldier = SMODS.Enhancement {
+	object_type = "Enhancement",
+	key = "soldier",
+	atlas = "mtg_atlas",
+	pos = { x = 0, y = 6 },
+	config = { extra = {mult_per = 2}},
+    overrides_base_rank = true,
+    weight = 0,
+	loc_vars = function(self, info_queue, card)
+        return { vars = { self.config.extra.mult_per} }
+	end,
+    calculate = function(self, card, context, effect)
+        if context.cardarea == G.play and not context.repetition then
+            local diamond_count = 0
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_suit("Diamonds") then diamond_count = diamond_count + 1 end
+            end
+            effect.mult = diamond_count * card.ability.extra.mult_per
+        end
+    end
+}
+token_soldier.force_value = "2"
+token_soldier.force_suit = "Diamonds"
+
+token_demon = SMODS.Enhancement {
+	object_type = "Enhancement",
+	key = "demon",
+	atlas = "mtg_atlas",
+	pos = { x = 0, y = 6 },
+	config = { extra = {x_mult = 2}},
+    overrides_base_rank = true,
+    weight = 0,
+	loc_vars = function(self, info_queue, card)
+        return { vars = { self.config.extra.x_mult} }
+	end,
+    calculate = function(self, card, context, effect)
+        if context.cardarea == G.play and not context.repetition then
+            effect.x_mult = card.ability.extra.x_mult
+            if #G.hand.cards then
+                local temp_ID = G.hand.cards[1].base.id
+                local smallest = G.hand.cards[1]
+                                    for i=1, #G.hand.cards do
+                                        if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                                    end
+                                    if smallest.debuff then
+                                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+                                        else
+                                            G.E_MANAGER:add_event(Event({
+                                                trigger = 'after',
+                                                delay = 0.15,
+                                                func = function()
+                                                  destroy_card(smallest, true)
+                                                return true
+                                                end}))
+                                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex')})
+                                        end
+                                  end
+        end
+    end
+}
+token_demon.force_value = "6"
+token_demon.force_suit = "Spades"
 
 token_squirrel = SMODS.Enhancement {
 	object_type = "Enhancement",
@@ -127,14 +210,7 @@ baru = SMODS.Enhancement {
             for k, v in ipairs(context.scoring_hand) do
               if v ~= card and v:is_suit(suit_clovers.key) then 
                 clovers = clovers + 1
-                G.E_MANAGER:add_event(Event({
-                  trigger = 'after',
-                  delay = 0.1,
-                  func = function()
-                    buff_card(v, card.ability.extra.strength)
-                    return true
-                  end
-              }))
+                buff_card(v, card.ability.extra.strength)
               end
       
           end
@@ -168,7 +244,7 @@ shivan = SMODS.Enhancement {
         end
     end
 }
-shivan.force_value = "5"
+shivan.force_value = "Jack"
 shivan.force_suit = "Hearts"
 
 --[[serra_angel = SMODS.Enhancement {

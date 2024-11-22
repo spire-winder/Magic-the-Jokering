@@ -89,6 +89,13 @@ return {
                     "in addition to its other suits"
                 },
             },
+            j_mtg_emancipation = {
+                name = "Fiery Emancipation",
+                text = {
+                    "If another source would deal {C:red}damage{},",
+                    "it deals triple that {C:red}damage{} instead"
+                },
+            },
             j_mtg_torbran = {
                 name = "Torbran, Thane of Red Fell",
                 text = {
@@ -204,6 +211,28 @@ return {
             },
         },
         Enhanced = {
+            m_mtg_shark = {
+                name = "Shark",
+                text = {
+                    ""
+                },
+            },
+            m_mtg_demon = {
+                name = "Demon",
+                text = {
+                    "{X:mult,C:white} X#1# {} Mult",
+                    "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
+                    "held in hand when played and scored"
+                },
+            },
+            m_mtg_soldier = {
+                name = "Soldier",
+                text = {
+                    "{C:mult}+#1#{} Mult for",
+                    "each {C:diamond}Diamond{} in",
+                    "scoring hand"
+                },
+            },
             m_mtg_goblin = {
                 name = "Goblin",
                 text = {
@@ -239,7 +268,7 @@ return {
                     "If scoring hand contains",
                     "another {C:clover}Clover{}",
                     "Yorvo gains {C:mult}+#1#{} Mult",
-                    "when it scores",
+                    "when it is played and scored",
                     --"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 },
             },
@@ -249,7 +278,7 @@ return {
                     "Other scoring cards with",
                     "a {C:clover}Clover{} suit get",
                     "{C:attention}+#1#{} rank when",
-                    "this card scores",
+                    "this card is played and scored",
                 },
             },
         },
@@ -271,15 +300,22 @@ return {
             c_mtg_chatterstorm = {
                 name = "Chatterstorm",
                 text = {
-                    "Create a {C:attention}Squirrel{}",
+                    "Create a {C:clover}Squirrel{}",
                     "in your hand",
                     "{C:dark_edition}Storm{}",
+                },
+            },
+            c_mtg_raisethealarm = {
+                name = "Raise the Alarm",
+                text = {
+                    "Create {C:attention}#1#{} {C:diamond}Soldiers{}",
+                    "in your hand"
                 },
             },
             c_mtg_emptythewarrens = {
                 name = "Empty the Warrens",
                 text = {
-                    "Create {C:attention}#1#{} {C:attention}Goblins{}",
+                    "Create {C:attention}#1#{} {C:heart}Goblins{}",
                     "in your hand",
                     "{C:dark_edition}Storm{}",
                 },
@@ -317,6 +353,14 @@ return {
                 name = "Negate",
                 text = {
                     "Disable the current {C:attention}Boss Blind{}"
+                },
+            },
+            c_mtg_bloodsoakedaltar = {
+                name = "Bloodsoaked Altar",
+                text = {
+                    "Destroy {C:attention}#1#{} selected card",
+                    "Create a {C:spade}Demon{}",
+                    "in your hand",
                 },
             },
             c_mtg_villagerites = {
@@ -459,10 +503,35 @@ return {
                     "{C:red}slumbers{} at end of blind"
                 }
             },
+            r_mtg_demon = {
+                name = "Demon",
+                text = {
+                    "{X:mult,C:white} X#1# {} Mult",
+                    "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
+                    "held in hand when played and scored"
+            },
+            
+            
+            },
+            r_mtg_shark = {
+                name = "Shark",
+                text = {
+                    ""
+                }
+            },
+            r_mtg_soldier = {
+                name = "Soldier",
+                text = {
+                    "{C:mult}+#1#{} Mult for",
+                    "each {C:diamond}Diamond{} in",
+                    "scoring hand"
+                }
+            },
+            
             r_mtg_goblin = {
                 name = "Goblin",
                 text = {
-                    "{C:mult}+1d#1#{} Mult"
+                    "{C:mult}+#1#{} Mult"
                 }
             },
             r_mtg_squirrel = {
