@@ -55,15 +55,23 @@ target = "card.lua"
 pattern = "function Card:is_suit(suit, bypass_debuff, flush_calc)"
 position = "after"
 payload = '''
-    if suit == 'Diamonds' and next(find_joker('mtg-celestialdawn')) then
+	if flush_calc then
+
+	else 
+		if self.debuff and not bypass_debuff then return end
+	end
+    if self.ability.effect == 'Gold Card' and next(SMODS.find_card("j_mtg_chromaticlantern")) then
+        return true
+    end
+    if suit == 'Diamonds' and next(SMODS.find_card("j_mtg_celestialdawn")) then
 		return true
-	elseif suit == 'Hearts' and next(find_joker('mtg-bloodmoon')) then
+	elseif suit == 'Hearts' and next(SMODS.find_card("j_mtg_bloodmoon")) then
 		return true
-	elseif suit == 'Spades' and next(find_joker('mtg-urborg')) then
+	elseif suit == 'Spades' and next(SMODS.find_card("j_mtg_urborg")) then
 		return true
-	elseif suit == 'Clubs' and next(find_joker('mtg-harbinger')) then
+	elseif suit == 'Clubs' and next(SMODS.find_card("j_mtg_harbinger")) then
 		return true 
-	elseif suit == suit_clovers.key and next(find_joker('mtg-yavimaya')) then
+	elseif suit == suit_clovers.key and next(SMODS.find_card("j_mtg_yavimaya")) then
 		return true 
     end
 '''
@@ -175,5 +183,18 @@ pattern = "self.cost = math.max(1, math.floor((self.base_cost + self.extra_cost 
 position = "after"
 payload = '''
     self.cost = math.max(1, self.cost - total_shop_discount())
+'''
+match_indent = true
+
+# Force Suit
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if card.ability.consumeable and not skip_materialize then card:start_materialize() end"
+position = "before"
+payload = '''
+	if center.force_suit or center.force_value then
+    	SMODS.change_base(card, center.force_suit, center.force_value)
+	end
 '''
 match_indent = true

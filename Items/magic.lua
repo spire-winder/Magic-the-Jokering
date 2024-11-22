@@ -43,13 +43,13 @@ name = "mtg-astralsteel",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 1,
-  config = {extra = {strength = 2}},
+  config = {extra = {strength = 2, targets = 1}},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = { extra = 1 } }
-    return { vars = {card.ability.extra.strength, G.GAME.mtg_storm_count} }
+    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = {extra = 1}, vars = { G.GAME.mtg_storm_count or "?"}}
+    return { vars = {card.ability.extra.targets, card.ability.extra.strength} }
   end,
 can_use = function(self, card)
-    return #G.hand.highlighted <= 1 and #G.hand.highlighted > 0
+    return #G.hand.highlighted <= card.ability.extra.targets and #G.hand.highlighted > 0
 end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card
@@ -80,7 +80,7 @@ for i = 1, #G.hand.highlighted do
       delay = 0.1,
       func = function()
         local _card = G.hand.highlighted[i]
-        buff_card(_card, card.ability.extra.strength * G.GAME.mtg_storm_count)
+        buff_card(_card, card.ability.extra.strength, G.GAME.mtg_storm_count)
         return true
       end
   }))
@@ -153,11 +153,7 @@ use = function(self, card, area, copier)
                 func = function()
                     for i = #temp_hand, 1, -1 do
                         local card = temp_hand[i]
-                        if card.ability.name == "Glass Card" then
-                            card:shatter()
-                        else
-                            card:start_dissolve(nil, i ~= #temp_hand)
-                        end
+                        destroy_card(card, i ~= #temp_hand)
                     end
                     return true
                 end,
@@ -212,7 +208,7 @@ cost = 3,
 order = 4,
   config = { extra = {num_tarot = 1}},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = {extra = 1}, vars = { G.GAME.mtg_storm_count or "?"}}
     return { vars = {card.ability.extra.num_tarot, G.GAME.mtg_storm_count}}
   end,
 can_use = function(self, card)
@@ -389,7 +385,7 @@ cost = 3,
 order = 9,
   config = {},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = {extra = 1}, vars = { G.GAME.mtg_storm_count or "?"}}
     return { vars = {G.GAME.mtg_storm_count}}
   end,
 can_use = function(self, card)
@@ -421,12 +417,12 @@ name = "mtg-villagerites",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 10,
-  config = {extra = { cards = 2}},
+  config = {extra = { targets = 1, cards = 2}},
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.cards } }
+    return { vars = { card.ability.extra.targets, card.ability.extra.cards } }
   end,
 can_use = function(self, card)
-    return #G.hand.highlighted <= 1 and #G.hand.highlighted > 0
+    return #G.hand.highlighted <= card.ability.extra.targets and #G.hand.highlighted > 0
 end,
 use = function(self, card, area, copier)
   destroyed_cards = {}
@@ -444,11 +440,7 @@ G.E_MANAGER:add_event(Event({
     func = function() 
         for i=#G.hand.highlighted, 1, -1 do
             local card = G.hand.highlighted[i]
-            if card.ability.name == 'Glass Card' then 
-                card:shatter()
-            else
-                card:start_dissolve(nil, i == #G.hand.highlighted)
-            end
+            destroy_card(card, i == #G.hand.highlighted)
         end
         return true end }))
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
@@ -492,6 +484,46 @@ use = function(self, card, area, copier)
 end,
 }
 
+--empty the warrens
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-emptythewarrens",
+  key = "emptythewarrens",
+  pos = {
+      x = 1,
+      y = 2
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 19,
+  config = { extra = {gobbos = 2}},
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = {extra = 1}, vars = { G.GAME.mtg_storm_count or "?"}}
+    info_queue[#info_queue + 1] = { key = "r_mtg_goblin", set = "Other", config = { extra = 1 } , vars = { 1 } }
+    return { vars = {card.ability.extra.gobbos}}
+  end,
+can_use = function(self, card)
+    return #G.hand.cards > 0
+end,
+use = function(self, card, area, copier)
+  local used_tarot = card or copier
+  for i=1, G.GAME.mtg_storm_count do
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i, func = function()
+        play_sound('tarot1')
+        used_tarot:juice_up(0.3, 0.5)
+        return true end }))
+          G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i,func = function()
+            local _suit, _rank = SMODS.Suits["Hearts"].card_key, "2"
+            for i=1,card.ability.extra.gobbos do
+              create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_goblin}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+            end
+            return true end }))
+          end
+  return true
+end,
+}
+
 --Flame Slash
 SMODS.Consumable {
   object_type = "Consumable",
@@ -505,13 +537,13 @@ name = "mtg-flameslash",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 12,
-  config = {extra = {damage = 4}},
+  config = {extra = {damage = 4, targets = 1}},
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = { key = "r_mtg_damage_card", set = "Other", config = { extra = 1 } }
-    return { vars = { card.ability.extra.damage } }
+    return { vars = { card.ability.extra.damage, card.ability.extra.targets } }
   end,
 can_use = function(self, card)
-    return (#G.hand.highlighted > 0) and #G.hand.highlighted <= 1
+    return (#G.hand.highlighted > 0) and #G.hand.highlighted <= card.ability.extra.targets
 end,
 use = function(self, card, area, copier)
   local used_tarot = card or copier
@@ -538,34 +570,32 @@ name = "mtg-grapeshot",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 13,
-  config = {extra = {damage = 1}},
+  config = {extra = {damage = 1, targets = 1}},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = {extra = 1}, vars = { G.GAME.mtg_storm_count or "?"}}
     info_queue[#info_queue + 1] = { key = "r_mtg_any_target", set = "Other", config = { extra = 1 } }
-    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
     info_queue[#info_queue + 1] = { key = "r_mtg_damage_card", set = "Other", config = { extra = 1 } }
-    return { vars = { card.ability.extra.damage, G.GAME.mtg_storm_count } }
+    return { vars = { card.ability.extra.damage,  card.ability.extra.targets} }
   end,
 can_use = function(self, card)
-    return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0) and #G.hand.highlighted <= 1
+    return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0) and #G.hand.highlighted <= card.ability.extra.targets
 end,
 use = function(self, card, area, copier)
   local used_tarot = card or copier
-    for i=1, G.GAME.mtg_storm_count do
       G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i, func = function()
         play_sound('tarot1')
         used_tarot:juice_up(0.3, 0.5)
         return true end }))
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i, func = function()
           if #G.hand.highlighted < 1 then
-            damage_blind(card, card.ability.extra.damage)
+            damage_blind(card, card.ability.extra.damage, G.GAME.mtg_storm_count)
           else
             for i=1, #G.hand.highlighted do
-              damage_card(G.hand.highlighted[i], card.ability.extra.damage)
+              damage_card(G.hand.highlighted[i], card.ability.extra.damage, G.GAME.mtg_storm_count)
           end
         end
           return true end }))
-    end
     
 end,
 }
@@ -585,7 +615,7 @@ cost = 3,
 order = 14,
   config = {extra = {damage = 5}},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
     return { vars = { card.ability.extra.damage } }
   end,
 can_use = function(self, card)
@@ -614,15 +644,15 @@ name = "mtg-lightningbolt",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 15,
-  config = {extra = {damage = 3}},
+  config = {extra = {damage = 3, targets = 1}},
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = { key = "r_mtg_any_target", set = "Other", config = { extra = 1 } }
-    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
     info_queue[#info_queue + 1] = { key = "r_mtg_damage_card", set = "Other", config = { extra = 1 } }
-    return { vars = { card.ability.extra.damage } }
+    return { vars = { card.ability.extra.damage, card.ability.extra.targets } }
   end,
 can_use = function(self, card)
-    return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0) and #G.hand.highlighted <= 1
+    return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0) and #G.hand.highlighted <= card.ability.extra.targets
 end,
 use = function(self, card, area, copier)
   local used_tarot = card or copier
@@ -695,11 +725,7 @@ use = function(self, card, area, copier)
                 func = function()
                     for i = #temp_hand, 1, -1 do
                         local card = temp_hand[i]
-                        if card.ability.name == "Glass Card" then
-                            card:shatter()
-                        else
-                            card:start_dissolve(nil, i ~= #temp_hand)
-                        end
+                        destroy_card(card, i ~= #temp_hand)
                     end
                     return true
                 end,
@@ -721,12 +747,12 @@ name = "mtg-transmogrify",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 17,
-  config = {},
+  config = { extra = {targets = 1}},
   loc_vars = function(self, info_queue, card)
-    return { vars = {  } }
+    return { vars = { card.ability.extra.targets } }
   end,
 can_use = function(self, card)
-    return #G.hand.highlighted <= 1 and #G.hand.highlighted > 0 and #G.deck.cards > 0
+    return #G.hand.highlighted <= card.ability.extra.targets and #G.hand.highlighted > 0 and #G.deck.cards > 0
 end,
 use = function(self, card, area, copier)
   destroyed_cards = {}
@@ -744,11 +770,7 @@ G.E_MANAGER:add_event(Event({
     func = function() 
         for i=#G.hand.highlighted, 1, -1 do
             local card = G.hand.highlighted[i]
-            if card.ability.name == 'Glass Card' then 
-                card:shatter()
-            else
-                card:start_dissolve(nil, i == #G.hand.highlighted)
-            end
+            destroy_card(card, i == #G.hand.highlighted)
         end
         return true end }))
         if G.deck.cards[1] then
@@ -785,12 +807,12 @@ name = "mtg-aspecthydra",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 18,
-  config = {extra = {strength = 1}},
+  config = {extra = {strength = 1, targets = 1}},
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.strength } }
+    return { vars = { card.ability.extra.targets, card.ability.extra.strength } }
   end,
 can_use = function(self, card)
-    return #G.hand.highlighted <= 1 and #G.hand.highlighted > 0
+    return #G.hand.highlighted <= card.ability.extra.targets and #G.hand.highlighted > 0
 end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card
@@ -868,8 +890,8 @@ cost = 3,
 order = 19,
   config = {},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = { extra = 1 } }
-    info_queue[#info_queue + 1] = { key = "r_mtg_squirrel", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_storm_count", set = "Other", config = {extra = 1}, vars = { G.GAME.mtg_storm_count or "?"}}
+    info_queue[#info_queue + 1] = { key = "r_mtg_squirrel", set = "Other", config = { extra = 1 } , vars = { 6 } }
     return { vars = {G.GAME.mtg_storm_count}}
   end,
 can_use = function(self, card)
@@ -883,8 +905,9 @@ use = function(self, card, area, copier)
         used_tarot:juice_up(0.3, 0.5)
         return true end }))
           G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i,func = function()
-            local _suit, _rank = SMODS.Suits[suit_clovers.key].card_key, '2'
-            create_playing_card({front = G.P_CARDS[_suit..'_'.._rank]}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+            local _suit, _rank = SMODS.Suits[suit_clovers.key].card_key, "2"
+            create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_squirrel}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+
             return true end }))
           end
   return true
@@ -904,12 +927,12 @@ name = "mtg-giantgrowth",
   atlas = 'mtg_atlas',
 cost = 3,
 order = 20,
-  config = {extra = {strength = 3}},
+  config = {extra = {strength = 3, targets = 1}},
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.strength } }
+    return { vars = { card.ability.extra.targets, card.ability.extra.strength } }
   end,
 can_use = function(self, card)
-    return #G.hand.highlighted <= 1 and #G.hand.highlighted > 0
+    return #G.hand.highlighted <= card.ability.extra.targets and #G.hand.highlighted > 0
 end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card

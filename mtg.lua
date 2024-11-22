@@ -32,9 +32,10 @@ SMODS.Atlas({
 
 
 assert(SMODS.load_file("items/utility.lua"))()
-assert(SMODS.load_file("items/magic.lua"))()
-assert(SMODS.load_file("items/jokers.lua"))()
-
 init_clover()
 
 update_ranks()
+assert(SMODS.load_file("items/magic.lua"))()
+assert(SMODS.load_file("items/jokers.lua"))()
+assert(SMODS.load_file("items/enha.lua"))()
+assert(SMODS.load_file("items/misc.lua"))()

@@ -76,6 +76,7 @@ SMODS.Joker {
 	cost = 7,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue + 1] = { key = "r_mtg_slumber", set = "Other", config = { extra = 1 } }
 		return { vars = {center.ability.extra.required, center.ability.extra.power}}
 	end,
 	calculate = function(self, card, context)
@@ -160,11 +161,12 @@ SMODS.Joker {
 	cost = 3,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue + 1] = { key = "r_mtg_relentless", set = "Other", config = { extra = 1 } }
 		return { vars = { center.ability.extra.base_mult} }
 	end,
 	calculate = function(self, card, context)
     if context.joker_main then
-      local mult = (card.ability.extra.base_mult * #find_joker("mtg-relentlessrats")) or 0
+      local mult = (card.ability.extra.base_mult * #SMODS.find_card("j_mtg_relentlessrats")) or 0
       return {
         mult_mod = mult,
         message = localize({ type = "variable", key = "a_mult", vars = { mult } })
@@ -193,6 +195,47 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
       return { }
     end
+}
+
+--Waste not, gives you money, cards, or +mult when you discard cards
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-wastenot",
+	key = "wastenot",
+	pos = { x = 7, y = 5 },
+	config = { extra = {money = 2, damage = 2, cards = 2}},
+  order = 17,
+	rarity = 2,
+	cost = 6,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
+		return { vars = {center.ability.extra.money, center.ability.extra.damage, center.ability.extra.cards}}
+	end,
+	calculate = function(self, card, context)
+    if context.pre_discard then
+      local total_faces = 0
+      for key, value in pairs(context.full_hand) do
+        if not value.debuff and value:is_face() then total_faces = total_faces + 1 end
+      end
+      if total_faces > 0 then
+        damage_blind(card, card.ability.extra.damage, total_faces)
+      end
+    elseif context.discard then
+      if not context.other_card.debuff then
+        if context.other_card:get_id() == 14 then
+          ease_dollars(card.ability.extra.money)
+          return {
+            message = localize('$')..card.ability.extra.money,
+            colour = G.C.MONEY,
+            card = card
+          }
+        elseif not context.other_card:is_face() then
+          G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
+        end
+      end
+    end
+  end
 }
 
 --Blood moon
@@ -226,7 +269,7 @@ SMODS.Joker {
 	cost = 6,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
     info_queue[#info_queue + 1] = { key = "r_mtg_damage_card", set = "Other", config = { extra = 1 } }
 		return { vars = {center.ability.extra.damage_blind, center.ability.extra.damage_hand}}
 	end,
@@ -251,25 +294,23 @@ SMODS.Joker {
 	cost = 6,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = { extra = 1 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
 		return { vars = { center.ability.extra.damage_red, center.ability.extra.damage_bonus} }
 	end,
 	calculate = function(self, card, context)
         if context.joker_main then
-              local suits = {
-                 ['Hearts'] = 0
-             }
+          local hearts_total = 0
              for i = 1, #context.scoring_hand do
-                     if context.scoring_hand[i]:is_suit('Hearts') then suits["Hearts"] = suits["Hearts"] + 1 end
+                     if context.scoring_hand[i]:is_suit('Hearts') then hearts_total = hearts_total + 1 end
              end
-              if suits["Hearts"] >= 1 then
+              if hearts_total >= 1 then
                 bonus_damage(card, card.ability.extra.damage_red)
               end
         end
     end
 }
 
---Baru
+--[[Baru
 SMODS.Joker { 
 	object_type = "Joker",
 	name = "mtg-baru",
@@ -305,7 +346,7 @@ SMODS.Joker {
       end
     end
 	end
-}
+}]]
 
 --beastmaster
 SMODS.Joker { 
@@ -348,6 +389,37 @@ SMODS.Joker {
 end
 }
 
+--Doubling Season
+
+--Sylvan Anthem
+--Played cards with Clover suit give +3 Mult when scored
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-sylvananthem",
+	key = "sylvananthem",
+	pos = { x = 6, y = 5 },
+	config = { extra = {bonus_mult = 3} },
+  order = 5,
+	rarity = 1,
+	cost = 5,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { center.ability.extra.bonus_mult, center.ability.extra.neg_mult} }
+	end,
+	calculate = function(self, card, context)
+    if context.individual then
+      if context.cardarea == G.play then
+        if context.other_card:is_suit(suit_clovers.key) then
+          return {
+            mult = card.ability.extra.bonus_mult,
+            card = card
+          }
+        end
+      end
+    end
+  end
+}
+
 --yavimaya
 SMODS.Joker {
   object_type = "Joker",
@@ -364,6 +436,133 @@ rarity = 3,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
+  end
+}
+
+--[[Yorvo, Lord of Garenbrig
+--Starts at +4 mult, gets +2 mult whenever you play a hand with a clover
+SMODS.Joker {
+	object_type = "Joker",
+	name = "mtg-yorvo",
+	key = "yorvo",
+	pos = { x = 3, y = 5 },
+	config = { mult = 4, extra = {bonus_mult = 2} },
+  order = 5,
+	rarity = 2,
+	cost = 6,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { center.ability.extra.bonus_mult, center.ability.mult} }
+	end,
+	calculate = function(self, card, context)
+    if context.joker_main then
+      if card.ability.mult > 0 then
+        return {
+            message = localize{type='variable',key='a_mult',vars={card.ability.mult}},
+            mult_mod = card.ability.mult
+        }
+      end
+  elseif context.before then
+        if not context.blueprint then
+          local clovers_total = 0
+         for i = 1, #context.scoring_hand do
+                 if context.scoring_hand[i]:is_suit(suit_clovers.key) then clovers_total = clovers_total + 1 end
+         end
+          if clovers_total >= 1 then
+            card.ability.mult = card.ability.mult + card.ability.extra.bonus_mult
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.RED,
+                card = card
+            }
+          end
+            
+        end
+      end
+  end
+}]]
+
+--knotvine mystic
+-- X3 mult if all cards held in hand are diamonds, hearts, or clovers
+SMODS.Joker {
+	object_type = "Joker",
+	name = "mtg-knotvine",
+	key = "knotvine",
+	pos = { x = 5, y = 5 },
+	config = { extra = {x_mult_modifier = 2.5} },
+  order = 5,
+	rarity = 2,
+	cost = 6,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { center.ability.extra.x_mult_modifier} }
+	end,
+	calculate = function(self, card, context)
+    if context.joker_main then
+      local naya_suits, all_cards = 0, 0
+        for k, v in ipairs(G.hand.cards) do
+          all_cards = all_cards + 1
+          if v:is_suit('Diamonds', nil, true) or v:is_suit('Hearts', nil, true) or v:is_suit(suit_clovers.key, nil, true) then
+            naya_suits = naya_suits + 1
+          end
+        end
+        if naya_suits == all_cards then 
+        return {
+          message = localize{type='variable',key='a_xmult',vars={card.ability.extra.x_mult_modifier}},
+          Xmult_mod = card.ability.extra.x_mult_modifier
+        }
+      end
+    end
+  end
+}
+
+--chromatic lantern
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-chromaticlantern",
+	key = "chromaticlantern",
+	pos = { x = 4, y = 5 },
+	config = { extra = {bonus_mult = 0.5, suits = {}}},
+	rarity = 3,
+  order = 14,
+	cost = 8,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.bonus_mult, center.ability.x_mult}}
+	end,
+	calculate = function(self, card, context)
+    if context.individual then
+      if context.cardarea == G.play then
+        if not context.other_card.debuff and not context.blueprint then
+          local do_message = false
+          for key, value in pairs(SMODS.Suits) do
+            if context.other_card:is_suit(key) then
+              if not card.ability.extra.suits[key] then
+                card.ability.x_mult = card.ability.x_mult + card.ability.extra.bonus_mult
+                card.ability.extra.suits[key] = 1
+                do_message = true
+              end
+            end
+          end
+          if do_message then
+            card_eval_status_text(card, 'extra', nil, nil, nil, {
+              message = localize{type='variable',key='a_xmult',vars={card.ability.x_mult}},
+                  colour = G.C.RED,
+                  delay = 0.45
+          })
+          end
+        end
+      end
+    elseif context.end_of_round then
+      card.ability.extra.suits = {}
+      if card.ability.x_mult > 1 then
+        card.ability.x_mult = 1
+        return {
+            message = localize('k_reset'),
+            colour = G.C.RED
+        }
+    end
+  end
   end
 }
 
@@ -394,30 +593,26 @@ SMODS.Joker {
     local temp_ID = G.hand.cards[1].base.id
     local smallest = G.hand.cards[1]
                         for i=1, #G.hand.cards do
-                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                            if temp_ID >= G.hand.cards[i].base.id and has_rank(G.hand.cards[i]) then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
                         end
                         if smallest.debuff then
                                 return {
                                     message = localize('k_debuffed'),
                                     colour = G.C.RED,
-                                    card = self,
+                                    card = card,
                                 }
                             else
                               G.E_MANAGER:add_event(Event({
                                 trigger = 'after',
                                 delay = 0.15,
                                 func = function()
-                                  if smallest.ability.name == "Glass Card" then
-                                    smallest:shatter()
-                                else
-                                  smallest:start_dissolve(nil, true)
-                                end
+                                  destroy_card(smallest, true)
                                 return true
                                 end}))
                               
                                 return {
                                   message = localize('mtg_sacrifice_ex'),
-                                    card = self
+                                    card = card
                                 }
                             end
                       end
@@ -551,7 +746,7 @@ SMODS.Joker {
 	name = "mtg-urzamine",
 	key = "urzamine",
 	pos = { x = 0, y = 4 },
-	config = { extra = { base_chips = 50, bonus_chips = 150} },
+	config = { extra = { base_chips = 50, bonus_chips = 200} },
   order = 18,
 	rarity = 1,
 	cost = 4,
@@ -561,10 +756,12 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
     if context.joker_main then
-			local active = next(find_joker("mtg-urzapower")) and next(find_joker("mtg-urzatower"))
-      local chip = card.ability.extra.base_chips
+			local active = next(SMODS.find_card("j_mtg_urzapower")) and next(SMODS.find_card("j_mtg_urzatower"))
+      local chip
       if active then
-        chip = chip + card.ability.extra.bonus_chips
+        chip = card.ability.extra.bonus_chips
+      else
+        chip = card.ability.extra.base_chips
       end
       return {
         chip_mod = chip,
@@ -581,7 +778,7 @@ SMODS.Joker {
 	name = "mtg-urzapower",
 	key = "urzapower",
 	pos = { x = 6, y = 3 },
-	config = { extra = { base_mult = 8, bonus_mult = 32} },
+	config = { extra = { base_mult = 6, bonus_mult = 36} },
   order = 19,
 	rarity = 1,
 	cost = 4,
@@ -591,10 +788,12 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
     if context.joker_main then
-			local active = next(find_joker("mtg-urzamine")) and next(find_joker("mtg-urzatower"))
-      local mult = card.ability.extra.base_mult
+			local active = next(SMODS.find_card("j_mtg_urzamine")) and next(SMODS.find_card("j_mtg_urzatower"))
+      local mult
       if active then
-        mult = mult + card.ability.extra.bonus_mult
+        mult = card.ability.extra.bonus_mult
+      else
+        mult = card.ability.extra.base_mult
       end
       return {
         mult_mod = mult,
@@ -611,7 +810,7 @@ SMODS.Joker {
 	name = "mtg-urzatower",
 	key = "urzatower",
 	pos = { x = 7, y = 3 },
-	config = { extra = { base_xmult = 1.5, bonus_xmult = 1.5} },
+	config = { extra = { base_xmult = 1.5, bonus_xmult = 3} },
   order = 20,
 	rarity = 1,
 	cost = 4,
@@ -621,10 +820,12 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
     if context.joker_main then
-			local active = next(find_joker("mtg-urzapower")) and next(find_joker("mtg-urzamine"))
-      local xmult = card.ability.extra.base_xmult
+			local active = next(SMODS.find_card("j_mtg_urzapower")) and next(SMODS.find_card("j_mtg_urzamine"))
+      local xmult
       if active then
-        xmult = xmult + card.ability.extra.bonus_xmult
+        xmult = card.ability.extra.bonus_xmult
+      else
+        xmult = card.ability.extra.base_xmult
       end
       return {
         Xmult_mod = xmult,

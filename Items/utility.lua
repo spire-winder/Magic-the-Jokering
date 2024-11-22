@@ -1,3 +1,11 @@
+function pseudorandom_i_range(seed, min, max)
+	local val
+	while not val do
+		val = math.floor(pseudorandom(seed) * (max + 1 - min) + min)
+	end
+	return val
+end
+
 function pseudorandom_f_range(seed, min, max)
 	local val
 	while not val do
@@ -6,16 +14,15 @@ function pseudorandom_f_range(seed, min, max)
 	return val
 end
 
-function buff_card(card, amount)
-
-	for i=1,amount do
+function buff_card(card, amount, repetition)
+	if not repetition then repetition = 1 end
+	for i=1,amount * repetition do
 		local rank_data = SMODS.Ranks[card.base.value]
 			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
 			local new_rank
 				if behavior.ignore or not next(rank_data.next) then
 					return true
 				elseif behavior.random then
-					-- TODO doesn't respect in_pool
 					new_rank = pseudorandom_element(rank_data.next, pseudoseed('buff_card'))
 				else
 					local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
@@ -25,20 +32,25 @@ function buff_card(card, amount)
 		end
 end
 
-function damage_card(card, amount)
-	amount = amount + damage_increase(card)
-	for i=1,amount do
+function destroy_card(card, noise)
+	if card.ability.name == 'Glass Card' then 
+		card:shatter()
+	else
+		card:start_dissolve(nil, noise)
+	end
+end
+
+function damage_card(card, amount, repetition)
+	if not repetition then repetition = 1 end
+	amount = modify_damage(card, amount)
+	for i=1,amount * repetition do
 		local rank_data = SMODS.Ranks[card.base.value]
 			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
 			local new_rank
 				if behavior.ignore then
 					return true
 				elseif not next(rank_data.previous) then
-					if card.ability.name == 'Glass Card' then 
-						card:shatter()
-					else
-						card:start_dissolve(nil, i == #G.hand.highlighted)
-					end
+					destroy_card(card, i == #G.hand.highlighted)
 					return true
 				elseif behavior.random then
 					-- TODO doesn't respect in_pool
@@ -51,9 +63,15 @@ function damage_card(card, amount)
 		end
 end
 
-function damage_increase(card)
+function modify_damage(card, amount)
+	amount = amount + damage_additive(card)
+	amount = amount * damage_multiple(card)
+	return math.floor(amount)
+end
+
+function damage_additive(card)
 	local amount = 0
-	local torbrans = find_joker("mtg-torbran")
+	local torbrans = SMODS.find_card("j_mtg_torbran")
 	if torbrans[1] then
 		for i=1,#torbrans do
 			if torbrans[i] ~= card then
@@ -64,9 +82,14 @@ function damage_increase(card)
 	return amount
 end
 
+function damage_multiple(card)
+	local amount = 1
+	return amount
+end
+
 function total_shop_discount()
 	local amount = 0
-	local helms = find_joker("mtg-helmofawakening")
+	local helms = SMODS.find_card("j_mtg_helmofawakening")
 	if helms[1] then
 		for i=1,#helms do
 			amount = amount + helms[i].ability.extra.discount
@@ -94,10 +117,18 @@ function instant_win()
 		)
 end
 
+function current_blind_life()
+	if G.GAME.round_resets.ante <= 0 then
+		return 1
+	else
+		return G.GAME.round_resets.ante * 5
+	end
+end
 
-function damage_blind(card, amount)
-	amount = amount + damage_increase(card)
-	local total_chips = amount * G.GAME.blind.chips / 20
+function damage_blind(card, amount, repetition)
+	if not repetition then repetition = 1 end
+	amount = modify_damage(card, amount) * repetition
+	local total_chips = amount * G.GAME.blind.chips / current_blind_life()
 	G.E_MANAGER:add_event(Event({
 		trigger = "before",
 		func = function()
@@ -119,7 +150,7 @@ function damage_blind(card, amount)
 	}))
 
 	G.E_MANAGER:add_event(Event({
-	  func = (function(t) if G.GAME.chips >  G.GAME.blind.chips then 
+	  func = (function(t) if G.GAME.chips >=  G.GAME.blind.chips then 
 		G.E_MANAGER:add_event(
 			Event({
 				trigger = "immediate",
@@ -140,19 +171,13 @@ function damage_blind(card, amount)
 	}))
 end
 
-function bonus_damage(card, amount)
-	amount = amount + damage_increase(card)
-	local total_chips = amount * G.GAME.blind.chips / 20
-	G.E_MANAGER:add_event(Event({
-		trigger = "before",
-		func = function()
-			card_eval_status_text(card, 'extra', nil, nil, nil, {
-			  message = "+" .. number_format(total_chips or 0)
-			});
-			return true
-		end
-	}))
-
+function bonus_damage(card, amount, repetition)
+	if not repetition then repetition = 1 end
+	amount = modify_damage(card, amount) * repetition
+	local total_chips = amount * G.GAME.blind.chips / current_blind_life()
+	card_eval_status_text(card, 'extra', nil, nil, nil, {
+		message = "+" .. number_format(total_chips or 0)
+	  });
 	G.GAME.mtg_bonus_chips = G.GAME.mtg_bonus_chips + total_chips
 end
 
@@ -173,7 +198,7 @@ function loc_colour(_c, _default)
 	  G.ARGS.LOC_COLOURS.diamond = G.C.SUITS.Diamonds
 	  G.ARGS.LOC_COLOURS.spade = G.C.SUITS.Spades
 	  G.ARGS.LOC_COLOURS.club = G.C.SUITS.Clubs
-	  G.ARGS.LOC_COLOURS.clover = HEX('3dad2f')
+	  G.ARGS.LOC_COLOURS.clover = G.C.SUITS[suit_clovers.key]
 	  return lc(_c, _default)
 end
 

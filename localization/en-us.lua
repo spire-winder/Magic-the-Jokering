@@ -1,54 +1,98 @@
 return {
     descriptions = {
         Joker = {
+            j_mtg_sylvananthem = {
+                name = "Sylvan Anthem",
+                text = {
+                    "Played cards with",
+                    "{C:clover}Clover{} suit give",
+                    "{C:mult}+#1#{} Mult when scored "
+                },
+            },
+            j_mtg_chromaticlantern = {
+                name = "Chromatic Lantern",
+                text = {
+                    "Gold cards are considered to be",
+                    "every suit simultaneously",
+                    "This Joker gains {X:mult,C:white} X#1# {} Mult for",
+                    "each unique suit played this round",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+                },
+            },
+            j_mtg_yorvo = {
+                name = "Yorvo, Lord of Garenbrig",
+                text = {
+                    "This {C:attention}Joker{} gains {C:mult}+#1#{} Mult",
+                    "if played hand contains a {C:clover}Clover{}",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                },
+            },
+            j_mtg_knotvine = {
+                name = "Knotvine Mystic",
+                text = {
+                    "{X:mult,C:white} X#1# {} Mult if all cards",
+                    "held in hand are {C:heart}Hearts{},",
+                    "{C:diamond}Diamonds{} or {C:clover}Clovers{}"
+                },
+            },
+            j_mtg_wastenot = {
+                name = "Waste Not",
+                text = {
+                    "Earn {C:money}$#1#{} for each discarded {C:attention}Ace",
+                    "Deal {C:attention}#2#{} {C:red}damage{} to the blind",
+                    "for each discarded {C:attention}face{} card",
+                    "Draw {C:attention}#3#{} cards for each",
+                    "discarded {C:red}non{}-{C:attention}Ace{} {C:red}non{}-{C:attention}face{} card"
+                },
+            },
             j_mtg_jokulmorder = {
                 name = "Jokulmorder",
                 text = {
-                    "Slumbers until you discard",
+                    "{C:red}Slumber{} until you discard",
                     "{C:attention}#1#{} {C:club}Clubs{} at the same time",
-                    "While awoken, played cards with {C:club}Club{} suit",
-                    "give {X:mult,C:white} X#2# {} Mult when scored"
+                    "While awoken, played cards with {C:club}Club{}",
+                    "suit give {X:mult,C:white} X#2# {} Mult when scored"
                 },
             },
             j_mtg_yavimaya = {
                 name = "Yavimaya, Cradle of Growth",
                 text = {
-                    "Each played card is a {C:clover}Clover{}",
+                    "Cards are considered to be {C:clover}Clovers{}",
                     "in addition to its other suits"
                 },
             },
             j_mtg_urborg = {
                 name = "Urborg, Tomb of Yawgmoth",
                 text = {
-                    "Each played card is a {C:spade}Spade{}",
+                    "Cards are considered to be {C:spade}Spades{}",
                     "in addition to its other suits"
                 },
             },
             j_mtg_celestialdawn = {
                 name = "Celestial Dawn",
                 text = {
-                    "Each played card is a {C:diamond}Diamond{}",
+                    "Cards are considered to be {C:diamond}Diamonds{}",
                     "in addition to its other suits"
                 },
             },
             j_mtg_harbinger = {
                 name = "Harbinger of the Seas",
                 text = {
-                    "Each played card is a {C:club}Club{}",
+                    "Cards are considered to be {C:club}Clubs{}",
                     "in addition to its other suits"
                 },
             },
             j_mtg_bloodmoon = {
                 name = "Blood Moon",
                 text = {
-                    "Each played card is a {C:heart}Heart{}",
+                    "Cards are considered to be {C:heart}Hearts{}",
                     "in addition to its other suits"
                 },
             },
             j_mtg_torbran = {
                 name = "Torbran, Thane of Red Fell",
                 text = {
-                    "When you play a hand containing a {C:heart}Heart{},",
+                    "If played hand contains a {C:heart}Heart{},",
                     "deal {C:attention}#1#{} {C:red}damage{} to the blind",
                     "If another source would deal {C:red}damage{},",
                     "it deals that much {C:red}damage{} plus {C:attention}#2#{} instead"
@@ -74,9 +118,8 @@ return {
                 name = "Relentless Rats",
                 text = {
                     "{C:mult}+#1#{} Mult for each {C:attention}Joker{}",
-                    "you control named {C:attention}Relentless Rats{}",
-                    "{C:inactive}({C:attention}Relentless Rats{C:inactive} may appear multiple times{}",
-                    "{C:inactive}and will appear {C:dark_edition}Negative{C:inactive}){}"
+                    "named {C:attention}Relentless Rats{}",
+                    "{C:red}Relentless{}"
                 },
             },
             
@@ -84,21 +127,24 @@ return {
                 name = "Urza's Mine",
                 text = {
                     "{C:chips}+#1#{} Chips",
-                    "If you have {C:attention}Urza's Power Plant{}","and {C:attention}Urza's Tower{} {C:chips}+#2#{} more Chips"
+                    "{C:chips}+#2#{} Chips instead if you have",
+                    "{C:attention}Urza's Power Plant{} and {C:attention}Urza's Tower{} "
                 },
             },
             j_mtg_urzapower = {
                 name = "Urza's Power Plant",
                 text = {
                     "{C:mult}+#1#{} Mult",
-                    "If you have {C:attention}Urza's Mine{}","and {C:attention}Urza's Tower{} {C:mult}+#2#{} more Mult"
+                    "{C:mult}+#2#{} Mult instead if you have",
+                    "{C:attention}Urza's Mine{} and {C:attention}Urza's Tower{} "
                 },
             },
             j_mtg_urzatower = {
                 name = "Urza's Tower",
                 text = {
                     "{X:mult,C:white} X#1# {} Mult",
-                    "If you have {C:attention}Urza's Mine{}","and {C:attention}Urza's Power Plant{} {X:mult,C:white} X#2# {} more Mult"
+                    "{X:mult,C:white} X#2# {} Mult instead if you have",
+                    "{C:attention}Urza's Mine{} and {C:attention}Urza's Power Plant{}"
                 },
             },
             j_mtg_lightfromwithin = {
@@ -120,18 +166,18 @@ return {
             j_mtg_beastmaster = {
                 name = "Beastmaster Ascension",
                 text = {
-                    "When you play a hand, put a quest counter on {C:attention}Beastmaster Ascension{}",
-                    "As long as {C:attention}Beastmaster Ascension{} has {C:attention}#1#{} or more quest counters on it,",
-                    "played cards give {C:chips}+#2#{} Chips and {C:mult}+#3#{} Mult when scored",
-                    "{C:inactive,s:0.8}Current quest counters: {C:attention}#4#{}"
+                    "After {C:attention}#1#{} hands played,",
+                    "played cards give {C:chips}+#2#{} Chips",
+                    "and {C:mult}+#3#{} Mult when scored",
+                    "{C:inactive}(Currently {C:attention}#4#{C:inactive}/#1#){}"
                 },
             },
             j_mtg_vortex = {
                 name = "Sulfuric Vortex",
                 text = {
-                    "When you play a hand, deal {C:attention}#1#{} {C:red}damage{}",
-                    "to the blind, and {C:attention}#2#{} {C:red}damage{}",
-                    "to a random card in hand"
+                    "Deal {C:attention}#1#{} {C:red}damage{} to the blind,",
+                    "and {C:attention}#2#{} {C:red}damage{} to a random card",
+                    "held in hand when hand played"
                 },
             },
             j_mtg_powermatrix = {
@@ -145,8 +191,8 @@ return {
                 name = "Eldrazi Monument",
                 text = {
                     "Played cards give {C:mult}+#1#{} Mult when scored",
-                    "When you play a hand, {C:attention}destroy{} the",
-                    "{C:attention}lowest{} ranked card held in hand "
+                    "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
+                    "held in hand when hand played"
                 },
             },
             j_mtg_helmofawakening = {
@@ -154,6 +200,56 @@ return {
                 text = {
                     "Items in shop",
                     "cost {C:money}$#1#{} less"
+                },
+            },
+        },
+        Enhanced = {
+            m_mtg_goblin = {
+                name = "Goblin",
+                text = {
+                    "{C:mult}+#1#{} Mult"
+                },
+            },
+            m_mtg_shivan = {
+                name = "Shivan Dragon",
+                text = {
+                    "{C:mult}+#1#{} Mult",
+                    "Deal {C:attention}#2#{} {C:red}damage{}",
+                    "to the blind",
+                    "when this card scores"
+                },
+            },
+            m_mtg_squirrel = {
+                name = "Squirrel",
+                text = {
+                    "{C:mult}+1d#1#{} Mult"
+                },
+            },
+            m_mtg_tinybones = {
+                name = "Tinybones",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
+                    "{C:attention}1{} card, earn {C:money}$#1#{}"
+                },
+            },
+            m_mtg_yorvo = {
+                name = "Yorvo",
+                text = {
+                    "If scoring hand contains",
+                    "another {C:clover}Clover{}",
+                    "Yorvo gains {C:mult}+#1#{} Mult",
+                    "when it scores",
+                    --"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                },
+            },
+            m_mtg_baru = {
+                name = "Baru",
+                text = {
+                    "Other scoring cards with",
+                    "a {C:clover}Clover{} suit get",
+                    "{C:attention}+#1#{} rank when",
+                    "this card scores",
                 },
             },
         },
@@ -178,7 +274,14 @@ return {
                     "Create a {C:attention}Squirrel{}",
                     "in your hand",
                     "{C:dark_edition}Storm{}",
-                    "{C:inactive,s:0.8}Current storm count: {C:attention}#1#{}"
+                },
+            },
+            c_mtg_emptythewarrens = {
+                name = "Empty the Warrens",
+                text = {
+                    "Create {C:attention}#1#{} {C:attention}Goblins{}",
+                    "in your hand",
+                    "{C:dark_edition}Storm{}",
                 },
             },
             c_mtg_reaping = {
@@ -187,14 +290,13 @@ return {
                     "Return the top card of",
                     "your discard to your hand",
                     "{C:dark_edition}Storm{}",
-                    "{C:inactive,s:0.8}Current storm count: {C:attention}#1#{}"
                 },
             },
             c_mtg_reanimate = {
                 name = "Reanimate",
                 text = {
-                    "Create a previously",
-                    "sold {C:attention}Joker{}"
+                    "Creates a random previously",
+                    "sold {C:attention}Joker{} card"
                 },
             },
             c_mtg_mindsdesire = {
@@ -202,7 +304,6 @@ return {
                 text = {
                     "Create {C:attention}#1#{} random {C:dark_edition}Negative{} Magic card",
                     "{C:dark_edition}Storm{}",
-                    "{C:inactive,s:0.8}Current storm count: {C:attention}#2#{}"
                 },
             },
             c_mtg_brainfreeze = {
@@ -210,28 +311,27 @@ return {
                 text = {
                     "Draw {C:attention}#1#{} cards and discard them",
                     "{C:dark_edition}Storm{}",
-                    "{C:inactive,s:0.8}Current storm count: {C:attention}#2#{}"
                 },
             },
             c_mtg_negate = {
                 name = "Negate",
                 text = {
-                    "Counter target {C:attention}Boss Blind{}"
+                    "Disable the current {C:attention}Boss Blind{}"
                 },
             },
             c_mtg_villagerites = {
                 name = "Village Rites",
                 text = {
-                    "Destroy target card",
-                    "Draw {C:attention}#1#{} cards"
+                    "Destroy {C:attention}#1#{} selected card",
+                    "Draw {C:attention}#2#{} cards"
                 },
             },
             c_mtg_transmogrify = {
                 name = "Transmogrify",
                 text = {
-                    "Destroy target card",
-                    "Create a permanent copy of the",
-                    "top card of deck in your hand"
+                    "Destroy {C:attention}#1#{} selected card",
+                    "Add a copy of the top card",
+                    "of deck to your hand"
                 },
             },
             c_mtg_overrun = {
@@ -244,24 +344,23 @@ return {
             c_mtg_giantgrowth = {
                 name = "Giant Growth",
                 text = {
-                    "Target card gets",
-                    "{C:attention}+#1#{} rank",
+                    "{C:attention}#1#{} selected card gets",
+                    "{C:attention}+#2#{} rank",
                 },
             },
             c_mtg_aspecthydra = {
                 name = "Aspect of Hydra",
                 text = {
-                    "Target card gets {C:attention}+#1#{} rank",
+                    "{C:attention}#1#{} selected card gets {C:attention}+#2#{} rank",
                     "for each {C:clover}Clover{} in your hand",
                 },
             },
             c_mtg_astralsteel = {
                 name = "Astral Steel",
                 text = {
-                    "Target card gets",
-                    "{C:attention}+#1#{} rank",
+                    "{C:attention}#1#{} selected card card gets",
+                    "{C:attention}+#2#{} rank",
                     "{C:dark_edition}Storm{}",
-                    "{C:inactive,s:0.8}Current storm count: {C:attention}#2#{}"
                 },
             },
             c_mtg_ancestral = {
@@ -296,7 +395,7 @@ return {
                 name = "Lava Axe",
                 text = {
                     "Deal {C:attention}#1#{} {C:red}damage{}",
-                    "to target blind"
+                    "to the blind"
                 },
             },
             c_mtg_angerofthegods = {
@@ -310,23 +409,22 @@ return {
                 name = "Flame Slash",
                 text = {
                     "Deal {C:attention}#1#{} {C:red}damage{}",
-                    "to target card"
+                    "to {C:attention}#2#{} selected card"
                 },
             },
             c_mtg_lightningbolt = {
                 name = "Lightning Bolt",
                 text = {
                     "Deal {C:attention}#1#{} {C:red}damage{}",
-                    "to target blind or card"
+                    "to {C:attention}#2#{} selected card or the blind"
                 },
             },
             c_mtg_grapeshot = {
                 name = "Grapeshot",
                 text = {
                     "Deal {C:attention}#1#{} {C:red}damage{} to",
-                    "target blind or card",
-                    "{C:dark_edition}Storm{}",
-                    "{C:inactive,s:0.8}Current storm count: {C:attention}#2#{}"
+                    "{C:attention}#2#{} selected card or the blind",
+                    "{C:dark_edition}Storm{}"
                 },
             },
         },
@@ -347,11 +445,30 @@ return {
             },
         },
         Other = {
+            r_mtg_relentless = {
+                name = "Relentless",
+                text = {
+                    "This card can appear multiple times",
+                    "Additional copies will appear {C:dark_edition}Negative{}"
+                }
+            },
+            r_mtg_slumber = {
+                name = "Slumber",
+                text = {
+                    "A {C:attention}Joker{} that is awoken",
+                    "{C:red}slumbers{} at end of blind"
+                }
+            },
+            r_mtg_goblin = {
+                name = "Goblin",
+                text = {
+                    "{C:mult}+1d#1#{} Mult"
+                }
+            },
             r_mtg_squirrel = {
                 name = "Squirrel",
                 text = {
-                    "A {C:attention}Squirrel{} is a",
-                    "{C:clover}Two of Clovers{}"
+                    "{C:mult}+1d#1#{} Mult",
                 }
             },
             r_mtg_any_target = {
@@ -365,17 +482,18 @@ return {
             r_mtg_damage_blind = {
                 name = "Damage to Blind",
                 text = {
-                    "For each {C:red}damage{} add",
-                    "{C:attention}5%{} of required chips"
+                    "For each point of {C:red}damage{} dealt",
+                    "to the blind, add Chips",
+                    "to the current score",
+                    "{C:inactive}Current blind life: {C:attention}#1#{}"
                 }
             },
             r_mtg_damage_card = {
                 name = "Damage to Card",
                 text = {
-                    "For each {C:red}damage{} reduce",
-                    "rank by {C:attention}1{}",
-                    "If rank drops below {C:attention}2{}",
-                    "destroy it"
+                    "For each point of {C:red}damage{} dealt",
+                    "to a card, reduce its rank by {C:attention}1{}",
+                    "Destroy it if its rank drops below {C:attention}2{}"
                 }
             },
             r_mtg_storm_count = {
@@ -383,7 +501,8 @@ return {
                 text = {
                     "{C:attention}Copy{} this effect for each",
                     "consumable used earlier",
-                    "this shop or blind"
+                    "this shop or blind",
+                    "{C:inactive}Current storm count: {C:attention}#1#{}"
                 }
             },
             p_mtg_magic_pack = {
@@ -439,6 +558,7 @@ return {
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",
 
+            mtg_tinybones_ex = "Shiny!",
             mtg_sacrifice_ex = "Sacrifice",
             mtg_spades_ex = "Spades!",
             mtg_grunch_ex = "Grunch!",
