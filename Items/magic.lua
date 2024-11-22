@@ -83,8 +83,8 @@ set = "Magic",
 name = "mtg-raisethealarm",
   key = "raisethealarm",
   pos = {
-      x = 1,
-      y = 2
+      x = 9,
+      y = 1
   },
   atlas = 'mtg_atlas',
 cost = 3,
@@ -270,7 +270,7 @@ G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
     used_tarot:juice_up(0.3, 0.5)
     return true end }))
   if G.GAME.blind and ((not G.GAME.blind.disabled) and (G.GAME.blind:get_type() == 'Boss')) then 
-    card_eval_status_text(card or copier, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
+    card_eval_status_text(card or copier, 'extra', nil, nil, nil, {message = localize('k_nope_ex')})
     G.GAME.blind:disable()
 end
 end,
@@ -283,7 +283,7 @@ set = "Magic",
 name = "mtg-bloodsoakedaltar",
   key = "bloodsoakedaltar",
   pos = {
-      x = 7,
+      x = 11,
       y = 1
   },
   atlas = 'mtg_atlas',

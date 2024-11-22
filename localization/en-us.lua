@@ -254,6 +254,61 @@ return {
                     "{C:mult}+1d#1#{} Mult"
                 },
             },
+            m_mtg_ashling = {
+                name = "Ashling",
+                text = {
+                    "Deal {C:attention}#1#{} {C:red}damage{}",
+                    "to the blind for each",
+                    "discarded {C:heart}Heart{}"
+                },
+            },
+            m_mtg_stormcrow = {
+                name = "Storm Crow",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
+                    "{C:attention}1{} card,",
+                    "and that card is a {C:club}Club{}",
+                    "{C:attention}destroy{} it and",
+                    "disable the current {C:attention}Boss Blind{}"
+                },
+            },
+            m_mtg_yawgmoth = {
+                name = "Yawgmoth",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
+                    "{C:attention}1{} card,",
+                    "{C:attention}destroy{} it"
+                },
+            },
+            m_mtg_kikijiki = {
+                name = "Kiki-Jiki",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
+                    "{C:attention}1{} card,",
+                    "add a copy to {C:attention}hand{}"
+                },
+            },
+            m_mtg_nissa = {
+                name = "Nissa",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
+                    "{C:attention}1{} card,",
+                    "give it {C:attention}+#1#{} rank"
+                },
+            },
+            m_mtg_urza = {
+                name = "Urza",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
+                    "{C:attention}1{} card, enhance it",
+                    "into a {C:attention}Steel Card{}"
+                },
+            },
             m_mtg_tinybones = {
                 name = "Tinybones",
                 text = {
@@ -627,6 +682,7 @@ return {
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",
 
+            mtg_steel_ex = "Steel!",
             mtg_tinybones_ex = "Shiny!",
             mtg_sacrifice_ex = "Sacrifice",
             mtg_spades_ex = "Spades!",

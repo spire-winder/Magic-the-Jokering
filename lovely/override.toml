@@ -198,3 +198,16 @@ payload = '''
 	end
 '''
 match_indent = true
+
+# Prevent ghost card
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "local cards = {}"
+position = "before"
+payload = '''
+	highlighted_count = math.min(#G.hand.highlighted, G.discard.config.card_limit - #G.play.cards)
+'''
+match_indent = true
+
+

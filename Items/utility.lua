@@ -14,7 +14,7 @@ function pseudorandom_f_range(seed, min, max)
 	return val
 end
 
-function buff_card(card, amount, repetition, before, blocking, random_enhancement)
+function buff_card(card, amount, repetition, before, blocking, enhancement)
 	if not repetition then repetition = 1 end
 	if not blocking then blocking = false end
 	if not before then before = "after" else before = "before" end
@@ -27,25 +27,31 @@ function buff_card(card, amount, repetition, before, blocking, random_enhancemen
 				0.3); return true
 		end
 	}))
-	G.E_MANAGER:add_event(Event({
-		blocking = blocking,
-		trigger = before,
-		delay = 0.1,
-		func = function()
-			for i=1,amount * repetition do
-				increase_rank(card)
+	if amount then
+		G.E_MANAGER:add_event(Event({
+			blocking = blocking,
+			trigger = before,
+			delay = 0.1,
+			func = function()
+				for i=1,amount * repetition do
+					increase_rank(card)
 				end
-		  return true
+			return true
+			end
+		}))
+	end
+	if enhancement then
+		if enhancement == "random" then
+			local cen_pool = {}
+			for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
+			if v.key ~= 'm_stone' and not v.overrides_base_rank then
+				cen_pool[#cen_pool + 1] = v
+			end
+			end
+			enhancement = pseudorandom_element(cen_pool, pseudoseed("mtg-random_enhancement"))
+		else
+			enhancement = G.P_CENTERS[enhancement]
 		end
-	}))
-	if random_enhancement then
-		local cen_pool = {}
-		for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
-		  if v.key ~= 'm_stone' and not v.overrides_base_rank then
-			cen_pool[#cen_pool + 1] = v
-		  end
-		end
-		local enhancement = pseudorandom_element(cen_pool, pseudoseed("mtg-powermatrix"))
 		card:set_ability(enhancement, nil, true)
 	end
 		G.E_MANAGER:add_event(Event({
@@ -99,6 +105,9 @@ function destroy_card(card, noise)
 		card:shatter()
 	else
 		card:start_dissolve(nil, noise)
+	end
+	for j=1, #G.jokers.cards do
+		eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
 	end
 end
 

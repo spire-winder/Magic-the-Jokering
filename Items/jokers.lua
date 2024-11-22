@@ -717,7 +717,7 @@ SMODS.Joker {
   elseif context.pre_discard then
       if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
         local _card = context.full_hand[1]
-        buff_card(_card, card.ability.extra.buff, 1, true, true, true)
+        buff_card(_card, card.ability.extra.buff, 1, true, true, "random")
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
       end
     end
