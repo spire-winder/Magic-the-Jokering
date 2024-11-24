@@ -457,7 +457,7 @@ SMODS.Joker {
 	name = "mtg-beastmaster",
 	key = "beastmaster",
 	pos = { x = 5, y = 2 },
-	config = { extra = {quest = 0, required = 7, chips = 25, mult = 5}},
+	config = { extra = {quest = 0, required = 7, chips = 5, mult = 5}},
   order = 12,
 	rarity = 1,
 	cost = 4,
