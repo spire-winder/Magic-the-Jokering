@@ -514,7 +514,7 @@ SMODS.Joker {
           message = localize("k_again_ex"),
           repetitions = card.ability.extra.repetitions,
           -- The card the repetitions are applying to is context.other_card
-          card = context.other_card
+          card = card
         }
       end
     end
