@@ -14,14 +14,9 @@ function pseudorandom_f_range(seed, min, max)
 	return val
 end
 
-function buff_card(card, amount, repetition, before, blocking, enhancement)
+function buff_card(card, amount, repetition, enhancement)
 	if not repetition then repetition = 1 end
-	if not blocking then blocking = false end
-	if not before then before = "after" else before = "before" end
 	G.E_MANAGER:add_event(Event({
-		blocking = blocking,
-		trigger = before,
-		delay = 0.15,
 		func = function()
 			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
 				0.3); return true
@@ -29,9 +24,6 @@ function buff_card(card, amount, repetition, before, blocking, enhancement)
 	}))
 	if amount then
 		G.E_MANAGER:add_event(Event({
-			blocking = blocking,
-			trigger = before,
-			delay = 0.1,
 			func = function()
 				for i=1,amount * repetition do
 					increase_rank(card)
@@ -55,15 +47,45 @@ function buff_card(card, amount, repetition, before, blocking, enhancement)
 		card:set_ability(enhancement, nil, true)
 	end
 		G.E_MANAGER:add_event(Event({
-			blocking = blocking,
-			trigger = before,
-			delay = 0.15,
 			func = function()
 				card:flip(); play_sound('tarot2', 0.85, 0.6); card
 					:juice_up(
 						0.3, 0.3); return true
 			end
 		}))
+end
+
+function stop_debuff_card(card)
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,0.3); return true
+		end
+	}))
+	if amount then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				card.debuff = false
+				card.mtg_debuff_immune = true
+			return true
+			end
+		}))
+	end
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				card:flip(); play_sound('tarot2', 0.85, 0.6); card
+					:juice_up(
+						0.3, 0.3); return true
+			end
+		}))
+end
+
+function reanimate()
+	local created_card = create_card('Joker', G.jokers, nil, nil, nil, nil, pseudorandom_element(G.GAME.jokers_sold, pseudoseed("mtg-reanimate")))
+    --Previously, it also made the joker negative, but I think this is too strong
+    --created_card:set_edition({negative = true}, true)
+	created_card:add_to_deck()
+    G.jokers:emplace(created_card)
+    created_card:start_materialize()
 end
 
 function increase_rank(card)
@@ -114,7 +136,7 @@ end
 function damage_card(card, amount, repetition)
 	G.E_MANAGER:add_event(Event({
 		trigger = 'after',
-		delay = 0.15,
+		delay = 0.1,
 		func = function()
 			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
 				0.3); return true
@@ -134,7 +156,7 @@ function damage_card(card, amount, repetition)
 	}))
 	G.E_MANAGER:add_event(Event({
 		trigger = 'after',
-		delay = 0.15,
+		delay = 0.1,
 		func = function()
 			card:flip(); play_sound('tarot2', 0.85, 0.6); card
 				:juice_up(
@@ -214,19 +236,12 @@ function current_blind_life()
 	end
 end
 
+--damage_blind: creates an event to damage the blind
 function damage_blind(card, amount, repetition)
 	if not repetition then repetition = 1 end
 	amount = modify_damage(card, amount) * repetition
 	local total_chips = amount * G.GAME.blind.chips / current_blind_life()
-	G.E_MANAGER:add_event(Event({
-		trigger = "before",
-		func = function()
-			card_eval_status_text(card, 'extra', nil, nil, nil, {
-			  message = "+" .. number_format(total_chips or 0)
-			});
-			return true
-		end
-	}))
+	card_eval_status_text(card, 'extra', nil, nil, nil, {message = "+" .. number_format(total_chips or 0)});
 
 	G.E_MANAGER:add_event(Event({
 	  blocking = true,
@@ -260,6 +275,7 @@ function damage_blind(card, amount, repetition)
 	}))
 end
 
+--damage_blind: creates an event to damage the blind, use this when other events are happening
 function bonus_damage(card, amount, repetition)
 	if not repetition then repetition = 1 end
 	amount = modify_damage(card, amount) * repetition

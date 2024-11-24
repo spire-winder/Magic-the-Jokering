@@ -209,5 +209,3 @@ payload = '''
 	highlighted_count = math.min(#G.hand.highlighted, G.discard.config.card_limit - #G.play.cards)
 '''
 match_indent = true
-
-

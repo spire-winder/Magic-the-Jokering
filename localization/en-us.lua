@@ -1,12 +1,65 @@
 return {
     descriptions = {
         Joker = {
-            j_mtg_sylvananthem = {
-                name = "Sylvan Anthem",
+            j_mtg_doublingseason = {
+                name = 'Doubling Season',
+                text = {
+                "Retrigger all",
+                "played {C:clover}Clover{} cards"
+                }
+            },
+            j_mtg_mightstone = {
+                name = "Mightstone",
+                text = {
+                    "Played cards give",
+                    "{C:mult}+#1#{} Mult when scored"
+                },
+            },
+            j_mtg_labman = {
+                name = "Laboratory Maniac",
+                text = {
+                    "{X:mult,C:white} X#1# {} Mult if {C:red}no{} cards",
+                    "remaining in {C:attention}deck{}"
+                },
+            },
+            j_mtg_etheriumsculptor = {
+                name = "Etherium Sculptor",
+                text = {
+                    "Played {C:attention}Steel{} cards give",
+                    "{C:chips}+#1#{} Chips when scored"
+                },
+            },
+            j_mtg_bushwacker = {
+                name = "Reckless Bushwacker",
+                text = {
+                    "Played cards give",
+                    "{X:mult,C:white} X#1# {} Mult when scored",
+                    "on {C:attention}first hand{} of round"
+                },
+            },
+            j_mtg_anarchomancer = {
+                name = "Goblin Anarchomancer",
+                text = {
+                    "Played cards with {C:heart}Heart{}",
+                    "or {C:clover}Clover{} suit give",
+                    "{X:mult,C:white} X#1# {} Mult when scored "
+                },
+            },
+            j_mtg_ivylanedenizen = {
+                name = "Ivy Lane Denizen",
                 text = {
                     "Played cards with",
                     "{C:clover}Clover{} suit give",
                     "{C:mult}+#1#{} Mult when scored "
+                },
+            },
+            j_mtg_primalcrux = {
+                name = "Primalcrux",
+                text = {
+                    "This {C:attention}Joker{} gains",
+                    "{X:mult,C:white} X#1# {} Mult when each played",
+                    "{C:attention}card{} with {C:clover}Clover{} suit is scored",
+                    "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
                 },
             },
             j_mtg_chromaticlantern = {
@@ -211,11 +264,11 @@ return {
             },
         },
         Enhanced = {
-            m_mtg_shark = {
-                name = "Shark",
+            m_mtg_octopus = {
+                name = "Octopus",
                 text = {
-                    ""
-                },
+                    "{C:mult}+#1#{} Mult"
+                }
             },
             m_mtg_demon = {
                 name = "Demon",
@@ -267,10 +320,43 @@ return {
                 text = {
                     "If {C:attention}first discard{}",
                     "of round has only",
-                    "{C:attention}1{} card,",
-                    "and that card is a {C:club}Club{}",
-                    "{C:attention}destroy{} it and",
-                    "disable the current {C:attention}Boss Blind{}"
+                    "{C:attention}1{} card and that",
+                    "card is a {C:club}Club{},",
+                    "{C:attention}destroy{} it and disable",
+                    "the current {C:attention}Boss Blind{}"
+                },
+            },
+            m_mtg_odric = {
+                name = "Odric",
+                text = {
+                    "{X:mult,C:white} X#1# {} Mult for",
+                    "each {C:diamond}Diamond{} played this hand",
+                    "while held in hand",
+                    "{C:inactive}(Starts at {X:mult,C:white} X#2# {C:inactive} Mult)"
+                },
+            },
+            m_mtg_akroma = {
+                name = "Akroma",
+                text = {
+                    "{C:mult}+#1#{} Mult and {X:mult,C:white} X#2# {} Mult",
+                    "if in {C:attention}first hand{} of round"
+                },
+            },
+            m_mtg_sublime = {
+                name = "Sublime Archangel",
+                text = {
+                    "{X:mult,C:white} X#1# {} Mult if",
+                    "played hand contains {C:attention}1{}",
+                    "card while held in hand"
+                },
+            },
+            m_mtg_kiora = {
+                name = "Kiora",
+                text = {
+                    "Create an {C:club}Octopus{}",
+                    "in your hand for each",
+                    "{C:attention}#1#{} cards discarded",
+                    "while held in hand"
                 },
             },
             m_mtg_yawgmoth = {
@@ -278,8 +364,18 @@ return {
                 text = {
                     "If {C:attention}first discard{}",
                     "of round has only",
+                    "{C:attention}1{} card, {C:attention}destroy{} the",
+                    "{C:attention}lowest{} ranked card",
+                    "held in hand"
+                },
+            },
+            m_mtg_sheoldred = {
+                name = "Sheoldred",
+                text = {
+                    "If {C:attention}first discard{}",
+                    "of round has only",
                     "{C:attention}1{} card,",
-                    "{C:attention}destroy{} it"
+                    "reanimate a {C:attention}Joker{}"
                 },
             },
             m_mtg_kikijiki = {
@@ -323,7 +419,7 @@ return {
                     "If scoring hand contains",
                     "another {C:clover}Clover{}",
                     "Yorvo gains {C:mult}+#1#{} Mult",
-                    "when it is played and scored",
+                    "when it is scored",
                     --"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 },
             },
@@ -333,7 +429,17 @@ return {
                     "Other scoring cards with",
                     "a {C:clover}Clover{} suit get",
                     "{C:attention}+#1#{} rank when",
-                    "this card is played and scored",
+                    "this card is scored",
+                },
+            },
+        },
+        Tarot = {
+            c_mtg_forest = {
+                name = "Forest",
+                text = {
+                    "Converts up to",
+                    "{C:attention}3{} selected cards",
+                    "to {C:clover}Clovers{}"
                 },
             },
         },
@@ -386,8 +492,7 @@ return {
             c_mtg_reanimate = {
                 name = "Reanimate",
                 text = {
-                    "Creates a random previously",
-                    "sold {C:attention}Joker{} card"
+                    "Reanimate a {C:attention}Joker{}"
                 },
             },
             c_mtg_mindsdesire = {
@@ -440,6 +545,14 @@ return {
                     "gets {C:attention}+#1#{} rank",
                 },
             },
+            c_mtg_defiantstrike = {
+                name = "Defiant Strike",
+                text = {
+                    "{C:attention}#1#{} selected card gets",
+                    "{C:attention}+#2#{} rank",
+                    "Draw {C:attention}#3# card"
+                },
+            },
             c_mtg_giantgrowth = {
                 name = "Giant Growth",
                 text = {
@@ -466,6 +579,21 @@ return {
                 name = "Ancestral Recall",
                 text = {
                     "Draw {C:attention}#1#{} cards"
+                },
+            },
+            c_mtg_clonelegion = {
+                name = "Clone legion",
+                text = {
+                    "{C:attention}Copy{} all cards","in your hand"
+                },
+            },
+            c_mtg_fellthemighty = {
+                name = "Fell the Mighty",
+                text = {
+                    "{C:attention}Destroy{} all cards",
+                    "in your hand with",
+                    "rank greater than",
+                    "{C:attention}#1#{} selected card's rank"
                 },
             },
             c_mtg_wrathofgod = {
@@ -511,6 +639,17 @@ return {
                     "to {C:attention}#2#{} selected card"
                 },
             },
+            c_mtg_monstrousonslaught = {
+                name = "Monstrous Onslaught",
+                text = {
+                    "Deals {C:red}damage to the blind",
+                    "or divided equally among any",
+                    "number of selected cards equal",
+                    "to the rank of {C:selected}highest{}",
+                    "ranked card held in hand",
+                    "{C:inactive}(Currently {C:attention}#1# {C:red}damage{C:inactive})"
+                },
+            },
             c_mtg_lightningbolt = {
                 name = "Lightning Bolt",
                 text = {
@@ -544,6 +683,13 @@ return {
             },
         },
         Other = {
+            r_mtg_reanimate = {
+                name = "Reanimate",
+                text = {
+                    "Creates a random",
+                    "previously sold card"
+                }
+            },
             r_mtg_relentless = {
                 name = "Relentless",
                 text = {
@@ -568,10 +714,10 @@ return {
             
             
             },
-            r_mtg_shark = {
-                name = "Shark",
+            r_mtg_octopus = {
+                name = "Octopus",
                 text = {
-                    ""
+                    "{C:mult}+#1#{} Mult"
                 }
             },
             r_mtg_soldier = {
@@ -682,6 +828,10 @@ return {
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",
 
+            mtg_protect_ex = "Protect",
+            mtg_haste_ex = "Haste",
+            mtg_octopus_ex = "Rise...",
+            mtg_reanimate_ex = "Reanimate",
             mtg_steel_ex = "Steel!",
             mtg_tinybones_ex = "Shiny!",
             mtg_sacrifice_ex = "Sacrifice",

@@ -32,7 +32,7 @@ SMODS.Joker {
 		return { }
 	end,
 	calculate = function(self, card, context)
-    if context.individual then
+    if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if context.other_card:is_suit('Diamonds') then
           return {
@@ -43,6 +43,35 @@ SMODS.Joker {
       end
     end
 	end
+}
+
+--etherium sculptor
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-etheriumsculptor",
+	key = "etheriumsculptor",
+	pos = { x = 11, y = 5 },
+	config = { extra = { chips = 50} },
+  order = 10,
+	rarity = 2,
+	cost = 4,
+	atlas = "mtg_atlas",
+  enhancement_gate = 'm_steel',
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.chips } }
+	end,
+	calculate = function(self, card, context)
+    if context.individual and not context.repetition then
+      if context.cardarea == G.play then
+        if context.other_card.ability.name == 'Steel Card' then
+          return {
+            chips = card.ability.extra.chips,
+            card = card
+          }
+        end
+      end
+    end
+  end
 }
 
 --Harbinger of the seas
@@ -93,7 +122,7 @@ SMODS.Joker {
     juice_card_until(card, eval, true)
     card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_awoken_ex')})
    end
-  elseif context.individual then
+  elseif context.individual and not context.repetition then
       if context.cardarea == G.play then
         if context.other_card:is_suit('Clubs') and card.ability.extra.awoken then
           return {
@@ -116,6 +145,33 @@ SMODS.Joker {
 	end
 }
 
+--Laboratory Maniac
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-labman",
+	key = "labman",
+	pos = { x = 9, y = 5 },
+	config = { extra = {multi = 10}},
+  order = 4,
+	rarity = 3,
+	cost = 6,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.multi}}
+	end,
+	calculate = function(self, card, context)
+    if context.joker_main then
+      if #G.deck.cards == 0 then
+        return {
+            message = localize{type='variable',key='a_xmult',vars={card.ability.extra.multi}},
+            Xmult_mod = card.ability.extra.multi, 
+            colour = G.C.Mult
+        }
+    end
+    end
+	end
+}
+
 --ascendant evincar
 SMODS.Joker { 
 	object_type = "Joker",
@@ -131,7 +187,7 @@ SMODS.Joker {
 		return { vars = { center.ability.extra.bonus_mult, center.ability.extra.neg_mult} }
 	end,
 	calculate = function(self, card, context)
-    if context.individual then
+    if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if context.other_card:is_suit('Spades') then
           return {
@@ -262,7 +318,7 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-emancipation",
 	key = "emancipation",
-	pos = { x = 2, y = 4 },
+	pos = { x = 11, y = 4 },
 	config = { extra = { damage_mult = 3} },
   order = 10,
 	rarity = 3,
@@ -273,6 +329,35 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
     end
+}
+
+--Reckless bushwacker
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-bushwacker",
+	key = "bushwacker",
+	pos = { x = 8, y = 6 },
+	config = { extra = { x_mult = 1.25} },
+  order = 10,
+	rarity = 1,
+	cost = 3,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.x_mult } }
+	end,
+	calculate = function(self, card, context)
+    if context.individual and not context.repetition then
+      if context.cardarea == G.play then
+        if G.GAME.current_round.hands_played == 0 then
+          card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_haste_ex"), colour = G.C.RED})
+          return {
+            x_mult = card.ability.extra.x_mult,
+            card = card
+          }
+        end
+      end
+    end
+  end
 }
 
 --vortex
@@ -392,7 +477,7 @@ SMODS.Joker {
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_quest_ex')})
         end
       end
-  elseif context.individual then
+  elseif context.individual and not context.repetition then
       if context.cardarea == G.play then
         if card.ability.extra.quest >= card.ability.extra.required then
           return {
@@ -408,14 +493,41 @@ end
 }
 
 --Doubling Season
+SMODS.Joker {
+  object_type = "Joker",
+	name = "mtg-doublingseason",
+	key = "doublingseason",
+	pos = { x = 1, y = 6 },
+  order = 12,
+	rarity = 2,
+	cost = 6,
+	atlas = "mtg_atlas",
+  config = { extra = { repetitions = 1 } },
+  calculate = function(self, card, context)
+    -- Checks that the current cardarea is G.play, or the cards that have been played, then checks to see if it's time to check for repetition.
+    -- The "not context.repetition_only" is there to keep it separate from seals.
+    if context.cardarea == G.play and context.repetition and not context.repetition_only then
+      -- context.other_card is something that's used when either context.individual or context.repetition is true
+      -- It is each card 1 by 1, but in other cases, you'd need to iterate over the scoring hand to check which cards are there.
+      if context.other_card:is_suit(suit_clovers.key) then
+        return {
+          message = localize("k_again_ex"),
+          repetitions = card.ability.extra.repetitions,
+          -- The card the repetitions are applying to is context.other_card
+          card = context.other_card
+        }
+      end
+    end
+  end
+}
 
---Sylvan Anthem
+--ivy lane denizen
 --Played cards with Clover suit give +3 Mult when scored
 SMODS.Joker { 
 	object_type = "Joker",
-	name = "mtg-sylvananthem",
-	key = "sylvananthem",
-	pos = { x = 6, y = 5 },
+	name = "mtg-ivylanedenizen",
+	key = "ivylanedenizen",
+	pos = { x = 8, y = 4 },
 	config = { extra = {bonus_mult = 3} },
   order = 5,
 	rarity = 1,
@@ -425,7 +537,7 @@ SMODS.Joker {
 		return { vars = { center.ability.extra.bonus_mult, center.ability.extra.neg_mult} }
 	end,
 	calculate = function(self, card, context)
-    if context.individual then
+    if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if context.other_card:is_suit(suit_clovers.key) then
           return {
@@ -436,6 +548,46 @@ SMODS.Joker {
       end
     end
   end
+}
+
+--primalcrux
+--Played cards with Clover suit give +3 Mult when scored
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-primalcrux",
+	key = "primalcrux",
+	pos = { x = 10, y = 4 },
+	config = { extra = {extra = 0.05, x_mult = 1} },
+  order = 5,
+	rarity = 2,
+	cost = 7,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { center.ability.extra.extra, center.ability.extra.x_mult} }
+	end,
+	calculate = function(self, card, context)
+		if
+			context.cardarea == G.jokers
+			and (card.ability.extra.x_mult > 1)
+			and not context.before
+			and not context.after
+		then
+			return {
+				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
+				Xmult_mod = card.ability.extra.x_mult,
+			}
+		end
+		if context.cardarea == G.play and context.individual and not context.blueprint and not context.repetition then
+      if context.other_card:is_suit(suit_clovers.key) then
+        card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.extra
+        return {
+          extra = { focus = card, message = localize("k_upgrade_ex") },
+          card = card,
+          colour = G.C.MULT,
+        }
+      end
+		end
+	end,
 }
 
 --yavimaya
@@ -500,6 +652,35 @@ SMODS.Joker {
   end
 }]]
 
+--Goblin Anarchomancer
+--Played cards with Clover or Heart suit give x1.25 Mult when scored
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-anarchomancer",
+	key = "anarchomancer",
+	pos = { x = 10, y = 5 },
+	config = { extra = {bonus_x_mult = 1.2} },
+  order = 5,
+	rarity = 1,
+	cost = 5,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { center.ability.extra.bonus_x_mult} }
+	end,
+	calculate = function(self, card, context)
+    if context.individual and not context.repetition then
+      if context.cardarea == G.play then
+        if context.other_card:is_suit(suit_clovers.key) or context.other_card:is_suit("Hearts") then
+          return {
+            x_mult = card.ability.extra.bonus_x_mult,
+            card = card
+          }
+        end
+      end
+    end
+  end
+}
+
 --knotvine mystic
 -- X3 mult if all cards held in hand are diamonds, hearts, or clovers
 SMODS.Joker {
@@ -549,7 +730,7 @@ SMODS.Joker {
 		return { vars = {center.ability.extra.bonus_mult, center.ability.x_mult}}
 	end,
 	calculate = function(self, card, context)
-    if context.individual then
+    if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if not context.other_card.debuff and not context.blueprint then
           local do_message = false
@@ -571,7 +752,7 @@ SMODS.Joker {
           end
         end
       end
-    elseif context.end_of_round then
+    elseif context.end_of_round and not context.blueprint then
       card.ability.extra.suits = {}
       if card.ability.x_mult > 1 then
         card.ability.x_mult = 1
@@ -599,7 +780,7 @@ SMODS.Joker {
 		return { vars = {center.ability.extra.bonus_mult}}
 	end,
 	calculate = function(self, card, context)
-    if context.individual then
+    if context.individual and not context.repetition then
       if context.cardarea == G.play then
         return {
             mult = card.ability.extra.bonus_mult,
@@ -696,6 +877,32 @@ SMODS.Joker {
 	end
 }
 
+--[[mightstone
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-mightstone",
+	key = "mightstone",
+	pos = { x = 11, y = 4 },
+	config = { extra = { mult = 2} },
+  order = 10,
+	rarity = 1,
+	cost = 4,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.mult } }
+	end,
+	calculate = function(self, card, context)
+    if context.individual then
+      if context.cardarea == G.play then
+        return {
+          mult = card.ability.extra.mult,
+          card = card
+        }
+      end
+    end
+  end
+}]]
+
 --power matrix
 SMODS.Joker { 
 	object_type = "Joker",
@@ -717,7 +924,7 @@ SMODS.Joker {
   elseif context.pre_discard then
       if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
         local _card = context.full_hand[1]
-        buff_card(_card, card.ability.extra.buff, 1, true, true, "random")
+        buff_card(_card, card.ability.extra.buff, 1, "random")
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
       end
     end

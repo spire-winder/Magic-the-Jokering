@@ -64,6 +64,7 @@ use = function(self, card, area, copier)
 }))
 for i = 1, #G.hand.highlighted do
   buff_card(G.hand.highlighted[i], card.ability.extra.strength, G.GAME.mtg_storm_count)
+  delay(0.1)
 end
 G.E_MANAGER:add_event(Event({
   trigger = 'after',
@@ -74,6 +75,109 @@ G.E_MANAGER:add_event(Event({
 }))
 delay(0.5)
 end,
+}
+
+--defiant strike
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-defiantstrike",
+  key = "defiantstrike",
+  pos = {
+      x = 12,
+      y = 0
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 1,
+  config = {extra = {targets = 1, buff = 1, cards = 1}},
+  loc_vars = function(self, info_queue, card)
+    return { vars = {card.ability.extra.targets, card.ability.extra.buff, card.ability.extra.cards} }
+  end,
+can_use = function(self, card)
+    local num_highlighted = #G.hand.highlighted
+    return num_highlighted <= card.ability.extra.targets and num_highlighted > 0
+end,
+use = function(self, card, area, copier)
+  local used_tarot = copier or card
+  G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                func = function()
+                    play_sound('tarot1')
+                    used_tarot:juice_up(0.3, 0.5)
+                    return true
+                end
+            }))
+            for i = 1, #G.hand.highlighted do
+              local _card = G.hand.highlighted[i]
+              buff_card(_card, card.ability.extra.buff)
+              delay(0.1)
+            end
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.hand:unhighlight_all(); return true
+                end
+            }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+              G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
+            return true end }))
+end
+}
+
+--Fell the Mighty
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-fellthemighty",
+  key = "fellthemighty",
+  pos = {
+      x = 15,
+      y = 0
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 1,
+  config = {extra = {targets = 1}},
+  loc_vars = function(self, info_queue, card)
+    return { vars = {card.ability.extra.targets} }
+  end,
+can_use = function(self, card)
+    local num_highlighted = #G.hand.highlighted
+    return num_highlighted <= card.ability.extra.targets and num_highlighted > 0
+end,
+use = function(self, card, area, copier)
+  local used_tarot = copier or card
+  G.E_MANAGER:add_event(Event({
+  trigger = 'after',
+  delay = 0.4,
+  func = function()
+      play_sound('tarot1')
+      used_tarot:juice_up(0.3, 0.5)
+      return true
+  end
+}))
+local temp_hand = {}
+            for k, v in ipairs(G.hand.cards) do
+                if not v.ability.eternal and v.base.id > G.hand.highlighted[1].base.id then
+                    temp_hand[#temp_hand + 1] = v
+                end
+            end
+            for i = #1,temp_hand do
+              
+            G.E_MANAGER:add_event(Event({
+              trigger = "after",
+              delay = 0.1,
+              func = function()
+                local card = temp_hand[i]
+                      destroy_card(card, i ~= #temp_hand)
+                  return true
+              end,
+            }))
+          end
+end
 }
 
 --raise the alarm
@@ -91,7 +195,7 @@ cost = 3,
 order = 19,
   config = { extra = {guys = 2}},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_soldier", set = "Other", config = { extra = 1 } , vars = { 2 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_soldier", set = "Other", config = { extra = 1 } , vars = { 5 } }
     return { vars = {card.ability.extra.guys}}
   end,
 can_use = function(self, card)
@@ -151,17 +255,18 @@ use = function(self, card, area, copier)
                     return true
                 end,
             }))
+            for i = 1,#temp_hand do
             G.E_MANAGER:add_event(Event({
                 trigger = "after",
                 delay = 0.1,
                 func = function()
-                    for i = #temp_hand, 1, -1 do
+                    
                         local card = temp_hand[i]
                         destroy_card(card, i ~= #temp_hand)
-                    end
                     return true
                 end,
             }))
+          end
 end,
 }
 
@@ -196,6 +301,61 @@ SMODS.Consumable ({
         return true end }))
     end,
 })
+
+--clone legion
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-clonelegion",
+  key = "clonelegion",
+  pos = {
+      x = 13,
+      y = 0
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 2,
+  config = {},
+  loc_vars = function(self, info_queue, card)
+    return {}
+  end,
+can_use = function(self, card)
+    return #G.hand.cards > 0
+end,
+use = function(self, card, area, copier)
+  local used_tarot = card or copier
+            G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay = 0.4,
+                func = function()
+                    play_sound("tarot1")
+                    if used_tarot and used_tarot.juice_up then
+                        used_tarot:juice_up(0.3, 0.5)
+                    end
+                    return true
+                end,
+            }))
+            for i=1,#G.hand.cards do
+              G.E_MANAGER:add_event(Event({
+                trigger = "after",
+                delay=0.1,
+                func = function()
+                    G.hand.cards[i]:juice_up(0.3, 0.5)
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local _card = copy_card(G.hand.cards[i], nil, nil, G.playing_card)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.hand:emplace(_card)
+                    _card.states.visible = nil
+                    _card:start_materialize()
+                    playing_card_joker_effects({true})
+                    return true
+                end
+            }))
+          end
+end,
+}
 
 --mind's desire
 SMODS.Consumable {
@@ -404,22 +564,17 @@ order = 8,
     return {  }
   end,
 can_use = function(self, card)
+    info_queue[#info_queue + 1] = { key = "r_mtg_reanimate", set = "Other", config = {extra = 1}}
     return (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers)
 end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
               play_sound('timpani')
-              local created_card = create_card('Joker', G.jokers, nil, nil, nil, nil, pseudorandom_element(G.GAME.jokers_sold, pseudoseed("mtg-reanimate")))
-              
-              --Previously, it also made the joker negative, but I think this is too strong
-              --created_card:set_edition({negative = true}, true)
-              created_card:add_to_deck()
-              G.jokers:emplace(created_card)
-              created_card:start_materialize()
+              reanimate()
               used_tarot:juice_up(0.3, 0.5)
               return true end }))
-          delay(0.6)
+              card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_reanimate_ex"), colour = G.C.BLACK})
 end,
 }
 
@@ -544,8 +699,8 @@ set = "Magic",
 name = "mtg-emptythewarrens",
   key = "emptythewarrens",
   pos = {
-      x = 1,
-      y = 2
+      x = 9,
+      y = 4
   },
   atlas = 'mtg_atlas',
 cost = 3,
@@ -883,9 +1038,9 @@ use = function(self, card, area, copier)
                   if G.hand.cards[i]:is_suit(suit_clovers.key) then clover_count = clover_count + 1 end
           end
             for i = 1, #G.hand.highlighted do
-                
-                      local _card = G.hand.highlighted[i]
-                      buff_card(_card, card.ability.extra.strength * clover_count)
+              local _card = G.hand.highlighted[i]
+              buff_card(_card, card.ability.extra.strength * clover_count)
+              delay(0.1)
             end
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -971,6 +1126,7 @@ use = function(self, card, area, copier)
             for i = 1, #G.hand.highlighted do
               local _card = G.hand.highlighted[i]
               buff_card(_card, card.ability.extra.strength)
+              delay(0.1)
             end
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
@@ -981,6 +1137,59 @@ use = function(self, card, area, copier)
             }))
             delay(0.5)
 end,
+}
+
+--Monstrous Onslaught
+SMODS.Consumable {
+  object_type = "Consumable",
+set = "Magic",
+name = "mtg-monstrousonslaught",
+  key = "monstrousonslaught",
+  pos = {
+      x = 14,
+      y = 0
+  },
+  atlas = 'mtg_atlas',
+cost = 3,
+order = 18,
+  config = {extra = {}},
+  loc_vars = function(self, info_queue, card)
+    if not G.hand then return {vars = {0}} end
+    local temp_ID = G.hand.cards[1].base.id
+    local largest = G.hand.cards[1]
+    for i=1, #G.hand.cards do
+      if temp_ID <= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' and not G.hand.cards[i].debuff then temp_ID = G.hand.cards[i].base.id; largest = G.hand.cards[i] end
+    end
+    return { vars = { largest.base.nominal} }
+  end,
+can_use = function(self, card)
+  return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0)
+end,
+  use = function(self, card, area, copier)
+    local used_tarot = copier or card
+    G.E_MANAGER:add_event(Event({
+                  trigger = 'after',
+                  delay = 0.4,
+                  func = function()
+                      play_sound('tarot1')
+                      used_tarot:juice_up(0.3, 0.5)
+                      return true
+                  end
+      }))
+    
+    local temp_ID = G.hand.cards[1].base.id
+    local largest = G.hand.cards[1]
+    for i=1, #G.hand.cards do
+      if temp_ID <= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' and not G.hand.cards[i].debuff then temp_ID = G.hand.cards[i].base.id; largest = G.hand.cards[i] end
+    end
+    if #G.hand.highlighted < 1 then
+        damage_blind(card, largest.base.nominal)
+      else
+        for i=1, #G.hand.highlighted do
+          damage_card(G.hand.highlighted[i], math.floor(largest.base.nominal / #G.hand.highlighted))
+        end
+    end     
+  end,
 }
 
 --overrun
@@ -1018,6 +1227,7 @@ use = function(self, card, area, copier)
       
               local _card = G.hand.cards[i]
               buff_card(_card, card.ability.extra.strength, 1, false, true)
+              delay(0.1)
   end
   G.E_MANAGER:add_event(Event({
       trigger = 'after',
