@@ -338,8 +338,8 @@ return {
             m_mtg_akroma = {
                 name = "Akroma",
                 text = {
-                    "{X:mult,C:white} X#1# {} Mult",
-                    "if in {C:attention}first hand{} of round"
+                    "{X:mult,C:white} X#1# {} Mult if in",
+                    "{C:attention}first hand{} of round"
                 },
             },
             m_mtg_sublime = {
@@ -642,9 +642,9 @@ return {
             c_mtg_monstrousonslaught = {
                 name = "Monstrous Onslaught",
                 text = {
-                    "Deals {C:red}damage to the blind",
-                    "or divided equally among any",
-                    "number of selected cards equal",
+                    "Deals {C:red}damage{} to the blind",
+                    "or divided equally among {C:attention}any",
+                    "{C:attention}number{} of selected cards equal",
                     "to the rank of {C:selected}highest{}",
                     "ranked card held in hand",
                     "{C:inactive}(Currently {C:attention}#1# {C:red}damage{C:inactive})"

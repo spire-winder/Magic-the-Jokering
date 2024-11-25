@@ -561,10 +561,10 @@ cost = 3,
 order = 8,
   config = { },
   loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = { key = "r_mtg_reanimate", set = "Other", config = {extra = 1}}
     return {  }
   end,
 can_use = function(self, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_reanimate", set = "Other", config = {extra = 1}}
     return (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers)
 end,
 use = function(self, card, area, copier)
