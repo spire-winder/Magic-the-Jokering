@@ -337,13 +337,13 @@ SMODS.Joker {
 	name = "mtg-bushwacker",
 	key = "bushwacker",
 	pos = { x = 8, y = 6 },
-	config = { extra = { x_mult = 1.25} },
+	config = { extra = { mult = 3} },
   order = 10,
 	rarity = 1,
 	cost = 3,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.x_mult } }
+		return { vars = {center.ability.extra.mult } }
 	end,
 	calculate = function(self, card, context)
     if context.individual and not context.repetition then
@@ -351,7 +351,7 @@ SMODS.Joker {
         if G.GAME.current_round.hands_played == 0 then
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_haste_ex"), colour = G.C.RED})
           return {
-            x_mult = card.ability.extra.x_mult,
+            mult = card.ability.extra.mult,
             card = card
           }
         end

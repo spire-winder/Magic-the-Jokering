@@ -33,7 +33,7 @@ return {
                 name = "Reckless Bushwacker",
                 text = {
                     "Played cards give",
-                    "{X:mult,C:white} X#1# {} Mult when scored",
+                    "{C:mult}+#1#{} Mult when scored",
                     "on {C:attention}first hand{} of round"
                 },
             },
