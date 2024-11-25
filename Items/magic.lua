@@ -562,7 +562,7 @@ order = 8,
   config = { },
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = { key = "r_mtg_reanimate", set = "Other", config = {extra = 1}}
-    return {  }
+    return { vars = {} }
   end,
 can_use = function(self, card)
     return (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers)
@@ -1154,7 +1154,7 @@ cost = 3,
 order = 18,
   config = {extra = {}},
   loc_vars = function(self, info_queue, card)
-    if not G.hand then return {vars = {0}} end
+    if not G.hand.cards[1] then return {vars = {0}} end
     local temp_ID = G.hand.cards[1].base.id
     local largest = G.hand.cards[1]
     for i=1, #G.hand.cards do
