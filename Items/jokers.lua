@@ -551,7 +551,6 @@ SMODS.Joker {
 }
 
 --primalcrux
---Played cards with Clover suit give +3 Mult when scored
 SMODS.Joker { 
 	object_type = "Joker",
 	name = "mtg-primalcrux",
@@ -659,20 +658,20 @@ SMODS.Joker {
 	name = "mtg-anarchomancer",
 	key = "anarchomancer",
 	pos = { x = 10, y = 5 },
-	config = { extra = {bonus_x_mult = 1.2} },
+	config = { extra = {bonus_chips = 30} },
   order = 5,
 	rarity = 1,
 	cost = 5,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-		return { vars = { center.ability.extra.bonus_x_mult} }
+		return { vars = { center.ability.extra.bonus_chips} }
 	end,
 	calculate = function(self, card, context)
     if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if context.other_card:is_suit(suit_clovers.key) or context.other_card:is_suit("Hearts") then
           return {
-            x_mult = card.ability.extra.bonus_x_mult,
+            chips = card.ability.extra.bonus_chips,
             card = card
           }
         end
@@ -682,7 +681,7 @@ SMODS.Joker {
 }
 
 --knotvine mystic
--- X3 mult if all cards held in hand are diamonds, hearts, or clovers
+-- X2.5 mult if all cards held in hand are diamonds, hearts, or clovers
 SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-knotvine",
@@ -941,7 +940,7 @@ SMODS.Joker {
 	config = { extra = { base_chips = 50, bonus_chips = 200} },
   order = 18,
 	rarity = 1,
-	cost = 4,
+	cost = 3,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_chips, center.ability.extra.bonus_chips} }
@@ -1005,7 +1004,7 @@ SMODS.Joker {
 	config = { extra = { base_xmult = 1.5, bonus_xmult = 3} },
   order = 20,
 	rarity = 1,
-	cost = 4,
+	cost = 3,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_xmult, center.ability.extra.bonus_xmult} }

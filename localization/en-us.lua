@@ -42,7 +42,7 @@ return {
                 text = {
                     "Played cards with {C:heart}Heart{}",
                     "or {C:clover}Clover{} suit give",
-                    "{X:mult,C:white} X#1# {} Mult when scored "
+                    "{C:chips}+#1#{} Chips when scored "
                 },
             },
             j_mtg_ivylanedenizen = {
