@@ -550,7 +550,7 @@ return {
                 text = {
                     "{C:attention}#1#{} selected card gets",
                     "{C:attention}+#2#{} rank",
-                    "Draw {C:attention}#3# card"
+                    "Draw {C:attention}#3#{} card"
                 },
             },
             c_mtg_giantgrowth = {
