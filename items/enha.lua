@@ -41,17 +41,16 @@ akroma = SMODS.Enhancement {
 	key = "akroma",
 	atlas = "mtg_atlas",
 	pos = { x = 11, y = 2 },
-	config = { extra = {mult = 10,mult_x = 2}},
+	config = { extra = {mult_x = 2}},
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.mult, self.config.extra.mult_x} }
+        return { vars = {self.config.extra.mult_x} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
             if G.GAME.current_round.hands_played == 0 then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_haste_ex"), colour = G.ARGS.LOC_COLOURS.diamond})
-                effect.mult = card.ability.extra.mult
                 effect.x_mult = card.ability.extra.mult_x
             end
         end

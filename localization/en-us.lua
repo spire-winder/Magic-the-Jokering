@@ -338,7 +338,7 @@ return {
             m_mtg_akroma = {
                 name = "Akroma",
                 text = {
-                    "{C:mult}+#1#{} Mult and {X:mult,C:white} X#2# {} Mult",
+                    "{X:mult,C:white} X#1# {} Mult",
                     "if in {C:attention}first hand{} of round"
                 },
             },
