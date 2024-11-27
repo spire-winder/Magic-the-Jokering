@@ -16,8 +16,6 @@ end
 
 function buff_card(card, amount, repetition, enhancement)
 	if not repetition then repetition = 1 end
-	print(amount)
-	print(repetition)
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
@@ -89,7 +87,6 @@ function reanimate()
 end
 
 function increase_rank(card, amount)
-	print(amount)
 	for i=1,amount do
 		local rank_data = SMODS.Ranks[card.base.value]
 		local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
@@ -128,7 +125,6 @@ function decrease_rank(card, amount)
 end
 
 function destroy_cards(cards)
-	print("destroy_cards called")
 	for i=1, #cards do
 		if cards[i].ability.name == 'Glass Card' then 
 			cards[i]:shatter()
