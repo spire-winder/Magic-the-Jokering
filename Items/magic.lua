@@ -111,7 +111,7 @@ use = function(self, card, area, copier)
             }))
             for i = 1, #G.hand.highlighted do
               local _card = G.hand.highlighted[i]
-              buff_card(_card, card.ability.extra.buff)
+              buff_card(_card, card.ability.extra.buff, 1)
               delay(0.1)
             end
             G.E_MANAGER:add_event(Event({
@@ -165,18 +165,15 @@ local temp_hand = {}
                     temp_hand[#temp_hand + 1] = v
                 end
             end
-            for i = #1,temp_hand do
               
             G.E_MANAGER:add_event(Event({
               trigger = "after",
               delay = 0.1,
               func = function()
-                local card = temp_hand[i]
-                      destroy_card(card, i ~= #temp_hand)
+                      destroy_cards(temp_hand)
                   return true
               end,
             }))
-          end
 end
 }
 
@@ -255,18 +252,14 @@ use = function(self, card, area, copier)
                     return true
                 end,
             }))
-            for i = 1,#temp_hand do
             G.E_MANAGER:add_event(Event({
                 trigger = "after",
                 delay = 0.1,
                 func = function()
-                    
-                        local card = temp_hand[i]
-                        destroy_card(card, i ~= #temp_hand)
+                        destroy_cards(temp_hand)
                     return true
                 end,
             }))
-          end
 end,
 }
 
@@ -471,10 +464,7 @@ G.E_MANAGER:add_event(Event({
     trigger = 'after',
     delay = 0.2,
     func = function() 
-        for i=#G.hand.highlighted, 1, -1 do
-            local card = G.hand.highlighted[i]
-            destroy_card(card, i == #G.hand.highlighted)
-        end
+        destroy_cards(G.hand.highlighted)
         return true end }))
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             local _suit, _rank = SMODS.Suits["Spades"].card_key, "6"
@@ -645,11 +635,8 @@ G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
 G.E_MANAGER:add_event(Event({
     trigger = 'after',
     delay = 0.2,
-    func = function() 
-        for i=#G.hand.highlighted, 1, -1 do
-            local card = G.hand.highlighted[i]
-            destroy_card(card, i == #G.hand.highlighted)
-        end
+    func = function()
+            destroy_cards(G.hand.highlighted)
         return true end }))
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
     G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
@@ -931,10 +918,7 @@ use = function(self, card, area, copier)
                 trigger = "after",
                 delay = 0.1,
                 func = function()
-                    for i = #temp_hand, 1, -1 do
-                        local card = temp_hand[i]
-                        destroy_card(card, i ~= #temp_hand)
-                    end
+                    destroy_cards(temp_hand)
                     return true
                 end,
             }))
@@ -976,10 +960,7 @@ G.E_MANAGER:add_event(Event({
     trigger = 'after',
     delay = 0.2,
     func = function() 
-        for i=#G.hand.highlighted, 1, -1 do
-            local card = G.hand.highlighted[i]
-            destroy_card(card, i == #G.hand.highlighted)
-        end
+        destroy_cards(G.hand.highlighted)
         return true end }))
         if G.deck.cards[1] then
           G.E_MANAGER:add_event(Event({
@@ -1039,7 +1020,7 @@ use = function(self, card, area, copier)
           end
             for i = 1, #G.hand.highlighted do
               local _card = G.hand.highlighted[i]
-              buff_card(_card, card.ability.extra.strength * clover_count)
+              buff_card(_card, card.ability.extra.strength, clover_count)
               delay(0.1)
             end
             G.E_MANAGER:add_event(Event({
@@ -1125,7 +1106,7 @@ use = function(self, card, area, copier)
             }))
             for i = 1, #G.hand.highlighted do
               local _card = G.hand.highlighted[i]
-              buff_card(_card, card.ability.extra.strength)
+              buff_card(_card, card.ability.extra.strength , 1)
               delay(0.1)
             end
             G.E_MANAGER:add_event(Event({
@@ -1226,7 +1207,7 @@ use = function(self, card, area, copier)
   for i = 1, #G.hand.cards do
       
               local _card = G.hand.cards[i]
-              buff_card(_card, card.ability.extra.strength, 1, false, true)
+              buff_card(_card, card.ability.extra.strength, 1)
               delay(0.1)
   end
   G.E_MANAGER:add_event(Event({

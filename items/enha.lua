@@ -89,6 +89,7 @@ token_soldier = SMODS.Enhancement {
 	config = { extra = {mult_per = 5}},
     overrides_base_rank = true,
     weight = 0,
+    in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
         return { vars = { self.config.extra.mult_per} }
 	end,
@@ -121,7 +122,7 @@ urza = SMODS.Enhancement {
     calculate = function(self, card, context, effect)
         if context.pre_discard then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and not card.debuff then
-          buff_card(context.full_hand[1],nil, nil, "m_steel")
+          buff_card(context.full_hand[1],0, 0, "m_steel")
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_steel_ex"), colour = G.ARGS.LOC_COLOURS.club})
           end
           end
@@ -178,7 +179,7 @@ stormcrow = SMODS.Enhancement {
         if context.pre_discard and not card.debuff then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
                 if context.full_hand[1] and context.full_hand[1]:is_suit("Clubs") then
-                    destroy_card(context.full_hand[1],true)
+                    destroy_cards({context.full_hand[1]})
                     G.hand:unhighlight_all()
                     if G.GAME.blind and ((not G.GAME.blind.disabled) and (G.GAME.blind:get_type() == 'Boss')) then 
                         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_nope_ex'), colour = G.ARGS.LOC_COLOURS.club})
@@ -203,6 +204,7 @@ token_octopus = SMODS.Enhancement {
 	config = {extra = {mult = 8}},
     overrides_base_rank = true,
     weight = 0,
+    in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
         return { vars = { self.config.extra.mult} }
 	end,
@@ -242,7 +244,7 @@ yawgmoth = SMODS.Enhancement {
                                             else
                                               G.E_MANAGER:add_event(Event({
                                                 func = function()
-                                                  destroy_card(smallest, true)
+                                                  destroy_cards({smallest})
                                                 return true
                                                 end}))
                                               
@@ -320,6 +322,7 @@ token_demon = SMODS.Enhancement {
 	config = { extra = {x_mult = 2}},
     overrides_base_rank = true,
     weight = 0,
+    in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
         return { vars = { self.config.extra.x_mult} }
 	end,
@@ -339,7 +342,7 @@ token_demon = SMODS.Enhancement {
                                                 trigger = 'after',
                                                 delay = 0.15,
                                                 func = function()
-                                                  destroy_card(smallest, true)
+                                                  destroy_cards({smallest})
                                                 return true
                                                 end}))
                                             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex')})
@@ -449,6 +452,7 @@ token_goblin = SMODS.Enhancement {
 	config = { extra = {mult=1}},
     overrides_base_rank = true,
     weight = 0,
+    in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
         return { vars = { self.config.extra.mult}}
 
@@ -557,6 +561,7 @@ token_squirrel = SMODS.Enhancement {
 	config = { extra = {max = 6}},
     overrides_base_rank = true,
     weight = 0,
+    in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
         return { vars = { self.config.extra.max} }
 	end,

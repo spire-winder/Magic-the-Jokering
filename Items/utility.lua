@@ -16,6 +16,8 @@ end
 
 function buff_card(card, amount, repetition, enhancement)
 	if not repetition then repetition = 1 end
+	print(amount)
+	print(repetition)
 	G.E_MANAGER:add_event(Event({
 		func = function()
 			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
@@ -25,9 +27,7 @@ function buff_card(card, amount, repetition, enhancement)
 	if amount then
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				for i=1,amount * repetition do
-					increase_rank(card)
-				end
+				increase_rank(card, amount * repetition)
 			return true
 			end
 		}))
@@ -88,48 +88,56 @@ function reanimate()
     created_card:start_materialize()
 end
 
-function increase_rank(card)
-	local rank_data = SMODS.Ranks[card.base.value]
-			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
-			local new_rank
-				if behavior.ignore or not next(rank_data.next) then
-					return true
-				elseif behavior.random then
-					new_rank = pseudorandom_element(rank_data.next, pseudoseed('buff_card'))
-				else
-					local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
-					new_rank = rank_data.next[ii]
-				end
-				assert(SMODS.change_base(card, nil, new_rank))
+function increase_rank(card, amount)
+	print(amount)
+	for i=1,amount do
+		local rank_data = SMODS.Ranks[card.base.value]
+		local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
+		local new_rank
+		if behavior.ignore or not next(rank_data.next) then
+				return true
+		elseif behavior.random then
+				new_rank = pseudorandom_element(rank_data.next, pseudoseed('buff_card'))
+		else
+			local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
+			new_rank = rank_data.next[ii]
+		end
+		assert(SMODS.change_base(card, nil, new_rank))
+	end
 end
 
-function decrease_rank(card)
-	local rank_data = SMODS.Ranks[card.base.value]
-			local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
-			local new_rank
-				if behavior.ignore then
-					return true
-				elseif not next(rank_data.previous) then
-					destroy_card(card, i == #G.hand.highlighted)
-					return true
-				elseif behavior.random then
-					-- TODO doesn't respect in_pool
-					new_rank = pseudorandom_element(rank_data.next, pseudoseed('damage_card'))
-				else
-					local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
-					new_rank = rank_data.previous[ii]
-				end
-				assert(SMODS.change_base(card, nil, new_rank))
-			end
-
-function destroy_card(card, noise)
-	if card.ability.name == 'Glass Card' then 
-		card:shatter()
-	else
-		card:start_dissolve(nil, noise)
+function decrease_rank(card, amount)
+	for i=1,amount do
+		local rank_data = SMODS.Ranks[card.base.value]
+		local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
+		local new_rank
+		if behavior.ignore then
+			return true
+		elseif not next(rank_data.previous) then
+			destroy_cards({card})
+			return true
+		elseif behavior.random then
+			-- TODO doesn't respect in_pool
+			new_rank = pseudorandom_element(rank_data.next, pseudoseed('damage_card'))
+		else
+			local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
+			new_rank = rank_data.previous[ii]
+		end
+		assert(SMODS.change_base(card, nil, new_rank))
 	end
-	for j=1, #G.jokers.cards do
-		eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
+end
+
+function destroy_cards(cards)
+	print("destroy_cards called")
+	for i=1, #cards do
+		if cards[i].ability.name == 'Glass Card' then 
+			cards[i]:shatter()
+		else
+			cards[i]:start_dissolve(nil, i == 1)
+		end
+	end
+	for i=1, #G.jokers.cards do
+		G.jokers.cards[i]:calculate_joker({remove_playing_cards = true, removed = cards})
 	end
 end
 
@@ -148,9 +156,7 @@ function damage_card(card, amount, repetition)
 		trigger = 'after',
 		delay = 0.1,
 		func = function()
-			for i=1,amount * repetition do
-				decrease_rank(card)
-		end
+			decrease_rank(card, amount * repetition)
 		  return true
 		end
 	}))

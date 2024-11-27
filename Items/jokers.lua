@@ -804,7 +804,7 @@ SMODS.Joker {
                                 trigger = 'after',
                                 delay = 0.15,
                                 func = function()
-                                  destroy_card(smallest, true)
+                                  destroy_cards({smallest})
                                 return true
                                 end}))
                               
