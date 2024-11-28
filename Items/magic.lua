@@ -1006,31 +1006,31 @@ end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card
   G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.4,
-                func = function()
-                    play_sound('tarot1')
-                    used_tarot:juice_up(0.3, 0.5)
-                    return true
-                end
-            }))
-            local clover_count = 0
-          for i = 1, #G.hand.cards do
-                  if G.hand.cards[i]:is_suit(suit_clovers.key) then clover_count = clover_count + 1 end
-          end
-            for i = 1, #G.hand.highlighted do
-              local _card = G.hand.highlighted[i]
-              buff_card(_card, card.ability.extra.strength, clover_count)
-              delay(0.1)
-            end
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.2,
-                func = function()
-                    G.hand:unhighlight_all(); return true
-                end
-            }))
-            delay(0.5)
+    trigger = 'after',
+    delay = 0.4,
+    func = function()
+      play_sound('tarot1')
+      used_tarot:juice_up(0.3, 0.5)
+      return true
+    end
+  }))
+  local clover_count = 0
+  for i = 1, #G.hand.cards do
+    if G.hand.cards[i]:is_suit(suit_clovers.key) then clover_count = clover_count + 1 end
+  end
+  for i = 1, #G.hand.highlighted do
+    local _card = G.hand.highlighted[i]
+    buff_card(_card, card.ability.extra.strength, clover_count)
+    delay(0.1)
+  end
+  G.E_MANAGER:add_event(Event({
+    trigger = 'after',
+    delay = 0.2,
+    func = function()
+      G.hand:unhighlight_all(); return true
+    end
+  }))
+  delay(0.5)
 end,
 }
 
@@ -1096,27 +1096,27 @@ end,
 use = function(self, card, area, copier)
   local used_tarot = copier or card
   G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.4,
-                func = function()
-                    play_sound('tarot1')
-                    used_tarot:juice_up(0.3, 0.5)
-                    return true
-                end
-            }))
-            for i = 1, #G.hand.highlighted do
-              local _card = G.hand.highlighted[i]
-              buff_card(_card, card.ability.extra.strength , 1)
-              delay(0.1)
-            end
-            G.E_MANAGER:add_event(Event({
-                trigger = 'after',
-                delay = 0.2,
-                func = function()
-                    G.hand:unhighlight_all(); return true
-                end
-            }))
-            delay(0.5)
+    trigger = 'after',
+    delay = 0.4,
+    func = function()
+      play_sound('tarot1')
+      used_tarot:juice_up(0.3, 0.5)
+      return true
+    end
+  }))
+  for i = 1, #G.hand.highlighted do
+    local _card = G.hand.highlighted[i]
+    buff_card(_card, card.ability.extra.strength , 1)
+    delay(0.1)
+  end
+  G.E_MANAGER:add_event(Event({
+    trigger = 'after',
+    delay = 0.2,
+    func = function()
+      G.hand:unhighlight_all(); return true
+    end
+  }))
+  delay(0.5)
 end,
 }
 
@@ -1136,14 +1136,14 @@ order = 18,
   config = {extra = {}},
   loc_vars = function(self, info_queue, card)
     if (G.hand and G.hand.cards and G.hand.cards[1]) then 
-    local temp_ID = G.hand.cards[1].base.id
-    local largest = G.hand.cards[1]
-    for i=1, #G.hand.cards do
-      if temp_ID <= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' and not G.hand.cards[i].debuff then temp_ID = G.hand.cards[i].base.id; largest = G.hand.cards[i] end
-    end
-    return { vars = { largest.base.nominal} }
-  else
-    return {vars = {"???"}} end
+      local temp_ID = G.hand.cards[1].base.id
+      local largest = G.hand.cards[1]
+      for i=1, #G.hand.cards do
+        if temp_ID <= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' and not G.hand.cards[i].debuff then temp_ID = G.hand.cards[i].base.id; largest = G.hand.cards[i] end
+      end
+      return { vars = { largest.base.nominal} }
+    else
+      return {vars = {"???"}} end
   end,
 can_use = function(self, card)
   return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0)
@@ -1151,27 +1151,26 @@ end,
   use = function(self, card, area, copier)
     local used_tarot = copier or card
     G.E_MANAGER:add_event(Event({
-                  trigger = 'after',
-                  delay = 0.4,
-                  func = function()
-                      play_sound('tarot1')
-                      used_tarot:juice_up(0.3, 0.5)
-                      return true
-                  end
-      }))
-    
+      trigger = 'after',
+      delay = 0.4,
+      func = function()
+        play_sound('tarot1')
+        used_tarot:juice_up(0.3, 0.5)
+        return true
+      end
+    }))
     local temp_ID = G.hand.cards[1].base.id
     local largest = G.hand.cards[1]
     for i=1, #G.hand.cards do
       if temp_ID <= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' and not G.hand.cards[i].debuff then temp_ID = G.hand.cards[i].base.id; largest = G.hand.cards[i] end
     end
     if #G.hand.highlighted < 1 then
-        damage_blind(card, largest.base.nominal)
-      else
-        for i=1, #G.hand.highlighted do
-          damage_card(G.hand.highlighted[i], math.floor(largest.base.nominal / #G.hand.highlighted))
-        end
-    end     
+      damage_blind(card, largest.base.nominal)
+    else
+      for i=1, #G.hand.highlighted do
+        damage_card(G.hand.highlighted[i], math.floor(largest.base.nominal / #G.hand.highlighted))
+      end
+    end
   end,
 }
 
@@ -1198,26 +1197,25 @@ end,
 use = function(self, card, area, copier)
   local used_tarot = card or copier
   G.E_MANAGER:add_event(Event({
-      trigger = 'after',
-      delay = 0.4,
-      func = function()
-          play_sound('tarot1')
-          used_tarot:juice_up(0.3, 0.5)
-          return true
-      end
+    trigger = 'after',
+    delay = 0.4,
+    func = function()
+      play_sound('tarot1')
+      used_tarot:juice_up(0.3, 0.5)
+      return true
+    end
   }))
   for i = 1, #G.hand.cards do
-      
-              local _card = G.hand.cards[i]
-              buff_card(_card, card.ability.extra.strength, 1)
-              delay(0.1)
+    local _card = G.hand.cards[i]
+    buff_card(_card, card.ability.extra.strength, 1)
+    delay(0.1)
   end
   G.E_MANAGER:add_event(Event({
-      trigger = 'after',
-      delay = 0.2,
-      func = function()
-          G.hand:unhighlight_all(); return true
-      end
+    trigger = 'after',
+    delay = 0.2,
+    func = function()
+      G.hand:unhighlight_all(); return true
+    end
   }))
   delay(0.5)
 end,
