@@ -1135,13 +1135,15 @@ cost = 3,
 order = 18,
   config = {extra = {}},
   loc_vars = function(self, info_queue, card)
-    if not G.hand.cards[1] then return {vars = {0}} end
+    if (G.hand and G.hand.cards and G.hand.cards[1]) then 
     local temp_ID = G.hand.cards[1].base.id
     local largest = G.hand.cards[1]
     for i=1, #G.hand.cards do
       if temp_ID <= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' and not G.hand.cards[i].debuff then temp_ID = G.hand.cards[i].base.id; largest = G.hand.cards[i] end
     end
     return { vars = { largest.base.nominal} }
+  else
+    return {vars = {"???"}} end
   end,
 can_use = function(self, card)
   return (G.STATE == G.STATES.SELECTING_HAND or #G.hand.highlighted > 0)
