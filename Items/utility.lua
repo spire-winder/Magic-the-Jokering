@@ -374,17 +374,83 @@ G.FUNCS.reserve_card = function(e)
 	}))
 end
 
+G.FUNCS.use_loyalty_1 = function(e)
+	local c1 = e.config.ref_table
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.1,
+		func = function()
+			return true
+		end,
+	}))
+	G.jokers:unhighlight_all()
+end
+
+G.FUNCS.can_use_loyalty_1 = function(e)
+	local c1 = e.config.ref_table
+	if true then
+		e.config.colour = G.C.GOLD
+        e.config.button = 'use_loyalty_1'
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+      	e.config.button = nil
+	end
+end
+
 local G_UIDEF_use_and_sell_buttons_ref = G.UIDEF.use_and_sell_buttons
 G.UIDEF.use_and_sell_buttons = function(card)
-			if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable then --Add a use button
-				if card.ability.set == "Magic" then
-					return {
-					  n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
-						{n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_reserve_card'}, nodes={
-						  {n=G.UIT.T, config={text = localize('b_take'),colour = G.C.UI.TEXT_LIGHT, scale = 0.45, shadow = true}}
-						}},
+	local retval = G_UIDEF_use_and_sell_buttons_ref(card)
+	if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable then --Add a use button
+		if card.ability.set == "Magic" then
+			return {
+				n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
+				{n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_reserve_card'}, nodes={
+					{n=G.UIT.T, config={text = localize('b_take'),colour = G.C.UI.TEXT_LIGHT, scale = 0.45, shadow = true}}
+				}},
+			}}
+		end
+	end
+	if card.area and card.area.config.type == 'joker' and card.ability.set == 'Joker' then
+		local gx = 
+		{n=G.UIT.C, config={align = "cl"}, nodes={
+		  
+			{n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 1.0, hover = true, shadow = true, colour = G.C.GOLD, one_press = true, button = 'sell_card', func = 'can_use_loyalty_1'}, nodes={
+			  {n=G.UIT.B, config = {w=0.1,h=0.6}},
+			  {n=G.UIT.C, config={align = "tm"}, nodes={
+				  {n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
+					  {n=G.UIT.T, config={text = localize('b_use'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
+				  }},
+				  {n=G.UIT.R, config={align = "cm"}, nodes={
+					{n=G.UIT.T, config={text = "+2",colour = G.C.WHITE, scale = 0.55, shadow = true}}
+				  }}
+			  }}
+			}},
+			{n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 0.5, hover = true, shadow = true, colour = G.C.GOLD, one_press = true, button = 'sell_card', func = 'can_use_loyalty_1'}, nodes={
+				{n=G.UIT.B, config = {w=0.1,h=0.6}},
+				{n=G.UIT.C, config={align = "tm"}, nodes={
+					{n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
+						{n=G.UIT.T, config={text = localize('b_use'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={
+					  {n=G.UIT.T, config={text = "-3",colour = G.C.WHITE, scale = 0.55, shadow = true}}
 					}}
-				end
-			end
-			return G_UIDEF_use_and_sell_buttons_ref(card)
+				}}
+			  }},
+			  {n=G.UIT.C, config={ref_table = card, align = "cl",maxw = 1.25, padding = 0.1, r=0.08, minw = 0.5, hover = true, shadow = true, colour = G.C.GOLD, one_press = true, button = 'sell_card', func = 'can_use_loyalty_1'}, nodes={
+				{n=G.UIT.B, config = {w=0.1,h=0.6}},
+				{n=G.UIT.C, config={align = "tm"}, nodes={
+					{n=G.UIT.R, config={align = "cm", maxw = 1.25}, nodes={
+						{n=G.UIT.T, config={text = localize('b_use'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={
+					  {n=G.UIT.T, config={text = "-7",colour = G.C.WHITE, scale = 0.55, shadow = true}}
+					}}
+				}}
+			  }}
+		  }}
+		retval.nodes[1].nodes[2].nodes = retval.nodes[1].nodes[2].nodes or {}
+		table.insert(retval.nodes[1].nodes[2].nodes, gx)
+		return retval
+	end
+	return retval
 end

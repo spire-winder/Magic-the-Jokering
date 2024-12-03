@@ -1,3 +1,22 @@
+--Ajani
+SMODS.Joker {
+  object_type = "Joker",
+name = "mtg-ajani",
+  key = "ajani",
+  pos = {
+      x = 0,
+      y = 7
+  },
+  atlas = 'mtg_atlas',
+cost = 8,
+order = 1,
+rarity = 3,
+  config = {},
+  loc_vars = function(self, info_queue, card)
+    return { }
+  end
+}
+
 --Celestial dawn
 SMODS.Joker {
   object_type = "Joker",
