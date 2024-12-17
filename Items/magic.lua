@@ -62,10 +62,7 @@ use = function(self, card, area, copier)
       return true
   end
 }))
-for i = 1, #G.hand.highlighted do
-  G.FUNCS.buff_card(G.hand.highlighted[i], card.ability.extra.strength, G.GAME.mtg_storm_count)
-  delay(0.1)
-end
+  G.FUNCS.buff_cards(G.hand.highlighted, card.ability.extra.strength, G.GAME.mtg_storm_count)
 G.E_MANAGER:add_event(Event({
   trigger = 'after',
   delay = 0.2,
@@ -109,11 +106,7 @@ use = function(self, card, area, copier)
                     return true
                 end
             }))
-            for i = 1, #G.hand.highlighted do
-              local _card = G.hand.highlighted[i]
-              G.FUNCS.buff_card(_card, card.ability.extra.buff, 1)
-              delay(0.1)
-            end
+              G.FUNCS.buff_cards(G.hand.highlighted, card.ability.extra.buff, 1)
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.2,
@@ -122,8 +115,10 @@ use = function(self, card, area, copier)
                 end
             }))
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+              
               G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
             return true end }))
+            card_eval_status_text(copier or card, 'extra', nil, nil, nil, {message = localize('mtg_draw_ex')})
 end
 }
 
@@ -192,7 +187,7 @@ cost = 3,
 order = 19,
   config = { extra = {guys = 2}},
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = { key = "r_mtg_soldier", set = "Other", config = { extra = 1 } , vars = { 5 } }
+    info_queue[#info_queue + 1] = { key = "r_mtg_soldier", set = "Other", config = { extra = 1 } , vars = { 2 } }
     return { vars = {card.ability.extra.guys}}
   end,
 can_use = function(self, card)
@@ -208,6 +203,7 @@ use = function(self, card, area, copier)
             local _suit, _rank = SMODS.Suits["Diamonds"].card_key, "2"
             for i=1,card.ability.extra.guys do
               create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_soldier}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+              G.hand:sort()
             end
             return true end }))
 end,
@@ -292,6 +288,8 @@ SMODS.Consumable ({
           G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
         return true end }))
+        
+        card_eval_status_text(copier or card, 'extra', nil, nil, nil, {message = localize('mtg_draw_ex')})
     end,
 })
 
@@ -469,6 +467,7 @@ G.E_MANAGER:add_event(Event({
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             local _suit, _rank = SMODS.Suits["Spades"].card_key, "6"
     create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_demon}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+    G.hand:sort()
     return true
   end
   }))
@@ -712,6 +711,7 @@ use = function(self, card, area, copier)
             local _suit, _rank = SMODS.Suits["Hearts"].card_key, "2"
             for i=1,card.ability.extra.gobbos do
               create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_goblin}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+              G.hand:sort()
             end
             return true end }))
           end
@@ -1018,11 +1018,7 @@ use = function(self, card, area, copier)
   for i = 1, #G.hand.cards do
     if G.hand.cards[i]:is_suit(suit_clovers.key) then clover_count = clover_count + 1 end
   end
-  for i = 1, #G.hand.highlighted do
-    local _card = G.hand.highlighted[i]
-    G.FUNCS.buff_card(_card, card.ability.extra.strength, clover_count)
-    delay(0.1)
-  end
+    G.FUNCS.buff_cards(G.hand.highlighted, card.ability.extra.strength * clover_count, 1)
   G.E_MANAGER:add_event(Event({
     trigger = 'after',
     delay = 0.2,
@@ -1066,6 +1062,7 @@ use = function(self, card, area, copier)
           G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4 / i,func = function()
             local _suit, _rank = SMODS.Suits[suit_clovers.key].card_key, "2"
             create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_squirrel}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+            G.hand:sort()
 
             return true end }))
           end
@@ -1104,11 +1101,7 @@ use = function(self, card, area, copier)
       return true
     end
   }))
-  for i = 1, #G.hand.highlighted do
-    local _card = G.hand.highlighted[i]
-    G.FUNCS.buff_card(_card, card.ability.extra.strength , 1)
-    delay(0.1)
-  end
+    G.FUNCS.buff_cards(G.hand.highlighted, card.ability.extra.strength , 1)
   G.E_MANAGER:add_event(Event({
     trigger = 'after',
     delay = 0.2,
@@ -1205,11 +1198,7 @@ use = function(self, card, area, copier)
       return true
     end
   }))
-  for i = 1, #G.hand.cards do
-    local _card = G.hand.cards[i]
-    G.FUNCS.buff_card(_card, card.ability.extra.strength, 1)
-    delay(0.1)
-  end
+  G.FUNCS.buff_cards(G.hand.cards, card.ability.extra.strength, 1)
   G.E_MANAGER:add_event(Event({
     trigger = 'after',
     delay = 0.2,
@@ -1410,7 +1399,7 @@ SMODS.Tag {
 	key = "bigmagictag",
 	min_ante = 2,
 	loc_vars = function(self, info_queue)
-		info_queue[#info_queue + 1] = { set = "Other", key = "p_mtg_magic_pack", specific_vars = { 2, 4 } }
+		info_queue[#info_queue + 1] = { set = "Other", key = "p_mtg_magic_pack", specific_vars = { 1, 4 } }
 		return { vars = {} }
 	end,
 	apply = function(tag, context)

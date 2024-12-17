@@ -17,7 +17,7 @@ rarity = 3,
   end
 }]]
 
---Celestial dawn
+--[[Celestial dawn
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-celestialdawn",
@@ -34,6 +34,36 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
+}]]
+
+--first response
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-firstresponse",
+	key = "firstresponse",
+	pos = { x = 14, y = 1 },
+	config = { extra = {}},
+  order = 2,
+	rarity = 2,
+	cost = 6,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue + 1] = { key = "r_mtg_soldier", set = "Other", config = { extra = 1 } , vars = { 2 } }
+		return { vars = {}}
+	end,
+	calculate = function(self, card, context)
+    if context.first_hand_drawn then
+      G.E_MANAGER:add_event(Event({
+        func = function() 
+          local _suit, _rank = SMODS.Suits["Diamonds"].card_key, "2"
+          create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_soldier}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+          G.hand:sort()
+          if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
+            return true
+          end}))
+          playing_card_joker_effects({true})
+      end
+	end
 }
 
 --Light from Within
@@ -45,7 +75,7 @@ SMODS.Joker {
 	config = { },
   order = 2,
 	rarity = 2,
-	cost = 7,
+	cost = 6,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { }
@@ -64,6 +94,37 @@ SMODS.Joker {
 	end
 }
 
+--Rule of Law
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-ruleoflaw",
+	key = "ruleoflaw",
+	pos = { x = 13, y = 1 },
+	config = { extra = {num_hands = 1, blind_size = 0.5}},
+  order = 2,
+	rarity = 3,
+	cost = 7,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.num_hands, center.ability.extra.blind_size}}
+	end,
+	calculate = function(self, card, context)
+    if context.setting_blind and not (context.blueprint_card or card).getting_sliced then
+      G.E_MANAGER:add_event(Event({func = function()
+        G.E_MANAGER:add_event(Event({func = function()
+          local hands_sub = G.GAME.round_resets.hands - card.ability.extra.num_hands
+          ease_hands_played(-hands_sub)
+          G.GAME.blind.chips = G.GAME.blind.chips * card.ability.extra.blind_size
+          G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+          play_sound('timpani')
+          delay(0.4)
+          return true end }))
+        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_rule_ex')})
+        return true end }))
+    end
+	end
+}
+
 --etherium sculptor
 SMODS.Joker { 
 	object_type = "Joker",
@@ -77,6 +138,7 @@ SMODS.Joker {
 	atlas = "mtg_atlas",
   enhancement_gate = 'm_steel',
 	loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_steel
 		return { vars = {center.ability.extra.chips } }
 	end,
 	calculate = function(self, card, context)
@@ -93,7 +155,7 @@ SMODS.Joker {
   end
 }
 
---Harbinger of the seas
+--[[Harbinger of the seas
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-harbinger",
@@ -110,7 +172,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}
+}]]
 
 --Jokulmorder
 SMODS.Joker { 
@@ -191,6 +253,34 @@ SMODS.Joker {
 	end
 }
 
+--omniscience
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-omniscience",
+	key = "omniscience",
+	pos = { x = 12, y = 2 },
+	config = { extra = {}},
+  order = 15,
+	rarity = 3,
+	cost = 10,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {}}
+	end,
+  add_to_deck = function(self, card, from_debuff)
+		for k, v in pairs(G.I.CARD) do
+      if v.set_cost then v:set_cost() end
+    end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		for k, v in pairs(G.I.CARD) do
+      if v.set_cost then v:set_cost() end
+    end
+	end,
+	calculate = function(self, card, context)
+  end
+}
+
 --ascendant evincar
 SMODS.Joker { 
 	object_type = "Joker",
@@ -253,7 +343,7 @@ SMODS.Joker {
   end
 }
 
---Urborg
+--[[Urborg
 SMODS.Joker {
     object_type = "Joker",
   name = "mtg-urborg",
@@ -270,7 +360,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
       return { }
     end
-}
+}]]
 
 --Waste not, gives you money, cards, or +mult when you discard cards
 SMODS.Joker { 
@@ -278,7 +368,7 @@ SMODS.Joker {
 	name = "mtg-wastenot",
 	key = "wastenot",
 	pos = { x = 7, y = 5 },
-	config = { extra = {money = 2, damage = 1, cards = 2}},
+	config = { extra = {money = 2, damage = 2, cards = 2}},
   order = 17,
 	rarity = 2,
 	cost = 6,
@@ -288,7 +378,7 @@ SMODS.Joker {
 		return { vars = {center.ability.extra.money, center.ability.extra.damage, center.ability.extra.cards}}
 	end,
 	calculate = function(self, card, context)
-    if context.pre_discard then
+    if context.pre_discard and G.GAME.current_round.discards_used <= 0 then
       local total_faces = 0
       for key, value in pairs(context.full_hand) do
         if not value.debuff and value:is_face() then total_faces = total_faces + 1 end
@@ -296,24 +386,25 @@ SMODS.Joker {
       if total_faces > 0 then
         damage_blind(card, card.ability.extra.damage, total_faces)
       end
-    elseif context.discard then
+    elseif context.discard and G.GAME.current_round.discards_used <= 0 then
       if not context.other_card.debuff then
         if context.other_card:get_id() == 14 then
           ease_dollars(card.ability.extra.money)
-          return {
-            message = localize('$')..card.ability.extra.money,
-            colour = G.C.MONEY,
-            card = card
-          }
+            return {
+              message = localize('$')..card.ability.extra.money,
+              colour = G.C.MONEY,
+              card = card
+            }
         elseif not context.other_card:is_face() then
           G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
+          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('mtg_draw_ex')})
         end
       end
     end
   end
 }
 
---Blood moon
+--[[Blood moon
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-bloodmoon",
@@ -330,7 +421,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}
+}]]
 
 --Fiery Emancipation
 SMODS.Joker { 
@@ -368,7 +459,6 @@ SMODS.Joker {
     if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if G.GAME.current_round.hands_played == 0 then
-          card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_haste_ex"), colour = G.C.RED})
           return {
             mult = card.ability.extra.mult,
             card = card
@@ -431,44 +521,6 @@ SMODS.Joker {
         end
     end
 }
-
---[[Baru
-SMODS.Joker { 
-	object_type = "Joker",
-	name = "mtg-baru",
-	key = "baru",
-	pos = { x = 7, y = 2 },
-	config = { extra = {strength = 1} },
-  order = 11,
-	rarity = 2,
-	cost = 7,
-	atlas = "mtg_atlas",
-	loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.strength} }
-	end,
-	calculate = function(self, card, context)
-    if context.before then
-      local clovers = 0
-      for k, v in ipairs(context.scoring_hand) do
-        if v:is_suit(suit_clovers.key) then 
-          clovers = clovers + 1
-          G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 0.1,
-            func = function()
-              G.FUNCS.buff_card(v, card.ability.extra.strength)
-              return true
-            end
-        }))
-        end
-
-    end
-    if clovers > 0 then 
-        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_buff_ex')})
-      end
-    end
-	end
-}]]
 
 --beastmaster
 SMODS.Joker { 
@@ -540,6 +592,24 @@ SMODS.Joker {
   end
 }
 
+--Hardened Scales
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-hardenedscales",
+	key = "hardenedscales",
+	pos = { x = 15, y = 1 },
+	config = { extra = { buff_increase = 1} },
+  order = 10,
+	rarity = 2,
+	cost = 5,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = { } }
+	end,
+	calculate = function(self, card, context)
+    end
+}
+
 --ivy lane denizen
 --Played cards with Clover suit give +3 Mult when scored
 SMODS.Joker { 
@@ -608,7 +678,7 @@ SMODS.Joker {
 	end,
 }
 
---yavimaya
+--[[yavimaya
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-yavimaya",
@@ -624,49 +694,6 @@ rarity = 3,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
-  end
-}
-
---[[Yorvo, Lord of Garenbrig
---Starts at +4 mult, gets +2 mult whenever you play a hand with a clover
-SMODS.Joker {
-	object_type = "Joker",
-	name = "mtg-yorvo",
-	key = "yorvo",
-	pos = { x = 3, y = 5 },
-	config = { mult = 4, extra = {bonus_mult = 2} },
-  order = 5,
-	rarity = 2,
-	cost = 6,
-	atlas = "mtg_atlas",
-	loc_vars = function(self, info_queue, center)
-		return { vars = { center.ability.extra.bonus_mult, center.ability.mult} }
-	end,
-	calculate = function(self, card, context)
-    if context.joker_main then
-      if card.ability.mult > 0 then
-        return {
-            message = localize{type='variable',key='a_mult',vars={card.ability.mult}},
-            mult_mod = card.ability.mult
-        }
-      end
-  elseif context.before then
-        if not context.blueprint then
-          local clovers_total = 0
-         for i = 1, #context.scoring_hand do
-                 if context.scoring_hand[i]:is_suit(suit_clovers.key) then clovers_total = clovers_total + 1 end
-         end
-          if clovers_total >= 1 then
-            card.ability.mult = card.ability.mult + card.ability.extra.bonus_mult
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.RED,
-                card = card
-            }
-          end
-            
-        end
-      end
   end
 }]]
 
@@ -739,34 +766,26 @@ SMODS.Joker {
 	name = "mtg-chromaticlantern",
 	key = "chromaticlantern",
 	pos = { x = 4, y = 5 },
-	config = { extra = {bonus_mult = 0.5, suits = {}}},
+	config = { extra = {bonus_mult = 0.4, suits = {}}},
 	rarity = 3,
   order = 14,
 	cost = 8,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_gold
 		return { vars = {center.ability.extra.bonus_mult, center.ability.x_mult}}
 	end,
 	calculate = function(self, card, context)
     if context.individual and not context.repetition then
       if context.cardarea == G.play then
         if not context.other_card.debuff and not context.blueprint then
-          local do_message = false
           for key, value in pairs(SMODS.Suits) do
             if context.other_card:is_suit(key) then
               if not card.ability.extra.suits[key] then
                 card.ability.x_mult = card.ability.x_mult + card.ability.extra.bonus_mult
                 card.ability.extra.suits[key] = 1
-                do_message = true
               end
             end
-          end
-          if do_message then
-            card_eval_status_text(card, 'extra', nil, nil, nil, {
-              message = localize{type='variable',key='a_xmult',vars={card.ability.x_mult}},
-                  colour = G.C.RED,
-                  delay = 0.45
-          })
           end
         end
       end
@@ -834,6 +853,36 @@ SMODS.Joker {
                             end
                       end
   end
+  end
+}
+
+--dreamstone hedron
+SMODS.Joker { 
+	object_type = "Joker",
+	name = "mtg-dreamstonehedron",
+	key = "dreamstonehedron",
+	pos = { x = 13, y = 2 },
+	config = { extra = {money = 3, cards = 3}},
+  order = 15,
+	rarity = 1,
+	cost = 4,
+	atlas = "mtg_atlas",
+	loc_vars = function(self, info_queue, center)
+		return { vars = {center.ability.extra.money, center.ability.extra.cards}}
+	end,
+	calculate = function(self, card, context)
+    if context.selling_self then
+      if #G.hand.cards > 0 then 
+              card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('mtg_draw_ex')})
+              G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                G.FUNCS.draw_from_deck_to_hand(card.ability.extra.cards)
+            return true end }))
+      end
+    end
+  end,
+  calc_dollar_bonus = function(self, card)
+    local bonus = card.ability.extra.money
+    if bonus > 0 then return bonus end
   end
 }
 
@@ -942,7 +991,7 @@ SMODS.Joker {
   elseif context.pre_discard then
       if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
         local _card = context.full_hand[1]
-        G.FUNCS.buff_card(_card, card.ability.extra.buff, 1, "random")
+        G.FUNCS.buff_cards({_card}, card.ability.extra.buff, 1, "random")
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
       end
     end

@@ -21,7 +21,7 @@ odric = SMODS.Enhancement {
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.mult_per, self.config.extra.base_mult} }
+        return { vars = { card.ability.extra.mult_per, card.ability.extra.base_mult} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.hand and not context.repetition and not card.debuff then
@@ -47,7 +47,7 @@ akroma = SMODS.Enhancement {
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = {self.config.extra.mult_x} }
+        return { vars = {card.ability.extra.mult_x} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
@@ -70,7 +70,7 @@ sublime = SMODS.Enhancement {
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.mult_solo} }
+        return { vars = { card.ability.extra.mult_solo} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.hand and not context.repetition and not card.debuff then
@@ -88,12 +88,12 @@ token_soldier = SMODS.Enhancement {
 	key = "soldier",
 	atlas = "mtg_atlas",
 	pos = { x = 8, y = 1 },
-	config = { extra = {mult_per = 5}},
+	config = { extra = {mult_per = 2}},
     overrides_base_rank = true,
     weight = 0,
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.mult_per} }
+        return { vars = { card.ability.extra.mult_per} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
@@ -118,16 +118,22 @@ urza = SMODS.Enhancement {
     force_suit = G.C.SUITS.Spades,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_steel
         return {  }
 
 	end,
     calculate = function(self, card, context, effect)
-        if context.pre_discard then
-            if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and not card.debuff then
-          G.FUNCS.buff_card(context.full_hand[1],0, 0, "m_steel")
-          card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_steel_ex"), colour = G.ARGS.LOC_COLOURS.club})
-          end
-          end
+        if context.cardarea == G.play and not context.repetition and not card.debuff then
+            local non_steel_cards = {}
+            for i = 1, #G.hand.cards do
+                if G.hand.cards[i].config.center_key ~= "m_steel" then non_steel_cards[#non_steel_cards+1] = G.hand.cards[i] end
+            end
+            if #non_steel_cards > 0 then
+                local card_to_enhance = pseudorandom_element(non_steel_cards, pseudoseed('urza'))
+                G.FUNCS.buff_cards({card_to_enhance},0, 0, "m_steel")
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_steel_ex"), colour = G.ARGS.LOC_COLOURS.club})
+            end
+        end
     end
 }
 urza.force_value = "King"
@@ -143,7 +149,7 @@ kiora = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = { key = "r_mtg_octopus", set = "Other", config = { extra = 1 } , vars = { 8 } }
-        return { vars = { self.config.extra.requried_discards} }
+        return { vars = { card.ability.extra.requried_discards, card.ability.extra.current_discards} }
 	end,
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
@@ -153,6 +159,7 @@ kiora = SMODS.Enhancement {
                 G.E_MANAGER:add_event(Event({func = function()
                     local _suit, _rank = SMODS.Suits["Clubs"].card_key, "8"
                     local octopus = create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_octopus}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+                    G.hand:sort()
                     --Originally, she was also going to give it a random edition
                     --local selected_edition = poll_edition("aura", nil, true, false)
                     --octopus.set_edition(octopus, selected_edition)
@@ -208,7 +215,7 @@ token_octopus = SMODS.Enhancement {
     weight = 0,
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.mult} }
+        return { vars = { card.ability.extra.mult} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
@@ -225,42 +232,41 @@ yawgmoth = SMODS.Enhancement {
 	key = "yawgmoth",
 	atlas = "mtg_atlas",
 	pos = { x = 9, y = 0 },
-	config = { },
+	config = { extra = {current_mult = 0, mult_per = 2}},
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return {  }
-
+        return { vars = {card.ability.extra.current_mult} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.pre_discard and not card.debuff then
-            if G.GAME.current_round.hands_played <= 0 and #context.full_hand == 1 then
-                if #G.hand.cards then
-                    local temp_ID = G.hand.cards[1].base.id
-                    local smallest = G.hand.cards[1]
-                                        for i=1, #G.hand.cards do
-                                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
-                                        end
-                                        if smallest.debuff then
-                                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_debuffed"), colour = G.C.RED})
-                                            else
-                                              G.E_MANAGER:add_event(Event({
-                                                func = function()
-                                                  destroy_cards({smallest})
-                                                return true
-                                                end}))
-                                              
-                                                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_sacrifice_ex"), colour = G.ARGS.LOC_COLOURS.spade})
-                                            end
-                                      end
+        if context.cardarea == G.play and not context.repetition and not card.debuff then
+            if #G.hand.cards then
+                local temp_ID = G.hand.cards[1].base.id
+                local smallest = G.hand.cards[1]
+                for i=1, #G.hand.cards do
+                    if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                end
+                if smallest.debuff then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+                else
+                    card.ability.extra.current_mult = card.ability.extra.current_mult + smallest.base.nominal * card.ability.extra.mult_per
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            destroy_cards({smallest})
+                            return true
+                        end}))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
+                end
             end
+            effect.mult = card.ability.extra.current_mult
         end
     end
 }
 yawgmoth.force_value = "King"
 yawgmoth.force_suit = "Spades"
 
---TODO: sheoldred
 sheoldred = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "sheoldred",
@@ -274,8 +280,7 @@ sheoldred = SMODS.Enhancement {
         return {  }
 	end,
     calculate = function(self, card, context, effect)
-        if context.pre_discard and not card.debuff then
-            if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
+        if context.cardarea == G.play and not context.repetition and not card.debuff then
                 if (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers) then
                     G.E_MANAGER:add_event(Event({func = function()
                         play_sound('timpani')
@@ -285,7 +290,6 @@ sheoldred = SMODS.Enhancement {
                     card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_reanimate_ex"), colour = G.ARGS.LOC_COLOURS.spade})
                 end
             end
-        end
     end
 }
 sheoldred.force_value = "Queen"
@@ -301,14 +305,14 @@ tinybones = SMODS.Enhancement {
     force_suit = G.C.SUITS.Spades,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.money} }
+        return { vars = { card.ability.extra.money} }
 
 	end,
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
           ease_dollars(card.ability.extra.money)
-          card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_tinybones_ex')})
+          card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_tinybones_ex'), colour = G.ARGS.LOC_COLOURS.spade})
           end
           end
     end
@@ -326,7 +330,7 @@ token_demon = SMODS.Enhancement {
     weight = 0,
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.x_mult} }
+        return { vars = { card.ability.extra.x_mult} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
@@ -334,22 +338,22 @@ token_demon = SMODS.Enhancement {
             if #G.hand.cards then
                 local temp_ID = G.hand.cards[1].base.id
                 local smallest = G.hand.cards[1]
-                                    for i=1, #G.hand.cards do
-                                        if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
-                                    end
-                                    if smallest.debuff then
-                                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
-                                        else
-                                            G.E_MANAGER:add_event(Event({
-                                                trigger = 'after',
-                                                delay = 0.15,
-                                                func = function()
-                                                  destroy_cards({smallest})
-                                                return true
-                                                end}))
-                                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex')})
-                                        end
-                                  end
+                for i=1, #G.hand.cards do
+                    if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                end
+                if smallest.debuff then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+                else
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'after',
+                        delay = 0.15,
+                        func = function()
+                            destroy_cards({smallest})
+                            return true
+                        end}))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
+                end
+            end
         end
     end
 }
@@ -369,10 +373,8 @@ kikijiki = SMODS.Enhancement {
 
 	end,
     calculate = function(self, card, context, effect)
-        if context.pre_discard and not card.debuff then
-            if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
-                
-
+        if context.cardarea == G.hand and not context.repetition and not card.debuff then
+            if G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
@@ -387,9 +389,9 @@ kikijiki = SMODS.Enhancement {
                         return true
                     end
                 }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_copied_ex"), colour = G.C.CHIPS})
-          end
-          end
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_copied_ex"), colour = G.ARGS.LOC_COLOURS.heart})
+            end
+        end
     end
 }
 kikijiki.force_value = "King"
@@ -404,7 +406,7 @@ ashling = SMODS.Enhancement {
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = {self.config.extra.damage_per} }
+        return { vars = {card.ability.extra.damage_per} }
 
 	end,
     calculate = function(self, card, context, effect)
@@ -433,7 +435,7 @@ shivan = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
-        return { vars = { self.config.extra.mult, self.config.extra.damage_per} }
+        return { vars = { card.ability.extra.mult, card.ability.extra.damage_per} }
 
 	end,
     calculate = function(self, card, context, effect)
@@ -456,7 +458,7 @@ token_goblin = SMODS.Enhancement {
     weight = 0,
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.mult}}
+        return { vars = { card.ability.extra.mult}}
 
 	end,
     calculate = function(self, card, context, effect)
@@ -478,7 +480,7 @@ yorvo = SMODS.Enhancement {
     force_suit = suit_clovers,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.bonus_mult} }
+        return { vars = { card.ability.extra.bonus_mult, card.ability.extra.current_mult} }
 
 	end,
     calculate = function(self, card, context, effect)
@@ -489,7 +491,7 @@ yorvo = SMODS.Enhancement {
             end
             if clovers_total >= 1 then
                 card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.bonus_mult
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.ARGS.LOC_COLOURS.clover})
             end
             effect.mult = card.ability.extra.current_mult
         end
@@ -507,16 +509,25 @@ nissa = SMODS.Enhancement {
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = {self.config.extra.strength} }
+        return { vars = {card.ability.extra.strength} }
 
 	end,
     calculate = function(self, card, context, effect)
-        if context.pre_discard and not card.debuff then
-            if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
-          G.FUNCS.buff_card(context.full_hand[1],card.ability.extra.strength,1)
-          card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_buff_ex")})
-          end
-          end
+        if context.cardarea == G.play and not context.repetition and not card.debuff then
+            if #G.hand.cards then
+                local temp_ID = G.hand.cards[1].base.id
+                local smallest = G.hand.cards[1]
+                for i=1, #G.hand.cards do
+                    if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                end
+                if smallest.debuff then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+                else
+                    G.FUNCS.buff_cards({smallest},card.ability.extra.strength, 1)
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_buff_ex"), colour = G.ARGS.LOC_COLOURS.clover})
+                end
+            end
+        end
     end
 }
 nissa.force_value = "Queen"
@@ -532,7 +543,7 @@ baru = SMODS.Enhancement {
     force_suit = suit_clovers,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.strength} }
+        return { vars = { card.ability.extra.strength} }
 
 	end,
     calculate = function(self, card, context, effect)
@@ -541,7 +552,7 @@ baru = SMODS.Enhancement {
             for k, v in ipairs(context.scoring_hand) do
               if v ~= card and v:is_suit(suit_clovers.key) then 
                 clovers = clovers + 1
-                G.FUNCS.buff_card(v, card.ability.extra.strength, 1)
+                G.FUNCS.buff_cards({v}, card.ability.extra.strength, 1)
                 delay(0.1)
               end
       
@@ -565,7 +576,7 @@ token_squirrel = SMODS.Enhancement {
     weight = 0,
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.extra.max} }
+        return { vars = { card.ability.extra.max} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then

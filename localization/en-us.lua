@@ -29,6 +29,22 @@ return {
                     "{C:chips}+#1#{} Chips when scored"
                 },
             },
+            j_mtg_dreamstonehedron = {
+                name = "Dreamstone Hedron",
+                text = {
+                    "Earn {C:money}$#1#{} at",
+                    "end of round",
+                    "Sell this {C:attention}Joker{} to",
+                    "draw {C:attention}#2#{} cards"
+                },
+            },
+            j_mtg_omniscience = {
+                name = "Omniscience",
+                text = {
+                    "{C:attention}Jokers{} in the",
+                    "shop are {C:green}free{}"
+                },
+            },
             j_mtg_bushwacker = {
                 name = "Reckless Bushwacker",
                 text = {
@@ -56,19 +72,19 @@ return {
             j_mtg_primalcrux = {
                 name = "Primalcrux",
                 text = {
-                    "This {C:attention}Joker{} gains",
-                    "{X:mult,C:white} X#1# {} Mult when each played",
-                    "{C:attention}card{} with {C:clover}Clover{} suit is scored",
+                    "This {C:attention}Joker{} gains {X:mult,C:white} X#1# {} Mult",
+                    "when each played card with",
+                    "{C:clover}Clover{} suit is scored",
                     "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
                 },
             },
             j_mtg_chromaticlantern = {
                 name = "Chromatic Lantern",
                 text = {
-                    "Gold cards are considered to be",
+                    "{C:attention}Gold{} cards are considered to be",
                     "every suit simultaneously",
-                    "This Joker gains {X:mult,C:white} X#1# {} Mult for",
-                    "each unique suit played this round",
+                    "{X:mult,C:white} X#1# {} Mult for each",
+                    "unique suit played this round",
                     "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
                 },
             },
@@ -88,13 +104,22 @@ return {
                     "{C:diamond}Diamonds{} or {C:clover}Clovers{}"
                 },
             },
+            j_mtg_ruleoflaw = {
+                name = "Rule of Law",
+                text = {
+                    "Play only {C:attention}#1#{} hand",
+                    "per round",
+                    "{C:red}X#2#{} {C:attention}Blind{} size"
+                },
+            },
             j_mtg_wastenot = {
                 name = "Waste Not",
                 text = {
-                    "Earn {C:money}$#1#{} for each discarded {C:attention}Ace",
-                    "Deal {C:attention}#2#{} {C:red}damage{} to the blind",
+                    "During {C:attention}first discard{} of round,",
+                    "earn {C:money}$#1#{} for each discarded {C:attention}Ace{},",
+                    "deal {C:attention}#2#{} {C:red}damage{} to the blind",
                     "for each discarded {C:attention}face{} card",
-                    "Draw {C:attention}#3#{} cards for each",
+                    "and draw {C:attention}#3#{} cards for each",
                     "discarded {C:red}non{}-{C:attention}Ace{} {C:red}non{}-{C:attention}face{} card"
                 },
             },
@@ -146,7 +171,15 @@ return {
                 name = "Fiery Emancipation",
                 text = {
                     "If another source would deal {C:red}damage{},",
-                    "it deals triple that {C:red}damage{} instead"
+                    "it deals {C:attentoin}triple{} that {C:red}damage{} instead"
+                },
+            },
+            j_mtg_hardenedscales = {
+                name = "Hardened Scales",
+                text = {
+                    "If you would increase the",
+                    "rank of a card, increase it",
+                    "by that much {C:attention}plus one{} instead"
                 },
             },
             j_mtg_torbran = {
@@ -182,7 +215,14 @@ return {
                     "{C:red}Relentless{}"
                 },
             },
-            
+            j_mtg_firstresponse = {
+                name = "First Response",
+                text = {
+                    "When round begins,",
+                    "add a {C:diamond}Soldier{}",
+                    "to your hand"
+                },
+            },
             j_mtg_urzamine = {
                 name = "Urza's Mine",
                 text = {
@@ -353,35 +393,35 @@ return {
             m_mtg_kiora = {
                 name = "Kiora",
                 text = {
-                    "Create an {C:club}Octopus{}",
-                    "in your hand for each",
+                    "Add an {C:club}Octopus{}",
+                    "to your hand for each",
                     "{C:attention}#1#{} cards discarded",
-                    "while held in hand"
+                    "while held in hand",
+                    "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#){}"
                 },
             },
             m_mtg_yawgmoth = {
                 name = "Yawgmoth",
                 text = {
-                    "If {C:attention}first discard{}",
-                    "of round has only",
-                    "{C:attention}1{} card, {C:attention}destroy{} the",
-                    "{C:attention}lowest{} ranked card",
-                    "held in hand"
+                    "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
+                    "held in hand and gain {C:attention}double{}",
+                    "its rank in Mult when this",
+                    "is played and scored",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 },
             },
             m_mtg_sheoldred = {
                 name = "Sheoldred",
                 text = {
-                    "If {C:attention}first discard{}",
-                    "of round has only",
-                    "{C:attention}1{} card,",
-                    "reanimate a {C:attention}Joker{}"
+                    "{C:attention}Reanimate{} a {C:attention}Joker{}",
+                    "when this is played",
+                    "and scored"
                 },
             },
             m_mtg_kikijiki = {
                 name = "Kiki-Jiki",
                 text = {
-                    "If {C:attention}first discard{}",
+                    "If {C:attention}first hand{}",
                     "of round has only",
                     "{C:attention}1{} card,",
                     "add a copy to {C:attention}hand{}"
@@ -390,19 +430,17 @@ return {
             m_mtg_nissa = {
                 name = "Nissa",
                 text = {
-                    "If {C:attention}first discard{}",
-                    "of round has only",
-                    "{C:attention}1{} card,",
-                    "give it {C:attention}+#1#{} rank"
+                    "Give the {C:attention}lowest{} ranked card",
+                    "held in hand {C:attention}+#1#{} rank",
+                    "when this is played and scored"
                 },
             },
             m_mtg_urza = {
                 name = "Urza",
                 text = {
-                    "If {C:attention}first discard{}",
-                    "of round has only",
-                    "{C:attention}1{} card, enhance it",
-                    "into a {C:attention}Steel Card{}"
+                    "Enhance a {C:attention}random{} card held in",
+                    "hand into a {C:attention}Steel Card{}",
+                    "when this is played and scored"
                 },
             },
             m_mtg_tinybones = {
@@ -416,11 +454,11 @@ return {
             m_mtg_yorvo = {
                 name = "Yorvo",
                 text = {
-                    "If scoring hand contains",
+                    "Gains {C:mult}+#1#{} Mult",
+                    "when it is played and scored",
+                    "if scoring hand contains",
                     "another {C:clover}Clover{}",
-                    "Yorvo gains {C:mult}+#1#{} Mult",
-                    "when it is scored",
-                    --"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 },
             },
             m_mtg_baru = {
@@ -461,23 +499,23 @@ return {
             c_mtg_chatterstorm = {
                 name = "Chatterstorm",
                 text = {
-                    "Create a {C:clover}Squirrel{}",
-                    "in your hand",
+                    "Add a {C:clover}Squirrel{}",
+                    "to your hand",
                     "{C:dark_edition}Storm{}",
                 },
             },
             c_mtg_raisethealarm = {
                 name = "Raise the Alarm",
                 text = {
-                    "Create {C:attention}#1#{} {C:diamond}Soldiers{}",
-                    "in your hand"
+                    "Add {C:attention}#1#{} {C:diamond}Soldiers{}",
+                    "to your hand"
                 },
             },
             c_mtg_emptythewarrens = {
                 name = "Empty the Warrens",
                 text = {
-                    "Create {C:attention}#1#{} {C:heart}Goblins{}",
-                    "in your hand",
+                    "Add {C:attention}#1#{} {C:heart}Goblins{}",
+                    "to your hand",
                     "{C:dark_edition}Storm{}",
                 },
             },
@@ -519,8 +557,8 @@ return {
                 name = "Bloodsoaked Altar",
                 text = {
                     "Destroy {C:attention}#1#{} selected card",
-                    "Create a {C:spade}Demon{}",
-                    "in your hand",
+                    "Add a {C:spade}Demon{}",
+                    "to your hand",
                 },
             },
             c_mtg_villagerites = {
@@ -828,6 +866,8 @@ return {
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",
 
+            mtg_draw_ex = "Draw",
+            mtg_rule_ex = "One Hand",
             mtg_protect_ex = "Protect",
             mtg_haste_ex = "Haste",
             mtg_octopus_ex = "Rise...",

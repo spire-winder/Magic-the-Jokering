@@ -30,6 +30,7 @@ SMODS.Atlas({
 })
 
 assert(SMODS.load_file("items/utility.lua"))()
+init_planeswalkers()
 init_clovers()
 update_ranks()
 assert(SMODS.load_file("items/magic.lua"))()

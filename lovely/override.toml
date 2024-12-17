@@ -63,7 +63,7 @@ payload = '''
     if self.ability.effect == 'Gold Card' and next(SMODS.find_card("j_mtg_chromaticlantern")) then
         return true
     end
-    if suit == 'Diamonds' and next(SMODS.find_card("j_mtg_celestialdawn")) then
+    --[[if suit == 'Diamonds' and next(SMODS.find_card("j_mtg_celestialdawn")) then
 		return true
 	elseif suit == 'Hearts' and next(SMODS.find_card("j_mtg_bloodmoon")) then
 		return true
@@ -73,7 +73,7 @@ payload = '''
 		return true 
 	elseif suit == suit_clovers.key and next(SMODS.find_card("j_mtg_yavimaya")) then
 		return true 
-    end
+    end]]
 '''
 match_indent = true
 
@@ -82,7 +82,7 @@ match_indent = true
 [patches.pattern]
 target = "functions/state_events.lua"
 pattern = "ease_to = G.GAME.chips + math.floor(hand_chips*mult),"
-position = "after"
+position = "at"
 payload = '''ease_to = G.GAME.chips + math.floor(hand_chips*mult) + math.floor(G.GAME.mtg_bonus_chips),
 '''
 match_indent = true
@@ -182,14 +182,10 @@ target = "card.lua"
 pattern = "self.cost = math.max(1, math.floor((self.base_cost + self.extra_cost + 0.5)*(100-G.GAME.discount_percent)/100))"
 position = "after"
 payload = '''
-	local amount = 0
-	local helms = SMODS.find_card("j_mtg_helmofawakening")
-	if helms[1] then
-		for i=1,#helms do
-			amount = amount + helms[i].ability.extra.discount
-		end
+    self.cost = math.max(1, self.cost - G.FUNCS.total_shop_discount())
+	if self.ability.set == 'Joker' and G.FUNCS.free_jokers() then 
+        self.cost = 0
 	end
-    self.cost = math.max(1, self.cost - amount)
 '''
 match_indent = true
 

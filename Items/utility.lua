@@ -14,15 +14,98 @@ function pseudorandom_f_range(seed, min, max)
 	return val
 end
 
-G.FUNCS.buff_card = function(card, amount, repetition, enhancement)
+SMODS.Consumable:take_ownership('strength', {
+	use = function(self, card, area, copier)
+		local used_tarot = copier or card
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.4,
+			func = function()
+				play_sound('tarot1')
+				used_tarot:juice_up(0.3, 0.5)
+				return true
+			end
+		}))
+		G.FUNCS.buff_cards(G.hand.highlighted,1)
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.2,
+			func = function()
+				G.hand:unhighlight_all(); return true
+			end
+		}))
+		delay(0.5)
+	end,
+})
+
+G.FUNCS.buff_cards = function(cards, amount, repetition, enhancement)
 	if not repetition then repetition = 1 end
-	G.E_MANAGER:add_event(Event({
+	for i = 1, #cards do
+		local percent = 1.15 - (i - 0.999) / (#cards - 0.998) * 0.3
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.15,
+			func = function()
+				cards[i]:flip(); play_sound('card1', percent); cards[i]:juice_up(0.3,
+					0.3); return true
+			end
+		}))
+	end
+	delay(0.2)
+	if amount then
+		amount = modify_buff(card, amount)
+		for i = 1, #cards do
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.15,
+				func = function()
+			increase_rank(cards[i], amount * repetition) return true
+		end
+	}))
+		end
+	end
+	if enhancement then
+		for i = 1, #cards do
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.15,
+				func = function()
+			if enhancement == "random" then
+				local cen_pool = {}
+				for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
+				if v.key ~= 'm_stone' and not v.overrides_base_rank then
+					cen_pool[#cen_pool + 1] = v
+				end
+				end
+				enhancement = pseudorandom_element(cen_pool, pseudoseed("mtg-random_enhancement"))
+			else
+				enhancement = G.P_CENTERS[enhancement]
+			end
+			cards[i]:set_ability(enhancement, nil, true) return true
+		end
+	}))
+		end
+	end
+	for i = 1, #cards do
+		local percent = 0.85 + (i - 0.999) / (#cards - 0.998) * 0.3
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.15,
+			func = function()
+				cards[i]:flip(); play_sound('tarot2', percent, 0.6); cards[i]
+					:juice_up(
+						0.3, 0.3); return true
+			end
+		}))
+	end
+	--[[G.E_MANAGER:add_event(Event({
 		func = function()
 			card:flip(); play_sound('card1', 1.15); card:juice_up(0.3,
 				0.3); return true
 		end
 	}))
 	if amount then
+		amount = modify_buff(card, amount)
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				increase_rank(card, amount * repetition)
@@ -50,7 +133,7 @@ G.FUNCS.buff_card = function(card, amount, repetition, enhancement)
 					:juice_up(
 						0.3, 0.3); return true
 			end
-		}))
+		}))]]
 end
 
 function stop_debuff_card(card)
@@ -168,6 +251,30 @@ function damage_card(card, amount, repetition)
 	
 end
 
+function modify_buff(card, amount)
+	amount = amount + buff_additive(card)
+	amount = amount * buff_multiple(card)
+	return math.floor(amount)
+end
+
+function buff_additive(card)
+	local amount = 0
+	local scales = SMODS.find_card("j_mtg_hardenedscales")
+	if scales[1] then
+		for i=1,#scales do
+			if scales[i] ~= card then
+				amount = amount + scales[i].ability.extra.buff_increase
+			end
+		end
+	end
+	return amount
+end
+
+function buff_multiple(card)
+	local amount = 1
+	return amount
+end
+
 function modify_damage(card, amount)
 	amount = amount + damage_additive(card)
 	amount = amount * damage_multiple(card)
@@ -200,6 +307,16 @@ function damage_multiple(card)
 	return amount
 end
 
+G.FUNCS.free_jokers = function()
+	local helms = SMODS.find_card("j_mtg_omniscience")
+	if helms[1] then
+		return true
+	else
+		return false
+	end
+	
+end
+
 G.FUNCS.total_shop_discount = function()
 	local amount = 0
 	local helms = SMODS.find_card("j_mtg_helmofawakening")
@@ -209,6 +326,9 @@ G.FUNCS.total_shop_discount = function()
 		end
 	end
 	return amount
+end
+
+function init_planeswalkers()
 end
 
 function instant_win()
