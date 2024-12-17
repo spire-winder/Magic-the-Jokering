@@ -29,11 +29,8 @@ SMODS.Atlas({
 	py = 34,
 })
 
-
-
 assert(SMODS.load_file("items/utility.lua"))()
-init_clover()
-
+init_clovers()
 update_ranks()
 assert(SMODS.load_file("items/magic.lua"))()
 assert(SMODS.load_file("items/jokers.lua"))()

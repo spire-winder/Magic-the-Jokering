@@ -63,7 +63,7 @@ use = function(self, card, area, copier)
   end
 }))
 for i = 1, #G.hand.highlighted do
-  buff_card(G.hand.highlighted[i], card.ability.extra.strength, G.GAME.mtg_storm_count)
+  G.FUNCS.buff_card(G.hand.highlighted[i], card.ability.extra.strength, G.GAME.mtg_storm_count)
   delay(0.1)
 end
 G.E_MANAGER:add_event(Event({
@@ -111,7 +111,7 @@ use = function(self, card, area, copier)
             }))
             for i = 1, #G.hand.highlighted do
               local _card = G.hand.highlighted[i]
-              buff_card(_card, card.ability.extra.buff, 1)
+              G.FUNCS.buff_card(_card, card.ability.extra.buff, 1)
               delay(0.1)
             end
             G.E_MANAGER:add_event(Event({
@@ -1020,7 +1020,7 @@ use = function(self, card, area, copier)
   end
   for i = 1, #G.hand.highlighted do
     local _card = G.hand.highlighted[i]
-    buff_card(_card, card.ability.extra.strength, clover_count)
+    G.FUNCS.buff_card(_card, card.ability.extra.strength, clover_count)
     delay(0.1)
   end
   G.E_MANAGER:add_event(Event({
@@ -1106,7 +1106,7 @@ use = function(self, card, area, copier)
   }))
   for i = 1, #G.hand.highlighted do
     local _card = G.hand.highlighted[i]
-    buff_card(_card, card.ability.extra.strength , 1)
+    G.FUNCS.buff_card(_card, card.ability.extra.strength , 1)
     delay(0.1)
   end
   G.E_MANAGER:add_event(Event({
@@ -1207,7 +1207,7 @@ use = function(self, card, area, copier)
   }))
   for i = 1, #G.hand.cards do
     local _card = G.hand.cards[i]
-    buff_card(_card, card.ability.extra.strength, 1)
+    G.FUNCS.buff_card(_card, card.ability.extra.strength, 1)
     delay(0.1)
   end
   G.E_MANAGER:add_event(Event({

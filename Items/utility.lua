@@ -14,7 +14,7 @@ function pseudorandom_f_range(seed, min, max)
 	return val
 end
 
-function buff_card(card, amount, repetition, enhancement)
+G.FUNCS.buff_card = function(card, amount, repetition, enhancement)
 	if not repetition then repetition = 1 end
 	G.E_MANAGER:add_event(Event({
 		func = function()
@@ -200,7 +200,7 @@ function damage_multiple(card)
 	return amount
 end
 
-function total_shop_discount()
+G.FUNCS.total_shop_discount = function()
 	local amount = 0
 	local helms = SMODS.find_card("j_mtg_helmofawakening")
 	if helms[1] then
@@ -309,7 +309,7 @@ function loc_colour(_c, _default)
 	  return lc(_c, _default)
 end
 
-function init_clover()
+function init_clovers()
 	suit_clovers = SMODS.Suit {
 		key = 'Clovers',
 		card_key = 'L',
@@ -410,7 +410,7 @@ G.UIDEF.use_and_sell_buttons = function(card)
 			}}
 		end
 	end
-	if card.area and card.area.config.type == 'joker' and card.ability.set == 'Joker' then
+	--[[if card.area and card.area.config.type == 'joker' and card.ability.set == 'Joker' then
 		local gx = 
 		{n=G.UIT.C, config={align = "cl"}, nodes={
 		  
@@ -451,6 +451,6 @@ G.UIDEF.use_and_sell_buttons = function(card)
 		retval.nodes[1].nodes[2].nodes = retval.nodes[1].nodes[2].nodes or {}
 		table.insert(retval.nodes[1].nodes[2].nodes, gx)
 		return retval
-	end
+	end]]
 	return retval
 end

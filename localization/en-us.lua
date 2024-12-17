@@ -570,7 +570,7 @@ return {
             c_mtg_astralsteel = {
                 name = "Astral Steel",
                 text = {
-                    "{C:attention}#1#{} selected card card gets",
+                    "{C:attention}#1#{} selected card gets",
                     "{C:attention}+#2#{} rank",
                     "{C:dark_edition}Storm{}",
                 },

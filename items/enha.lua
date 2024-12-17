@@ -29,7 +29,9 @@ odric = SMODS.Enhancement {
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:is_suit("Diamonds") then diamond_count = diamond_count + 1 end
             end
-            effect.x_mult = card.ability.extra.base_mult + diamond_count * card.ability.extra.mult_per
+            if diamond_count > 0 then
+                effect.x_mult = card.ability.extra.base_mult + diamond_count * card.ability.extra.mult_per
+            end
         end
     end
 }
@@ -122,7 +124,7 @@ urza = SMODS.Enhancement {
     calculate = function(self, card, context, effect)
         if context.pre_discard then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 and not card.debuff then
-          buff_card(context.full_hand[1],0, 0, "m_steel")
+          G.FUNCS.buff_card(context.full_hand[1],0, 0, "m_steel")
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_steel_ex"), colour = G.ARGS.LOC_COLOURS.club})
           end
           end
@@ -511,7 +513,7 @@ nissa = SMODS.Enhancement {
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
-          buff_card(context.full_hand[1],card.ability.extra.strength,1)
+          G.FUNCS.buff_card(context.full_hand[1],card.ability.extra.strength,1)
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_buff_ex")})
           end
           end
@@ -539,7 +541,7 @@ baru = SMODS.Enhancement {
             for k, v in ipairs(context.scoring_hand) do
               if v ~= card and v:is_suit(suit_clovers.key) then 
                 clovers = clovers + 1
-                buff_card(v, card.ability.extra.strength, 1)
+                G.FUNCS.buff_card(v, card.ability.extra.strength, 1)
                 delay(0.1)
               end
       

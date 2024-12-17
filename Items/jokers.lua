@@ -1,4 +1,4 @@
---Ajani
+--[[Ajani
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-ajani",
@@ -15,7 +15,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}
+}]]
 
 --Celestial dawn
 SMODS.Joker {
@@ -278,7 +278,7 @@ SMODS.Joker {
 	name = "mtg-wastenot",
 	key = "wastenot",
 	pos = { x = 7, y = 5 },
-	config = { extra = {money = 2, damage = 2, cards = 2}},
+	config = { extra = {money = 2, damage = 1, cards = 2}},
   order = 17,
 	rarity = 2,
 	cost = 6,
@@ -456,7 +456,7 @@ SMODS.Joker {
             trigger = 'after',
             delay = 0.1,
             func = function()
-              buff_card(v, card.ability.extra.strength)
+              G.FUNCS.buff_card(v, card.ability.extra.strength)
               return true
             end
         }))
@@ -942,7 +942,7 @@ SMODS.Joker {
   elseif context.pre_discard then
       if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
         local _card = context.full_hand[1]
-        buff_card(_card, card.ability.extra.buff, 1, "random")
+        G.FUNCS.buff_card(_card, card.ability.extra.buff, 1, "random")
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
       end
     end
