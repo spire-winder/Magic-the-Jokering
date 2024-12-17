@@ -100,7 +100,7 @@ SMODS.Joker {
 	name = "mtg-ruleoflaw",
 	key = "ruleoflaw",
 	pos = { x = 13, y = 1 },
-	config = { extra = {num_hands = 1, blind_size = 0.5}},
+	config = { extra = {num_hands = 1, blind_size = 0.3}},
   order = 2,
 	rarity = 3,
 	cost = 7,

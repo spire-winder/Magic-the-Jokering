@@ -66,10 +66,6 @@ G.FUNCS.buff_cards = function(cards, amount, repetition, enhancement)
 	end
 	if enhancement then
 		for i = 1, #cards do
-			G.E_MANAGER:add_event(Event({
-				trigger = 'after',
-				delay = 0.15,
-				func = function()
 			if enhancement == "random" then
 				local cen_pool = {}
 				for k, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
@@ -81,9 +77,7 @@ G.FUNCS.buff_cards = function(cards, amount, repetition, enhancement)
 			else
 				enhancement = G.P_CENTERS[enhancement]
 			end
-			cards[i]:set_ability(enhancement, nil, true) return true
-		end
-	}))
+			cards[i]:set_ability(enhancement, nil, true)
 		end
 	end
 	for i = 1, #cards do
