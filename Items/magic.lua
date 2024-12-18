@@ -487,14 +487,15 @@ SMODS.Consumable {
 	can_use = function(self, card)
 		return true
 	end,
-  config = { extra = {num_jokers = 3}},
+  config = { extra = {}},
 	loc_vars = function(self, info_queue, card)
-	  return { vars = { card.ability.extra.num_jokers } }
+		info_queue[#info_queue + 1] = { set = "Other", key = "p_mtg_magic_pack", specific_vars = { 1, 4 } }
+	  return { vars = {  } }
 	end,
 	use = function(self, card, area, copier)
     local used_tarot = card or copier
-  G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-    play_sound('timpani')
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+      play_sound('timpani')
       used_tarot:juice_up(0.3, 0.5)
       return true end }))
 		delay(0.6)
@@ -1364,7 +1365,7 @@ SMODS.Tag {
 		info_queue[#info_queue + 1] = { set = "Other", key = "p_mtg_magic_pack", specific_vars = { 1, 2 } }
 		return { vars = {} }
 	end,
-	apply = function(tag, context)
+	apply = function(self, tag, context)
 		if context.type == "new_blind_choice" then
 			tag:yep("+", G.C.SECONDARY_SET.Code, function()
 				local key = "p_mtg_magic_pack_" .. math.random(1, 2)
@@ -1402,10 +1403,10 @@ SMODS.Tag {
 		info_queue[#info_queue + 1] = { set = "Other", key = "p_mtg_magic_pack", specific_vars = { 1, 4 } }
 		return { vars = {} }
 	end,
-	apply = function(tag, context)
+	apply = function(self, tag, context)
 		if context.type == "new_blind_choice" then
 			tag:yep("+", G.C.SECONDARY_SET.Code, function()
-				local key = "p_mtg_magic_pack_4"
+				local key = "p_mtg_magic_pack_3"
 				local card = Card(
 					G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2,
 					G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2,

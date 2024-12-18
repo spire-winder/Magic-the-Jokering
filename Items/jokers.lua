@@ -766,7 +766,7 @@ SMODS.Joker {
 	name = "mtg-chromaticlantern",
 	key = "chromaticlantern",
 	pos = { x = 4, y = 5 },
-	config = { extra = {bonus_mult = 0.4, suits = {}}},
+	config = { extra = {bonus_mult = 0.25, suits = {}}},
 	rarity = 3,
   order = 14,
 	cost = 8,
