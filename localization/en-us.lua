@@ -41,8 +41,8 @@ return {
             j_mtg_omniscience = {
                 name = "Omniscience",
                 text = {
-                    "{C:attention}Jokers{} in the",
-                    "shop are {C:green}free{}"
+                    "{C:attention}Jokers{}",
+                    "are {C:green}free{}"
                 },
             },
             j_mtg_bushwacker = {
@@ -404,8 +404,8 @@ return {
                 name = "Yawgmoth",
                 text = {
                     "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
-                    "held in hand and gain {C:attention}double{}",
-                    "its rank in Mult when this",
+                    "held in hand and gain",
+                    "{C:mult}+#2#{} Mult when this",
                     "is played and scored",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 },

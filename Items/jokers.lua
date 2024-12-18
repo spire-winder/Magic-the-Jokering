@@ -268,14 +268,18 @@ SMODS.Joker {
 		return { vars = {}}
 	end,
   add_to_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.I.CARD) do
-      if v.set_cost then v:set_cost() end
-    end
+    G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
 	end,
 	remove_from_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.I.CARD) do
-      if v.set_cost then v:set_cost() end
-    end
+    G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
 	end,
 	calculate = function(self, card, context)
   end
@@ -901,14 +905,18 @@ SMODS.Joker {
 		return { vars = {center.ability.extra.discount}}
 	end,
   add_to_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.I.CARD) do
-      if v.set_cost then v:set_cost() end
-    end
+    G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
 	end,
 	remove_from_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.I.CARD) do
-      if v.set_cost then v:set_cost() end
-    end
+    G.E_MANAGER:add_event(Event({func = function()
+        for k, v in pairs(G.I.CARD) do
+            if v.set_cost then v:set_cost() end
+        end
+        return true end }))
 	end,
 	calculate = function(self, card, context)
 end

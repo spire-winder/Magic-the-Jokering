@@ -232,35 +232,43 @@ yawgmoth = SMODS.Enhancement {
 	key = "yawgmoth",
 	atlas = "mtg_atlas",
 	pos = { x = 9, y = 0 },
-	config = { extra = {current_mult = 0, mult_per = 2}},
+	config = { extra = {current_mult = 0, mult_per = 5}},
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = {card.ability.extra.current_mult} }
+        return { vars = {card.ability.extra.current_mult, card.ability.extra.mult_per} }
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
-            if #G.hand.cards then
-                local temp_ID = G.hand.cards[1].base.id
-                local smallest = G.hand.cards[1]
-                for i=1, #G.hand.cards do
-                    if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
-                end
-                if smallest.debuff then
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
-                else
-                    card.ability.extra.current_mult = card.ability.extra.current_mult + smallest.base.nominal * card.ability.extra.mult_per
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.15,
-                        func = function()
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    if #G.hand.cards then
+                        local temp_ID = G.hand.cards[1].base.id
+                        local smallest = G.hand.cards[1]
+                        for i=1, #G.hand.cards do
+                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                        end
+                        if smallest.debuff then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+                        else
                             destroy_cards({smallest})
-                            return true
-                        end}))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
-                end
-            end
-            effect.mult = card.ability.extra.current_mult
+                            --[[G.E_MANAGER:add_event(Event({
+                                trigger = 'after',
+                                delay = 0.15,
+                                func = function()
+                                    destroy_cards({smallest})
+                                    return true
+                                end}))]]
+                        end
+                    end
+                    return true
+                end}))
+                card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
+                effect.mult = card.ability.extra.current_mult
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
+            
         end
     end
 }
@@ -335,25 +343,33 @@ token_demon = SMODS.Enhancement {
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
             effect.x_mult = card.ability.extra.x_mult
-            if #G.hand.cards then
-                local temp_ID = G.hand.cards[1].base.id
-                local smallest = G.hand.cards[1]
-                for i=1, #G.hand.cards do
-                    if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
-                end
-                if smallest.debuff then
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
-                else
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.15,
-                        func = function()
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    if #G.hand.cards then
+                        local temp_ID = G.hand.cards[1].base.id
+                        local smallest = G.hand.cards[1]
+                        for i=1, #G.hand.cards do
+                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+                        end
+                        if smallest.debuff then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+                        else
                             destroy_cards({smallest})
-                            return true
-                        end}))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
-                end
-            end
+                            --[[G.E_MANAGER:add_event(Event({
+                                trigger = 'after',
+                                delay = 0.15,
+                                func = function()
+                                    destroy_cards({smallest})
+                                    return true
+                                end}))]]
+                        end
+                    end
+                    return true
+                end}))
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
+            
         end
     end
 }
