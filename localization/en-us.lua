@@ -493,7 +493,9 @@ return {
             c_mtg_onewithnothing = {
                 name = "One with Nothing",
                 text = {
-                    "Discard your hand"
+                    "Discard your hand",
+                    "{C:inactive}When nothing remains,",
+                    "{C:inactive}everything is equally possible."
                 },
             },
             c_mtg_chatterstorm = {
@@ -508,7 +510,9 @@ return {
                 name = "Raise the Alarm",
                 text = {
                     "Add {C:attention}#1#{} {C:diamond}Soldiers{}",
-                    "to your hand"
+                    "to your hand",
+                    "{C:inactive}Like blinking or breathing, responding",
+                    "{C:inactive}to an alarm is an involuntary reflex."
                 },
             },
             c_mtg_emptythewarrens = {
@@ -530,7 +534,9 @@ return {
             c_mtg_reanimate = {
                 name = "Reanimate",
                 text = {
-                    "Reanimate a {C:attention}Joker{}"
+                    "Reanimate a {C:attention}Joker{}",
+                    "{C:inactive}\"You will learn to earn death.\"",
+                    "{C:inactive}-Volrath"
                 },
             },
             c_mtg_mindsdesire = {
@@ -550,7 +556,10 @@ return {
             c_mtg_negate = {
                 name = "Negate",
                 text = {
-                    "Disable the current {C:attention}Boss Blind{}"
+                    "Disable the current {C:attention}Boss Blind{}",
+                    "{C:inactive}Masters of the arcane savor a delicious irony.",
+                    "{C:inactive}Their study of deep and complex arcana leads to",
+                    "{C:inactive}such a simple end: the ability to say merely yes or no."
                 },
             },
             c_mtg_bloodsoakedaltar = {
@@ -559,6 +568,8 @@ return {
                     "Destroy {C:attention}#1#{} selected card",
                     "Add a {C:spade}Demon{}",
                     "to your hand",
+                    "{C:inactive}Blood seeps into the stone,",
+                    "{C:inactive}and darkness emerges."
                 },
             },
             c_mtg_villagerites = {
@@ -581,6 +592,8 @@ return {
                 text = {
                     "Each card in your hand",
                     "gets {C:attention}+#1#{} rank",
+                    "{C:inactive}The dance of angry feet",
+                    "{C:inactive}-Nantuko expression meaning \"stampede\""
                 },
             },
             c_mtg_defiantstrike = {
@@ -603,6 +616,7 @@ return {
                 text = {
                     "{C:attention}#1#{} selected card gets {C:attention}+#2#{} rank",
                     "for each {C:clover}Clover{} in your hand",
+                    "{C:inactive}\"Even alone I outnumber you.\""
                 },
             },
             c_mtg_astralsteel = {
@@ -622,7 +636,10 @@ return {
             c_mtg_clonelegion = {
                 name = "Clone legion",
                 text = {
-                    "{C:attention}Copy{} all cards","in your hand"
+                    "{C:attention}Copy{} all cards","in your hand",
+                    "{C:inactive}Their lust for battle was so",
+                    "{C:inactive}great that they didn't care their",
+                    "{C:inactive}enemies wore their own faces."
                 },
             },
             c_mtg_fellthemighty = {
@@ -653,21 +670,26 @@ return {
                 name = "Booster Tutor",
                 text = {
                     "Open a sealed",
-                    "{C:dark_edition}Magic booster pack{}"
+                    "{C:dark_edition}Magic booster pack{}",
+                    "{C:inactive}\"You saved that {C:dark_edition}Urza's Saga{C:inactive} pack",
+                    "{C:inactive}all these years for this?\""
                 },
             },
             c_mtg_lavaaxe = {
                 name = "Lava Axe",
                 text = {
                     "Deal {C:attention}#1#{} {C:red}damage{}",
-                    "to the blind"
+                    "to the blind",
+                    "{C:inactive}\"Catch!\""
                 },
             },
             c_mtg_angerofthegods = {
                 name = "Anger of the Gods",
                 text = {
                     "Deal {C:attention}#1#{} {C:red}damage{}",
-                    "to each card in your hand"
+                    "to each card in your hand",
+                    "{C:inactive}There was no reason to pray.",
+                    "{C:inactive}This was already an act of the gods."
                 },
             },
             c_mtg_flameslash = {
@@ -749,8 +771,6 @@ return {
                     "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
                     "held in hand when played and scored"
             },
-            
-            
             },
             r_mtg_octopus = {
                 name = "Octopus",
