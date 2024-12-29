@@ -254,13 +254,6 @@ yawgmoth = SMODS.Enhancement {
                             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
                         else
                             destroy_cards({smallest})
-                            --[[G.E_MANAGER:add_event(Event({
-                                trigger = 'after',
-                                delay = 0.15,
-                                func = function()
-                                    destroy_cards({smallest})
-                                    return true
-                                end}))]]
                         end
                     end
                     return true
@@ -602,3 +595,28 @@ token_squirrel = SMODS.Enhancement {
 }
 token_squirrel.force_value = "2"
 token_squirrel.force_suit = suit_clovers.key
+
+--dominaria
+SMODS.Booster {
+    object_type = "Booster",
+    key = "enhancement_pack_1",
+    atlas = "pack",
+    pos = { x = 1, y = 1 },
+    config = {extra = 2, choose = 1 },
+    cost = 4,
+    order = 1,
+    weight = 0.96,
+    create_card = function(self, card)
+        local _edition = poll_edition('mtg_edition'..G.GAME.round_resets.ante, 2, true)
+        local _seal = SMODS.poll_seal({mod = 10})
+        return {set = "Enhanced" , edition = _edition, seal = _seal, area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "sta"}
+    end,
+    ease_background_colour = function(self)
+        ease_colour(G.C.DYN_UI.MAIN, G.C.SET.Magic)
+        ease_background_colour({ new_colour = G.C.SET.Magic, special_colour = G.C.BLACK, contrast = 2 })
+    end,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.config.center.config.choose, card.ability.extra } }
+    end,
+    group_key = "k_mtg_enhancement_pack",
+  }

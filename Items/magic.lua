@@ -1290,7 +1290,7 @@ SMODS.Booster {
   config = {extra = 2, choose = 1 },
   cost = 6,
   order = 1,
-  weight = 0.48,
+  weight = 0.96,
   create_card = function(self, card)
       return create_card("Magic", G.pack_cards, nil, nil, true, true, nil, "mtg_magic")
   end,

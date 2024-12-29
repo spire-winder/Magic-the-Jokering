@@ -100,7 +100,7 @@ SMODS.Joker {
 	name = "mtg-ruleoflaw",
 	key = "ruleoflaw",
 	pos = { x = 13, y = 1 },
-	config = { extra = {num_hands = 1, blind_size = 0.5}},
+	config = { extra = {num_hands = 1, blind_size = 0.25}},
   order = 2,
 	rarity = 3,
 	cost = 7,
@@ -829,34 +829,31 @@ SMODS.Joker {
           }
       end
   elseif context.joker_main then
-    if #G.hand.cards then
-    local temp_ID = G.hand.cards[1].base.id
-    local smallest = G.hand.cards[1]
-                        for i=1, #G.hand.cards do
-                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
-                        end
-                        if smallest.debuff then
-                                return {
-                                    message = localize('k_debuffed'),
-                                    colour = G.C.RED,
-                                    card = card,
-                                }
-                            else
-                              G.E_MANAGER:add_event(Event({
-                                trigger = 'after',
-                                delay = 0.15,
-                                func = function()
-                                  destroy_cards({smallest})
-                                return true
-                                end}))
-                              
-                                return {
-                                  message = localize('mtg_sacrifice_ex'),
-                                    card = card
-                                }
-                            end
-                      end
-  end
+    G.E_MANAGER:add_event(Event({
+      trigger = 'after',
+      delay = 0.15,
+      func = function()
+          if #G.hand.cards then
+              local temp_ID = G.hand.cards[1].base.id
+              local smallest = G.hand.cards[1]
+              for i=1, #G.hand.cards do
+                  if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
+              end
+              if smallest.debuff then
+                  card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
+              else
+                G.E_MANAGER:add_event(Event({
+                  trigger = 'after',
+                  delay = 0.15,
+                  func = function()
+                  destroy_cards({smallest})
+                  return true end}))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex')})
+              end
+          end
+          return true
+      end}))
+    end
   end
 }
 
@@ -938,14 +935,14 @@ SMODS.Joker {
 	loc_vars = function(self, info_queue, center)
     local current_value = G.deck and G.deck.cards[#G.deck.cards].base.nominal * center.ability.extra.mult_per or "?"
     local suit_prefix = (G.deck and G.deck.cards[#G.deck.cards].base.id or "?")
-    local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit:sub(1,1) or '?')
-		return { vars = { center.ability.extra.mult_per, current_value, suit_prefix..rank_suffix }}
+    local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit or '?')
+		return { vars = { center.ability.extra.mult_per, current_value, suit_prefix.." of "..rank_suffix }}
 	end,
 	calculate = function(self, card, context)
     if context.joker_main then
 			local top_card = G.deck.cards[#G.deck.cards]
       return {
-        mult_mod = top_card.ability.t_chips * card.ability.extra.mult_per,
+        mult_mod = top_card.base.nominal * card.ability.extra.mult_per,
         message = localize({ type = "variable", key = "a_mult", vars = { top_card.base.nominal * card.ability.extra.mult_per } })
       }
 		end

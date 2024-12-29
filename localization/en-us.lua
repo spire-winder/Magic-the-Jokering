@@ -1,5 +1,14 @@
 return {
     descriptions = {
+        Back = {
+            b_mtg_draft = {
+                name = "Draft Deck",
+                text = {
+                    "Start run with no deck",
+                    "and {C:attention}20 Standard Tags{}",
+                },
+            },
+        },
         Joker = {
             j_mtg_doublingseason = {
                 name = 'Doubling Season',
@@ -727,18 +736,25 @@ return {
             },
         },
         Tag = {
+            tag_mtg_enhancementtag = {
+                name = "Magic Card Tag",
+                text = {
+                    "Immediately open a free",
+                    "{C:Magic}Magic Card Pack{}.",
+                },
+            },
             tag_mtg_magictag = {
                 name = "Magic Tag",
                 text = {
-                    "Gives a free",
-                    "{C:dark_edition}Magic Pack",
+                    "Immediately open a free",
+                    "{C:Magic}Magic Pack{}.",
                 },
             },
             tag_mtg_bigmagictag = {
                 name = "Big Magic Tag",
                 text = {
-                    "Gives a free",
-                    "{C:dark_edition}Big Magic Pack",
+                    "Immediately open a free",
+                    "{C:dark_edition}Big Magic Pack{}.",
                 },
             },
         },
@@ -786,7 +802,6 @@ return {
                     "scoring hand"
                 }
             },
-            
             r_mtg_goblin = {
                 name = "Goblin",
                 text = {
@@ -833,8 +848,48 @@ return {
                     "{C:inactive}Current storm count: {C:attention}#1#{}"
                 }
             },
+            p_mtg_enhancement_pack = {
+                name = "Magic Card Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to {C:attention}#2#{}",
+                    "{C:Magic}Magic {C:attention}Playing cards{}",
+                    "to add to your deck"
+                }
+            },
+            p_mtg_enhancement_pack_1 = {
+                name = "Dominaria",
+                text = {
+                    "Choose {C:attention}#1#{} of up to {C:attention}#2#{}",
+                    "{C:Magic}Magic {C:attention}Playing cards{}",
+                    "to add to your deck"
+                }
+            },
+            p_mtg_enhancement_pack_2 = {
+                name = "Throne of Eldraine",
+                text = {
+                    "Choose {C:attention}#1#{} of up to {C:attention}#2#{}",
+                    "{C:Magic}Magic {C:attention}Playing cards{}",
+                    "to add to your deck"
+                }
+            },
+            p_mtg_enhancement_pack_3 = {
+                name = "Bloomburrow",
+                text = {
+                    "Choose {C:attention}#1#{} of up to {C:attention}#2#{}",
+                    "{C:Magic}Magic {C:attention}Playing cards{}",
+                    "to add to your deck"
+                }
+            },
+            p_mtg_enhancement_pack_4 = {
+                name = "March of the Machines",
+                text = {
+                    "Choose {C:attention}#1#{} of up to {C:attention}#2#{}",
+                    "{C:Magic}Magic {C:attention}Playing cards{}",
+                    "to add to your deck"
+                }
+            },
             p_mtg_magic_pack = {
-                name = "Magic Pack",
+                name = "Magic Spell Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:Magic} Magic{} cards"
@@ -885,6 +940,7 @@ return {
         },
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",
+            k_mtg_enhancement_pack = "Magic Card Pack",
 
             mtg_draw_ex = "Draw",
             mtg_rule_ex = "One Hand",
