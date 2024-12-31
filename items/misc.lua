@@ -11,7 +11,11 @@ SMODS.Consumable {
 	end,
   config = { extra = {max_selected = 3}},
 	loc_vars = function(self, info_queue, card)
-	  return { vars = { card.ability.extra.max_selected } }
+    if card then
+	    return { vars = { card.ability.extra.max_selected } }
+    else
+	    return { vars = { 0 } }
+    end
 	end,
 	use = function(self, card, area, copier)
         local used_tarot = card or copier

@@ -933,18 +933,24 @@ SMODS.Joker {
 	cost = 4,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-    local current_value = G.deck and G.deck.cards[#G.deck.cards].base.nominal * center.ability.extra.mult_per or "?"
-    local suit_prefix = (G.deck and G.deck.cards[#G.deck.cards].base.id or "?")
-    local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit or '?')
-		return { vars = { center.ability.extra.mult_per, current_value, suit_prefix.." of "..rank_suffix }}
+    if G.deck.cards[1] then
+      local current_value = G.deck and G.deck.cards[#G.deck.cards].base.nominal * center.ability.extra.mult_per or "?"
+      local suit_prefix = (G.deck and G.deck.cards[#G.deck.cards].base.id or "?")
+      local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit or '?')
+      return { vars = { center.ability.extra.mult_per, current_value, suit_prefix.." of "..rank_suffix }}
+    else
+      return { vars = {center.ability.extra.mult_per, 0, 'None'}}
+    end
 	end,
 	calculate = function(self, card, context)
     if context.joker_main then
-			local top_card = G.deck.cards[#G.deck.cards]
-      return {
-        mult_mod = top_card.base.nominal * card.ability.extra.mult_per,
-        message = localize({ type = "variable", key = "a_mult", vars = { top_card.base.nominal * card.ability.extra.mult_per } })
-      }
+      if G.deck.cards[1] then
+        local top_card = G.deck.cards[#G.deck.cards] or nil
+        return {
+            mult_mod = top_card.base.nominal * card.ability.extra.mult_per,
+            message = localize({ type = "variable", key = "a_mult", vars = { top_card.base.nominal * card.ability.extra.mult_per } })
+          }
+      end
 		end
 	end
 }
