@@ -15,6 +15,18 @@ SMODS.Atlas({
 	py = 95,
 }):register()
 SMODS.Atlas({
+	key = "kiki",
+	path = "kiki.png",
+	px = 71,
+	py = 95,
+}):register()
+SMODS.Atlas({
+	key = "lotus",
+	path = "black lotus.png",
+	px = 71,
+	py = 95,
+}):register()
+SMODS.Atlas({
 	object_type = "Atlas",
 	key = "mtg_pack",
 	path = "mtg_pack.png",
