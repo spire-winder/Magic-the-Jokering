@@ -769,12 +769,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-chromaticlantern",
 	key = "chromaticlantern",
-	pos = { x = 4, y = 5 },
+	pos = { x = 0, y = 0 },
 	config = { extra = {bonus_mult = 0.25, suits = {}}},
 	rarity = 3,
   order = 14,
 	cost = 8,
-	atlas = "mtg_atlas",
+	atlas = "chromatic",
 	loc_vars = function(self, info_queue, center)
     info_queue[#info_queue+1] = G.P_CENTERS.m_gold
 		return { vars = {center.ability.extra.bonus_mult, center.ability.x_mult}}
