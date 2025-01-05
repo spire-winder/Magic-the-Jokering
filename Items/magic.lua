@@ -1222,7 +1222,7 @@ SMODS.Consumable {
   cost=7000000,
 	soul_set = "Magic",
 	order = 21,
-	atlas = "mtg_atlas",
+	atlas = "lotus",
 	can_use = function(self, card)
 		return true
 	end,
