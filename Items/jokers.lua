@@ -769,7 +769,7 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-chromaticlantern",
 	key = "chromaticlantern",
-	pos = { x = 0, y = 0 },
+	pos = { x = 4, y = 5 },
 	config = { extra = {bonus_mult = 0.25, suits = {}}},
 	rarity = 3,
   order = 14,
@@ -933,7 +933,7 @@ SMODS.Joker {
 	cost = 4,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-    if G.deck.cards[1] then
+     if G.deck.cards[1] then
       local current_value = G.deck and G.deck.cards[#G.deck.cards].base.nominal * center.ability.extra.mult_per or "?"
       local suit_prefix = (G.deck and G.deck.cards[#G.deck.cards].base.id or "?")
       local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit or '?')
@@ -943,20 +943,22 @@ SMODS.Joker {
     end
 	end,
 	calculate = function(self, card, context)
-    if context.joker_main then
-      if G.deck.cards[1] then
-        local top_card = G.deck.cards[#G.deck.cards] or nil
-        return {
-            mult_mod = top_card.base.nominal * card.ability.extra.mult_per,
-            message = localize({ type = "variable", key = "a_mult", vars = { top_card.base.nominal * card.ability.extra.mult_per } })
-          }
-      end
-		end
-	end
-}
+        if context.joker_main then
+            if G.deck.cards[1] then
+                local top_card = G.deck.cards[#G.deck.cards] or nil
+                return {
+                    mult_mod = top_card.base.nominal * card.ability.extra.mult_per,
+                    message = localize({ type = "variable", key = "a_mult", vars = { top_card.base.nominal * card.ability.extra.mult_per } })
+                }
+            end
 
+
+        end
+
+    end
+}
 --[[mightstone
-SMODS.Joker { 
+SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-mightstone",
 	key = "mightstone",
@@ -986,12 +988,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-powermatrix",
 	key = "powermatrix",
-	pos = { x = 0, y = 5 },
+	pos = { x = 0, y = 0 },
 	config = { extra = {buff = 1}},
   order = 17,
 	rarity = 2,
 	cost = 6,
-	atlas = "mtg_atlas",
+	atlas = "power",
 	loc_vars = function(self, info_queue, center)
 		return { vars = {center.ability.extra.buff}}
 	end,

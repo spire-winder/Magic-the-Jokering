@@ -8,7 +8,7 @@
             suit_text = localize(self.force_suit, 'suits_singular')
             suit_color = G.C.SUITS[self.force_suit]
         end
-        return { vars = { self.config.extra.max, suit_text, colours = {suit_color}} }
+        return { vars = { self.config.extra.max,  suit_text, colours = {suit_color}} }
 
 end]]
 
@@ -299,8 +299,8 @@ sheoldred.force_suit = "Spades"
 tinybones = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "tinybones",
-	atlas = "mtg_atlas",
-	pos = { x = 2, y = 6 },
+	atlas = "tiny",
+	pos = { x = 0, y = 0 },
 	config = { extra = {money = 3}},
     overrides_base_rank = true,
     force_suit = G.C.SUITS.Spades,
@@ -373,7 +373,7 @@ kikijiki = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "kikijiki",
 	atlas = "kiki",
-	pos = { x = 0, y = 0 },
+	pos = { x = 8, y = 0 },
 	config = { },
     overrides_base_rank = true,
     weight = 5,
