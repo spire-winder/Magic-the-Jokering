@@ -373,7 +373,7 @@ kikijiki = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "kikijiki",
 	atlas = "kiki",
-	pos = { x = 8, y = 0 },
+	pos = { x = 0, y = 0 },
 	config = { },
     overrides_base_rank = true,
     weight = 5,
