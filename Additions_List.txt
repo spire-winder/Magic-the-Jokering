@@ -1,0 +1,96 @@
+-Current Additions
+ - jokers
+   Ascendant Evincar
+   Beastmaster Ascension
+   Chromatic Lantern
+   Doubling Season
+   Dreamstone Hedron
+   Eldrazi Monument, Etherium Sculptor
+   Fiery Emancipation, First Response
+   Goblin Anarchomancer
+   Hardened Scales, Helm of Awakening
+   Ivy Lane Denizen
+   Jokulmorder
+   Knotvine Mystic
+   Labratory Maniac, Lantern of Insight, Light from Within
+   Omniscience
+   Power Matrix, Primalcrux
+   Reckless Bushwaker, Relentless Rats, Rule of Law
+   Sulfiric Vortex
+   "Torbran, Thane of Red Fell"
+   Urza's Mine, Urza's Power Plant, Urza's Tower
+   Waste Not
+ 
+- Consumables
+  -Tarots
+   Forest
+  -Spectrals
+Black Lotus
+
+   -Magic Cards (In WUBRG order)
+Astral Steel
+Defiant Strike
+Fell the Mighty
+Raise the Alarm
+Wrath of God
+Ancestral Recall
+Clone Legion
+Mind's Desire
+Negate
+Bloodsoaker Altar
+Booster Tutor
+One with Nothing
+Reanimate
+Reaping the Graves
+Village Rites
+Andger of the Gods
+Empty the Warrens
+Flame Slash
+Grapeshot
+Lava Axe
+Lightning Bolt
+Obliterate
+Transmogrify
+Aspect of Hydra
+Chatterstorm
+Giant Growth
+Monstrous Onslaught
+Overrun
+
+  -Enhancments
+Odric, Master tactician
+Akroma, Angel of Wrath
+Sublime Archangel
+Soldier (token)
+Urza, Lord High Artificer
+Kiora, the Rising Tide
+Storm Crow
+Octopus (token)
+Sheoldred, Whispering One
+Tinybones, Bauble Burglar
+Yawgmoth, Thran Physician
+Demon (token)
+Kiki-Jiki, Mirror Breaker
+Ashling the Pilgrim
+Shivan Dragon
+Goblin (token)
+Baru, Fist of Krosa
+Nissa, Vastwood Seer
+Yorvo, Lord of Garenbrig
+Squirrel (token)
+
+   - Booster Packs
+      - Magic Cards (consumables)
+Fallen Empires
+Arabian Nights
+Mystery Booster 2
+Portal Three Kingdoms
+     - Enhancments
+Dominaria
+
+   - New Mechanics
+Storm
+Damage (Blind and Cards)
+Draw
+Reanimate
+Relentless
