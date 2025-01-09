@@ -1,5 +1,9 @@
 -Current Additions
- - jokers
+- Suits
+Clovers
+
+
+- jokers
    Ascendant Evincar
    Beastmaster Ascension
    Chromatic Lantern
