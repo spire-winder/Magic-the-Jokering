@@ -12,32 +12,42 @@
 
 end]]
 
+--[[
 odric = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "odric",
 	atlas = "mtg_atlas",
 	pos = { x = 11, y = 3 },
-	config = { extra = {base_mult = 1, mult_per = 0.25}},
+	config = { extra = { Xmult = 1, extra = 0.25 } },
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.mult_per, card.ability.extra.base_mult} }
+        return { vars = { card.ability.extra.Xmult, card.ability.extra.extra } }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.hand and not context.repetition and not card.debuff then
+       if context.self == G.hand and not context.repetition and not card.debuff then 
             local diamond_count = 0
-            for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:is_suit("Diamonds") then diamond_count = diamond_count + 1 end
-            end
-            if diamond_count > 0 then
-                effect.x_mult = card.ability.extra.base_mult + diamond_count * card.ability.extra.mult_per
+            for i, v in pairs(G.play.cards) do
+                if v:is_suit("Diamonds") then
+                    diamond_count = diamond_count + 1
+                end
+                if diamond_count > 0 then
+                    card.ability.extra.x_mult = card.ability.extra.Xmult + diamond_count * card.ability.extra.extra
+					return {
+					extra = { focus = card, message = localize("k_upgrade_ex") },
+					card = card,
+					colour = G.C.MULT,
+					}
+                end
             end
         end
     end
 }
 odric.force_value = "King"
 odric.force_suit = "Diamonds"
+--]]
 
+--[[
 akroma = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "akroma",
@@ -60,7 +70,9 @@ akroma = SMODS.Enhancement {
 }
 akroma.force_value = "Queen"
 akroma.force_suit = "Diamonds"
+--]]
 
+-- [[
 sublime = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "sublime",
@@ -72,42 +84,60 @@ sublime = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.mult_solo} }
 	end,
+    
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.hand and not context.repetition and not card.debuff then
-            if #context.full_hand == 1 then
-                effect.x_mult = card.ability.extra.mult_solo
-            end
+        print(inspect(context))
+
+        if context.cardarea == G.hand and not context.repetition and not card.debuff and context.main_scoring then
+         return card.ability.extra.mult_solo
+        
+        
         end
     end
+    
 }
+
 sublime.force_value = "Jack"
 sublime.force_suit = "Diamonds"
+--]]
 
+-- [[
+-- works as intended
 token_soldier = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "soldier",
 	atlas = "mtg_atlas",
 	pos = { x = 8, y = 1 },
-	config = { extra = {mult_per = 2}},
+	config = { extra = {mult = 2}},
     overrides_base_rank = true,
     weight = 0,
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.mult_per} }
+        return { vars = { card.ability.extra.mult} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
-            local diamond_count = 0
-            for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:is_suit("Diamonds") then diamond_count = diamond_count + 1 end
+        if context.cardarea == G.play and context.main_scoring then
+            local numdiamonds = 0
+            for i, v in pairs(G.play.cards) do
+                if v:is_suit("Diamonds") then
+                    numdiamonds = numdiamonds + 1
+                end
             end
-            effect.mult = diamond_count * card.ability.extra.mult_per
-        end
+            if numdiamonds > 0 then
+                return {mult = numdiamonds * card.ability.extra.mult}
+            end
+               
+                    
+        
+        end    
     end
 }
 token_soldier.force_value = "2"
 token_soldier.force_suit = "Diamonds"
+--]]
 
+-- [[
+-- works mostly as intended, consistently triggers more than once
 urza = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "urza",
@@ -138,7 +168,10 @@ urza = SMODS.Enhancement {
 }
 urza.force_value = "King"
 urza.force_suit = "Clubs"
+--]]
 
+-- [[
+-- works as intended
 kiora = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "kiora",
@@ -171,7 +204,9 @@ kiora = SMODS.Enhancement {
 }
 kiora.force_value = "Queen"
 kiora.force_suit = "Clubs"
+--]]
 
+-- [[
 stormcrow = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "stormcrow",
@@ -204,7 +239,11 @@ stormcrow = SMODS.Enhancement {
 }
 stormcrow.force_value = "Jack"
 stormcrow.force_suit = "Clubs"
+--]]
 
+-- [[
+-- works as intended
+-- though may also be triggering more than once, need to do more testing
 token_octopus = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "octopus",
@@ -219,13 +258,16 @@ token_octopus = SMODS.Enhancement {
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
-            effect.mult = card.ability.extra.mult
+            return {mult = card.ability.extra.mult}
         end
     end
 }
 token_octopus.force_value = "8"
 token_octopus.force_suit = "Clubs"
+--]]
 
+--[[
+-- needs reworking
 --YAWGMOTH : His ability triggers before everything else because it doesn't make an event, maybe look at this?
 yawgmoth = SMODS.Enhancement {
 	object_type = "Enhancement",
@@ -267,7 +309,11 @@ yawgmoth = SMODS.Enhancement {
 }
 yawgmoth.force_value = "King"
 yawgmoth.force_suit = "Spades"
+--]]
 
+-- [[
+
+-- works mostly as intended
 sheoldred = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "sheoldred",
@@ -295,7 +341,9 @@ sheoldred = SMODS.Enhancement {
 }
 sheoldred.force_value = "Queen"
 sheoldred.force_suit = "Spades"
+--]]
 
+-- [[
 tinybones = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "tinybones",
@@ -320,7 +368,9 @@ tinybones = SMODS.Enhancement {
 }
 tinybones.force_value = "Jack"
 tinybones.force_suit = "Spades"
+--]]
 
+-- [[
 token_demon = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "demon",
@@ -368,7 +418,9 @@ token_demon = SMODS.Enhancement {
 }
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
+--]]
 
+-- [[
 kikijiki = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "kikijiki",
@@ -405,7 +457,9 @@ kikijiki = SMODS.Enhancement {
 }
 kikijiki.force_value = "King"
 kikijiki.force_suit = "Hearts"
+--]]
 
+-- [[
 ashling = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "ashling",
@@ -432,7 +486,9 @@ ashling = SMODS.Enhancement {
 }
 ashling.force_value = "Queen"
 ashling.force_suit = "Hearts"
+--]]
 
+-- [[
 shivan = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "shivan",
@@ -456,7 +512,10 @@ shivan = SMODS.Enhancement {
 }
 shivan.force_value = "Jack"
 shivan.force_suit = "Hearts"
+--]]
 
+-- [[
+-- should work as intended
 token_goblin = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "goblin",
@@ -471,14 +530,16 @@ token_goblin = SMODS.Enhancement {
 
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
-            effect.mult = card.ability.extra.mult
+        if context.cardarea == G.play and context.main_scoring then
+           return { mult = card.ability.extra.mult }
         end
     end
 }
 token_goblin.force_value = "2"
 token_goblin.force_suit = "Hearts"
+--]]
 
+-- [[
 yorvo = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "yorvo",
@@ -508,7 +569,9 @@ yorvo = SMODS.Enhancement {
 }
 yorvo.force_value = "King"
 yorvo.force_suit = suit_clovers.key
+--]]
 
+-- [[
 nissa = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "nissa",
@@ -541,7 +604,9 @@ nissa = SMODS.Enhancement {
 }
 nissa.force_value = "Queen"
 nissa.force_suit = suit_clovers.key
+--]]
 
+-- [[
 baru = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "baru",
@@ -574,7 +639,11 @@ baru = SMODS.Enhancement {
 }
 baru.force_value = "Jack"
 baru.force_suit = suit_clovers.key
+--]]
 
+-- [[
+
+-- works as intended
 token_squirrel = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "squirrel",
@@ -588,14 +657,18 @@ token_squirrel = SMODS.Enhancement {
         return { vars = { card.ability.extra.max} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
-            effect.mult = pseudorandom_i_range(pseudoseed("mtg-squirrel"), 1, card.ability.extra.max)
+        if context.cardarea == G.play and context.main_scoring then
+          local random_value = pseudorandom_i_range(pseudoseed("mtg-squirrel"), 1, card.ability.extra.max)
+            return { mult = random_value }
         end
     end
 }
 token_squirrel.force_value = "2"
 token_squirrel.force_suit = suit_clovers.key
+--]]
 
+-- [[
+-- works as intended
 --dominaria
 SMODS.Booster {
     object_type = "Booster",
@@ -620,3 +693,7 @@ SMODS.Booster {
     end,
     group_key = "k_mtg_enhancement_pack",
   }
+--]]
+  
+  
+  
