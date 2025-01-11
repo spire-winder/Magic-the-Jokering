@@ -53,6 +53,48 @@ SMODS.Atlas({
 })
 SMODS.Atlas({
 	object_type = "Atlas",
+	key = "forest",
+	path = "forest.png",
+	px = 71,
+	py = 95,
+})
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "island",
+	path = "island.png",
+	px = 71,
+	py = 95,
+})
+--[[
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "mountain",
+	path = "mountain.png",
+	px = 71,
+	py = 95,
+})
+--]]
+-- [[
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "plains",
+	path = "plains.png",
+	px = 71,
+	py = 95,
+})
+--]]
+--[[
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "swamp",
+	path = "swamp.png",
+	px = 71,
+	py = 95,
+})
+--]]
+
+SMODS.Atlas({
+	object_type = "Atlas",
 	key = "mtg_tag",
 	path = "mtg_tag.png",
 	px = 34,
@@ -67,3 +109,4 @@ assert(SMODS.load_file("items/magic.lua"))()
 assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
+--assert(SMODS.load_file("items/lands.lua"))()
