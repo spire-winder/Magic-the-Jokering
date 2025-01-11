@@ -1,3 +1,4 @@
+if MagicTheJokering.config.include_clover_suit then
 SMODS.Consumable {
 	object_type = "Consumable",
 	set = "Tarot",
@@ -39,3 +40,4 @@ SMODS.Consumable {
         delay(0.5)
 	end,
 }
+end

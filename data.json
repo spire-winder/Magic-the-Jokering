@@ -2,7 +2,7 @@
 	"id": "magic_the_jokering",
 	"name": "Magic: the Jokering",
 	"display_name": "MTJ",
-	"author": ["spire_winder"],
+	"author": ["spire_winder", "drago"],
 	"description": "A Balatro mod that adds a bunch of cards and mechanics from Magic: the Gathering.",
 	"prefix": "mtg",
 	"main_file": "mtg.lua",

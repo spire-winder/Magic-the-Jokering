@@ -567,6 +567,7 @@ SMODS.Joker {
 end
 }
 
+if MagicTheJokering.config.include_clover_suit then
 --Doubling Season
 SMODS.Joker {
   object_type = "Joker",
@@ -595,6 +596,7 @@ SMODS.Joker {
     end
   end
 }
+end
 
 --Hardened Scales
 SMODS.Joker { 
@@ -616,6 +618,7 @@ SMODS.Joker {
 
 --ivy lane denizen
 --Played cards with Clover suit give +3 Mult when scored
+if MagicTheJokering.config.include_clover_suit then
 SMODS.Joker { 
 	object_type = "Joker",
 	name = "mtg-ivylanedenizen",
@@ -763,6 +766,7 @@ SMODS.Joker {
     end
   end
 }
+end
 
 --chromatic lantern
 SMODS.Joker { 

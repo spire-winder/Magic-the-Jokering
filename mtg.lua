@@ -2,7 +2,11 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
---Will be moved to D20 file when that gets added
+MagicTheJokering = SMODS.current_mod
+-- Load Options
+MagicTheJokering_config = MagicTheJokering.config
+-- This will save the current state even when settings are modified
+MagicTheJokering.enabled = copy_table(MagicTheJokering_config)
 
 SMODS.Atlas { key = 'mtg_lc_cards', path = '8BitDeck.png', px = 71, py = 95 }
 SMODS.Atlas { key = 'mtg_hc_cards', path = '8BitDeck_opt2.png', px = 71, py = 95 }
@@ -103,7 +107,9 @@ SMODS.Atlas({
 
 assert(SMODS.load_file("items/utility.lua"))()
 init_planeswalkers()
-init_clovers()
+if MagicTheJokering.config.include_clover_suit then
+	init_clovers()
+end
 update_ranks()
 assert(SMODS.load_file("items/magic.lua"))()
 assert(SMODS.load_file("items/jokers.lua"))()

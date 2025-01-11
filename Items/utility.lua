@@ -424,7 +424,9 @@ function loc_colour(_c, _default)
 	  G.ARGS.LOC_COLOURS.diamond = G.C.SUITS.Diamonds
 	  G.ARGS.LOC_COLOURS.spade = G.C.SUITS.Spades
 	  G.ARGS.LOC_COLOURS.club = G.C.SUITS.Clubs
-	  G.ARGS.LOC_COLOURS.clover = G.C.SUITS[suit_clovers.key]
+	  if MagicTheJokering.config.include_clover_suit then
+	  	G.ARGS.LOC_COLOURS.clover = G.C.SUITS[suit_clovers.key]
+	  end
 	  return lc(_c, _default)
 end
 
@@ -572,4 +574,17 @@ G.UIDEF.use_and_sell_buttons = function(card)
 		return retval
 	end]]
 	return retval
+end
+
+-- SMODS UI funcs (additions, config, collection)
+
+SMODS.current_mod.config_tab = function()
+    local scale = 5/6
+    return {n=G.UIT.ROOT, config = {align = "cl", minh = G.ROOM.T.h*0.25, padding = 0.0, r = 0.1, colour = G.C.GREY}, nodes = {
+        {n = G.UIT.R, config = { padding = 0.05 }, nodes = {
+            {n = G.UIT.C, config = { minw = G.ROOM.T.w*0.25, padding = 0.05 }, nodes = {
+                create_toggle{ label = localize("include_clover_suit"), info = {localize("mtg_requires_restart"), localize("include_clover_suit_desc_1"), localize("include_clover_suit_desc_2")}, active_colour = MagicTheJokering.badge_colour, ref_table = MagicTheJokering.config, ref_value = "include_clover_suit" }
+            }}
+        }}
+    }}
 end

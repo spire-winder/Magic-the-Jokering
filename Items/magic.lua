@@ -985,6 +985,7 @@ end,
 }
 
 --Aspect of hydra
+if MagicTheJokering.config.include_clover_suit then
 SMODS.Consumable {
   object_type = "Consumable",
 set = "Magic",
@@ -1070,6 +1071,7 @@ use = function(self, card, area, copier)
   return true
 end,
 }
+end
 
 --Giant Growth
 SMODS.Consumable {

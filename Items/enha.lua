@@ -539,6 +539,7 @@ token_goblin.force_value = "2"
 token_goblin.force_suit = "Hearts"
 --]]
 
+if MagicTheJokering.config.include_clover_suit then
 -- [[
 yorvo = SMODS.Enhancement {
 	object_type = "Enhancement",
@@ -666,6 +667,7 @@ token_squirrel = SMODS.Enhancement {
 token_squirrel.force_value = "2"
 token_squirrel.force_suit = suit_clovers.key
 --]]
+end
 
 -- [[
 -- works as intended

@@ -1024,6 +1024,12 @@ return {
             mtg_slumber_ex = "Slumber",
             mtg_buff_ex = "Buff",
             b_take = "TAKE",
+
+            mtg_requires_restart = 'Requires game restart',
+            
+            include_clover_suit = "Include Clovers",
+            include_clover_suit_desc_1 = "Include the Clovers suit",
+            include_clover_suit_desc_2 = "and associated cards"
         },
         labels = {
             mtg_greedy_seal = "Greedy Seal",
