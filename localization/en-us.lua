@@ -378,10 +378,10 @@ return {
             m_mtg_odric = {
                 name = "Odric",
                 text = {
-                    "{X:mult,C:white} X#1# {} Mult for",
+                    "{X:mult,C:white} X#2# {} Mult for",
                     "each {C:diamond}Diamond{} played this hand",
                     "while held in hand",
-                    "{C:inactive}(Starts at {X:mult,C:white} X#2# {C:inactive} Mult)"
+                    "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)"
                 },
             },
             m_mtg_akroma = {
@@ -479,7 +479,29 @@ return {
                     "this card is scored",
                 },
             },
+            m_mtg_Forest_land = {
+                name = "Forest Land",
+                text = {
+                    "When card with the {C:clover}Clover{} suit",
+                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                },
+            },
+            m_mtg_Island_land = {
+                name = "Island Land",
+                text = {
+                    "When card with the {C:club}Club{} suit",
+                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                },
+            },
+            m_mtg_Plains_land = {
+                name = "Plains Land",
+                text = {
+                    "When card with the {C:diamond}Diamond{} suit",
+                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                },
+            },
         },
+       
         Tarot = {
             c_mtg_forest = {
                 name = "Forest",
@@ -735,6 +757,48 @@ return {
                 },
             },
         },
+        Land = {
+            c_mtg_forest_land = {
+                name = "Forest",
+                text = {
+                    "Converts up to",
+                    "{C:attention}3{} selected",
+                    "{C:clover}Clover{} cards to {C:clover}Forest{} cards"
+                },
+            },
+            c_mtg_island_land = {
+                name = "Island",
+                text = {
+                
+                    "Convert {C:attention}#1#{} selected {C:club}Club{} cards",
+                    "to {C:club}Island{} cards"
+                },
+            },
+            c_mtg_mountain_land = {
+                name = "Mountain",
+                text = {
+                    "Converts up to",
+                    "{C:attention}3{} selected cards",
+                    "to {C:heart}Hearts{}"
+                },
+            },
+            c_mtg_plains_land = {
+                name = "Plains",
+                text = {
+                    "Converts up to",
+                    "{C:attention}3{} selected cards",
+                    "to {C:diamond}Diamonds{}"
+                },
+            },
+            c_mtg_swamp_land = {
+                name = "Swamp",
+                text = {
+                    "Converts up to",
+                    "{C:attention}3{} selected cards",
+                    "to {C:club}Clubs{}"
+                },
+            },
+        },
         Tag = {
             tag_mtg_enhancementtag = {
                 name = "Magic Card Tag",
@@ -763,7 +827,8 @@ return {
                 name = "Reanimate",
                 text = {
                     "Creates a random",
-                    "previously sold card"
+                    "previously sold card",
+                    "{C:inactive}(Must have Room){}"
                 }
             },
             r_mtg_relentless = {
