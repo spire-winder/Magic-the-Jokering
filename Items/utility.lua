@@ -155,12 +155,17 @@ function stop_debuff_card(card)
 end
 
 function reanimate()
-	local created_card = create_card('Joker', G.jokers, nil, nil, nil, nil, pseudorandom_element(G.GAME.jokers_sold, pseudoseed("mtg-reanimate")))
-    --Previously, it also made the joker negative, but I think this is too strong
-    --created_card:set_edition({negative = true}, true)
-	created_card:add_to_deck()
-    G.jokers:emplace(created_card)
-    created_card:start_materialize()
+	if #G.jokers.cards >= G.jokers.config.card_limit then
+		--Maybe tell the user there was no space?
+	else
+		local created_card = create_card('Joker', G.jokers, nil, nil, nil, nil, pseudorandom_element(G.GAME.jokers_sold, pseudoseed("mtg-reanimate")))
+		--Previously, it also made the joker negative, but I think this is too strong
+		--created_card:set_edition({negative = true}, true)
+		created_card:add_to_deck()
+		G.jokers:emplace(created_card)
+		created_card:start_materialize()
+	end
+	
 end
 
 function increase_rank(card, amount)
