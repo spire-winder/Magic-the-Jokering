@@ -937,7 +937,7 @@ SMODS.Joker {
 	cost = 4,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
-     if G.deck.cards[1] then
+     if G.deck and G.deck.cards[1] then
       local current_value = G.deck and G.deck.cards[#G.deck.cards].base.nominal * center.ability.extra.mult_per or "?"
       local suit_prefix = (G.deck and G.deck.cards[#G.deck.cards].base.id or "?")
       local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit or '?')
