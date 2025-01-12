@@ -18,11 +18,11 @@ odric = SMODS.Enhancement {
 	key = "odric",
 	atlas = "mtg_atlas",
 	pos = { x = 11, y = 3 },
-	config = { extra = { Xmult = 1, extra = 0.25 } },
+	config = { extra = { x_mult = 1, extra = 0.25 } },
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.Xmult, card.ability.extra.extra } }
+        return { vars = { card.ability.extra.x_mult, card.ability.extra.extra } }
 	end,
     calculate = function(self, card, context, effect)
        if context.self == G.hand and not context.repetition and not card.debuff then 
@@ -32,12 +32,10 @@ odric = SMODS.Enhancement {
                     diamond_count = diamond_count + 1
                 end
                 if diamond_count > 0 then
-                    card.ability.extra.x_mult = card.ability.extra.Xmult + diamond_count * card.ability.extra.extra
+                    return card.ability.extra.x_mult = card.ability.extra.x_mult + diamond_count * card.ability.extra.extra
 					return {
-					extra = { focus = card, message = localize("k_upgrade_ex") },
-					card = card,
-					colour = G.C.MULT,
-					}
+					x_mult = card.ability.extra.x_mult
+                    }
                 end
             end
         end
@@ -266,7 +264,7 @@ token_octopus.force_value = "8"
 token_octopus.force_suit = "Clubs"
 --]]
 
---[[
+-- [[
 -- needs reworking
 --YAWGMOTH : His ability triggers before everything else because it doesn't make an event, maybe look at this?
 yawgmoth = SMODS.Enhancement {
@@ -281,7 +279,7 @@ yawgmoth = SMODS.Enhancement {
         return { vars = {card.ability.extra.current_mult, card.ability.extra.mult_per} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
@@ -301,12 +299,14 @@ yawgmoth = SMODS.Enhancement {
                     return true
                 end}))
                 card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
-                effect.mult = card.ability.extra.current_mult
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
-            
+                return {mult = card.ability.extra.current_mult}
         end
+        if context.main_scoring then        
+        return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+        end  
     end
 }
+
 yawgmoth.force_value = "King"
 yawgmoth.force_suit = "Spades"
 --]]
@@ -384,8 +384,8 @@ token_demon = SMODS.Enhancement {
         return { vars = { card.ability.extra.x_mult} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
-            effect.x_mult = card.ability.extra.x_mult
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
+            
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
@@ -411,11 +411,13 @@ token_demon = SMODS.Enhancement {
                     end
                     return true
                 end}))
-            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
-            
-        end
-    end
-}
+                if context.main_scoring then
+                    return {x_mult = card.ability.extra.x_mult}
+                end        
+                    return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+                end  
+            end
+}        
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
 --]]
@@ -506,7 +508,7 @@ shivan = SMODS.Enhancement {
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
             bonus_damage(card, card.ability.extra.damage_per, 1)
-          effect.mult = card.ability.extra.mult
+            return {mult = card.ability.extra.mult}
         end
     end
 }
@@ -555,7 +557,7 @@ yorvo = SMODS.Enhancement {
 
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do
                 if v ~= card and v:is_suit(suit_clovers.key) then clovers_total = clovers_total + 1 end
@@ -564,7 +566,7 @@ yorvo = SMODS.Enhancement {
                 card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.bonus_mult
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.ARGS.LOC_COLOURS.clover})
             end
-            effect.mult = card.ability.extra.current_mult
+            return {mult = card.ability.extra.current_mult}
         end
     end
 }
