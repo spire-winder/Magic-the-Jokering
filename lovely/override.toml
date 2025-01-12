@@ -63,6 +63,20 @@ payload = '''
     if self.ability.effect == 'Gold Card' and next(SMODS.find_card("j_mtg_chromaticlantern")) then
         return true
     end
+	if suit == 'Diamonds' and next(SMODS.find_card("j_mtg_celestialdawn")) then
+		return true
+	elseif suit == 'Hearts' and next(SMODS.find_card("j_mtg_bloodmoon")) then
+		return true
+	elseif suit == 'Spades' and next(SMODS.find_card("j_mtg_urborg")) then
+		return true
+	elseif suit == 'Clubs' and next(SMODS.find_card("j_mtg_harbinger")) then
+		return true 
+	end
+	if MagicTheJokering.config.include_clover_suit then
+		if suit == suit_clovers.key and next(SMODS.find_card("j_mtg_yavimaya")) then
+			return true 
+		end
+	end
 '''
 match_indent = true
 

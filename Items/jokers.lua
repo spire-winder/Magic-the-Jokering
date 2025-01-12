@@ -17,7 +17,7 @@ rarity = 3,
   end
 }]]
 
---[[Celestial dawn
+--Celestial dawn
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-celestialdawn",
@@ -34,7 +34,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}]]
+}
 
 --first response
 SMODS.Joker { 
@@ -155,7 +155,7 @@ SMODS.Joker {
   end
 }
 
---[[Harbinger of the seas
+--Harbinger of the seas
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-harbinger",
@@ -172,7 +172,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}]]
+}
 
 --Jokulmorder
 SMODS.Joker { 
@@ -347,7 +347,7 @@ SMODS.Joker {
   end
 }
 
---[[Urborg
+--Urborg
 SMODS.Joker {
     object_type = "Joker",
   name = "mtg-urborg",
@@ -364,7 +364,7 @@ SMODS.Joker {
     loc_vars = function(self, info_queue, card)
       return { }
     end
-}]]
+}
 
 --Waste not, gives you money, cards, or +mult when you discard cards
 SMODS.Joker { 
@@ -408,7 +408,7 @@ SMODS.Joker {
   end
 }
 
---[[Blood moon
+--Blood moon
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-bloodmoon",
@@ -425,7 +425,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}]]
+}
 
 --Fiery Emancipation
 SMODS.Joker { 
@@ -685,7 +685,7 @@ SMODS.Joker {
 	end,
 }
 
---[[yavimaya
+--yavimaya
 SMODS.Joker {
   object_type = "Joker",
 name = "mtg-yavimaya",
@@ -702,7 +702,7 @@ rarity = 3,
   loc_vars = function(self, info_queue, card)
     return { }
   end
-}]]
+}
 
 --Goblin Anarchomancer
 --Played cards with Clover or Heart suit give x1.25 Mult when scored
