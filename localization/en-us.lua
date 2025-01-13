@@ -500,6 +500,13 @@ return {
                     "is scored give {X:mult,C:white}X#1#{} Mult"
                 },
             },
+             m_mtg_Mountain_land = {
+                name = "Mountain Land",
+                text = {
+                    "When card with the {C:heart}Heart{} suit",
+                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                },
+            },
         },
        
         Tarot = {
