@@ -341,6 +341,7 @@ function instant_win()
 					G.GAME.current_round.instant_win = true
 					G.STATE = G.STATES.HAND_PLAYED
 					G.STATE_COMPLETE = true
+					G.GAME.current_round.obliterate = true
 					end_round()
 					return true
 				end,

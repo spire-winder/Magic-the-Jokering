@@ -70,7 +70,7 @@ akroma.force_value = "Queen"
 akroma.force_suit = "Diamonds"
 --]]
 
--- [[
+--[[
 sublime = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "sublime",
@@ -417,7 +417,7 @@ token_demon = SMODS.Enhancement {
                     return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
                 end  
             end
-}        
+}
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
 --]]
@@ -556,7 +556,7 @@ yorvo = SMODS.Enhancement {
         return { vars = { card.ability.extra.bonus_mult, card.ability.extra.current_mult} }
 
 	end,
-    calculate = function(self, card, context, effect)
+   calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do

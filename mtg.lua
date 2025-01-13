@@ -69,7 +69,7 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
---[[
+-- [[
 SMODS.Atlas({
 	object_type = "Atlas",
 	key = "mountain",
@@ -104,6 +104,19 @@ SMODS.Atlas({
 	px = 34,
 	py = 34,
 })
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "mtg_back",
+	path = "un_back.png",
+	px = 71,
+	py = 95,
+})
+
+--[[
+for checking if a mod is enabled
+	
+	
+]]
 
 assert(SMODS.load_file("items/utility.lua"))()
 init_planeswalkers()
@@ -115,4 +128,4 @@ assert(SMODS.load_file("items/magic.lua"))()
 assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
---assert(SMODS.load_file("items/lands.lua"))()
+assert(SMODS.load_file("items/lands.lua"))()
