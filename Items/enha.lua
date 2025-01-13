@@ -25,21 +25,19 @@ odric = SMODS.Enhancement {
         return { vars = { card.ability.extra.x_mult, card.ability.extra.extra } }
 	end,
     calculate = function(self, card, context, effect)
-       if context.self == G.hand and not context.repetition and not card.debuff then 
+       if context.other_card == G.play and not context.repetition and not card.debuff then 
             local diamond_count = 0
             for i, v in pairs(G.play.cards) do
                 if v:is_suit("Diamonds") then
                     diamond_count = diamond_count + 1
                 end
-                if diamond_count > 0 then
-                    return card.ability.extra.x_mult = card.ability.extra.x_mult + diamond_count * card.ability.extra.extra
-					return {
-					x_mult = card.ability.extra.x_mult
-                    }
+            end
+                if diamond_count >= 1 and context.self == G.hand then
+                 return  {card.ability.extra.x_mult + diamond_count * card.ability.extra.extra}
                 end
+				return {x_mult = card.ability.extra.x_mult}
             end
         end
-    end
 }
 odric.force_value = "King"
 odric.force_suit = "Diamonds"
@@ -417,7 +415,7 @@ token_demon = SMODS.Enhancement {
                     return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
                 end  
             end
-}
+}        
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
 --]]
@@ -556,7 +554,7 @@ yorvo = SMODS.Enhancement {
         return { vars = { card.ability.extra.bonus_mult, card.ability.extra.current_mult} }
 
 	end,
-   calculate = function(self, card, context, effect)
+  calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do
