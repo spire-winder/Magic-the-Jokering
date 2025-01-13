@@ -141,6 +141,34 @@ match_indent = true
 line_prepend = ''
 payload = '''(G.GAME.current_round.instant_win and "OBLITERATED" or localize('ph_mr_bones'))..' '}, colours = {(G.C.FILTER)'''
 
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''G.RESET_JIGGLES = true'''
+position = 'after'
+match_indent = true
+payload = '''
+if G.GAME.current_round.obliterate then
+    game_over = false
+end
+'''
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.GAME.blind:set_blind(G.GAME.round_resets.blind)"
+position = "after"
+payload = '''
+G.GAME.current_round.obliterate = false
+'''
+match_indent = true
+
+[[patches]]
+[patches.regex]
+target = "functions/common_events.lua"
+pattern = '''localize\('ph_mr_bones'\)'''
+position = 'at'
+payload = '''(G.GAME.current_round.obliterate and "OBLITERATED" or localize('ph_mr_bones'))'''
 
 # rats - negative if you have a copy
 [[patches]]
