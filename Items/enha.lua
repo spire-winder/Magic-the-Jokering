@@ -18,11 +18,11 @@ odric = SMODS.Enhancement {
 	key = "odric",
 	atlas = "mtg_atlas",
 	pos = { x = 11, y = 3 },
-	config = { extra = { Xmult = 1, extra = 0.25 } },
+	config = { extra = { x_mult = 1, extra = 0.25 } },
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.Xmult, card.ability.extra.extra } }
+        return { vars = { card.ability.extra.x_mult, card.ability.extra.extra } }
 	end,
     calculate = function(self, card, context, effect)
        if context.self == G.hand and not context.repetition and not card.debuff then 
@@ -32,12 +32,10 @@ odric = SMODS.Enhancement {
                     diamond_count = diamond_count + 1
                 end
                 if diamond_count > 0 then
-                    card.ability.extra.x_mult = card.ability.extra.Xmult + diamond_count * card.ability.extra.extra
+                    return card.ability.extra.x_mult = card.ability.extra.x_mult + diamond_count * card.ability.extra.extra
 					return {
-					extra = { focus = card, message = localize("k_upgrade_ex") },
-					card = card,
-					colour = G.C.MULT,
-					}
+					x_mult = card.ability.extra.x_mult
+                    }
                 end
             end
         end
@@ -308,6 +306,7 @@ yawgmoth = SMODS.Enhancement {
         end  
     end
 }
+
 yawgmoth.force_value = "King"
 yawgmoth.force_suit = "Spades"
 --]]
@@ -509,7 +508,7 @@ shivan = SMODS.Enhancement {
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff then
             bonus_damage(card, card.ability.extra.damage_per, 1)
-          effect.mult = card.ability.extra.mult
+            return {mult = card.ability.extra.mult}
         end
     end
 }
