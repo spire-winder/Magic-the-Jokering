@@ -53,7 +53,7 @@ Flame Slash
 Grapeshot
 Lava Axe
 Lightning Bolt
-Obliterate - does not work with cryptid
+Obliterate 
 Transmogrify
 Aspect of Hydra
 Chatterstorm
