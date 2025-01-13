@@ -53,7 +53,7 @@ Flame Slash
 Grapeshot
 Lava Axe
 Lightning Bolt
-Obliterate
+Obliterate 
 Transmogrify
 Aspect of Hydra
 Chatterstorm
@@ -62,9 +62,9 @@ Monstrous Onslaught
 Overrun
 
   -Enhancments
-Odric, Master tactician
-Akroma, Angel of Wrath
-Sublime Archangel
+Odric, Master tactician - disabled
+Akroma, Angel of Wrath - disabled
+Sublime Archangel - disabled
 Soldier (token)
 Urza, Lord High Artificer
 Kiora, the Rising Tide

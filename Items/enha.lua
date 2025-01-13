@@ -31,11 +31,11 @@ odric = SMODS.Enhancement {
                 if v:is_suit("Diamonds") then
                     diamond_count = diamond_count + 1
                 end
+            end
                 if diamond_count >= 1 and context.self == G.hand then
                  return  {card.ability.extra.x_mult + diamond_count * card.ability.extra.extra}
                 end
 				return {x_mult = card.ability.extra.x_mult}
-                end
             end
         end
 }
@@ -554,7 +554,7 @@ yorvo = SMODS.Enhancement {
         return { vars = { card.ability.extra.bonus_mult, card.ability.extra.current_mult} }
 
 	end,
-    calculate = function(self, card, context, effect)
+  calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do

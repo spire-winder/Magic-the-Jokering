@@ -1,4 +1,70 @@
 
+
+
+--[[
+template for making new land consumeables
+
+SMODS.Consumable {
+    object_type = "Consumable",
+    set = "Land",
+    name = "mtg-'land name'_land",
+    key = "'land name'_land",
+    pos = { x = 0, y = 0},
+    cost = 1,
+    atlas = "atlas for land consumable",
+    can_use = function(self, card)
+        return #G.hand.highlighted <= card.ability.extra.max_selected and #G.hand.highlighted > 0
+    end,
+    config = {extra = {max_selected = 1}},
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.max_selected } }
+    end,
+    use = function(self, card, area, copier)
+        local used_tarot = card or copier (addde so when used it increases your storm count)
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
+        for i=1, #G.hand.highlighted do
+            local percent = 1.15 - (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('card1', percent);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        delay(0.2)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                if G.hand.highlighted[i].base.suit == "'the suit that the land corosponds to'" then
+                  (the name of the land in the card ability should be uppercase to make it call the correct card)
+                    Card.set_ability(G.hand.highlighted[i], 'land name'_land, nil)
+                    
+                else
+                  
+                    SMODS.change_base(G.hand.highlighted[i], -- checks what card is selected
+                    'corosponding suit',
+                    nil)
+                end
+                return true
+              end,}))
+        end
+   
+        
+        for i=1, #G.hand.highlighted do
+            local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+        delay(0.5)
+        
+        
+    end,        
+            
+}
+
+]]
+
+
+
 SMODS.ConsumableType {
     object_type = "ConsumableType",
     key = 'Land',
@@ -23,15 +89,15 @@ SMODS.ConsumableType {
 
 SMODS.UndiscoveredSprite {
     object_type = "UndiscoveredSprite",
-    key = "un_magic",
-    atlas = "un_back.png",
+    key = "Land",
+    atlas = "mtg_back",
     pos = {
         x = 0,
         y = 0
     }
 }
 
---[[
+-- [[
 SMODS.Consumable {
     object_type = "Consumable",
     set = "Land",
@@ -40,25 +106,56 @@ SMODS.Consumable {
     pos = { x = 0, y = 0},
     cost = 1,
     atlas = "mountain",
-    can_use = function(self, card)
+   can_use = function(self, card)
         return #G.hand.highlighted <= card.ability.extra.max_selected and #G.hand.highlighted > 0
     end,
-    config = {mod_conv= "m_mtg_mountain" , max_selected = 3}},
+    config = {extra = {max_selected = 1}},
     loc_vars = function(self, info_queue, card)
-        if card then
-            return { vars = { card.ability.extra.max_selected } }
-        else
-            return { vars = { 0 } }
-        end
+        return { vars = { card.ability.extra.max_selected } }
     end,
-    use = function (self, card, area, copier)
-        local used_land = card or copier
+    use = function(self, card, area, copier)
+        local used_tarot = card or copier
         
-    end
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
+        for i=1, #G.hand.highlighted do
+            local percent = 1.15 - (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('card1', percent);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        delay(0.2)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                if G.hand.highlighted[i].base.suit == 'Hearts' then
+                  -- do club things
+                    Card.set_ability(G.hand.highlighted[i], Mountain_land, nil)
+                    
+                else
+                  -- do non-club things
+                    SMODS.change_base(G.hand.highlighted[i],'Hearts',nil)
+                end
+                return true
+              end,}))
+        end
+   
+        
+        for i=1, #G.hand.highlighted do
+            local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+        delay(0.5)
+        
+        
+    end,        
+            
 }
 --]]
 
 -- [[
+
 SMODS.Consumable {
     object_type = "Consumable",
     set = "Land",
@@ -87,10 +184,19 @@ SMODS.Consumable {
         end
         delay(0.2)
         for i=1, #G.hand.highlighted do
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() Card.set_ability(G.hand.highlighted[i], Forest_land, nil);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                if G.hand.highlighted[i].base.suit == 'suit_clovers.key' then
+                  -- do club things
+                    Card.set_ability(G.hand.highlighted[i], Forest_land, nil)
+                    
+                else
+                  -- do non-club things
+                    SMODS.change_base(G.hand.highlighted[i],'suit_clovers.key',nil)
+                end
+                return true
+              end,}))
         end
-        
-        
+   
         
         for i=1, #G.hand.highlighted do
             local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
@@ -135,7 +241,17 @@ SMODS.Consumable {
         end
         delay(0.2)
         for i=1, #G.hand.highlighted do
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() Card.set_ability(G.hand.highlighted[i], Island_land, nil);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                if G.hand.highlighted[i].base.suit == 'Clubs' then
+                  -- do club things
+                    Card.set_ability(G.hand.highlighted[i], Island_land, nil)
+                    
+                else
+                  -- do non-club things
+                    SMODS.change_base(G.hand.highlighted[i],'Clubs',nil)
+                end
+                return true
+              end,}))
         end
    
         
@@ -165,7 +281,7 @@ SMODS.Consumable {
     can_use = function(self, card)
         return #G.hand.highlighted <= card.ability.extra.max_selected and #G.hand.highlighted > 0
     end,
-    config = {extra = {max_selected = 3}},
+    config = {extra = {max_selected = 1}},
     loc_vars = function(self, info_queue, card)
         if card then
             return { vars = { card.ability.extra.max_selected } }
@@ -211,7 +327,17 @@ SMODS.Consumable {
         end
         delay(0.2)
         for i=1, #G.hand.highlighted do
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() Card.set_ability(G.hand.highlighted[i], Plains_land, nil);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                if G.hand.highlighted[i].base.suit == 'Diamonds' then
+                  -- do club things
+                    Card.set_ability(G.hand.highlighted[i], Plains_land, nil)
+                    
+                else
+                  -- do non-club things
+                    SMODS.change_base(G.hand.highlighted[i],'Diamonds',nil)
+                end
+                return true
+              end,}))
         end
    
         
@@ -230,7 +356,7 @@ SMODS.Consumable {
 --]]
 
 
--- will probably make this its own type and not an enhancment ecentually 
+-- will probably make this its own type and not an enhancment eventually 
 -- [[
 
 
@@ -263,7 +389,7 @@ Island_land = SMODS.Enhancement {
     atlas = "island",
     pos = { x = 0, y = 0 },
     config = { extra = { m_mult = 1.25 } },
-    weight = 1,
+    weight = 0,
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.m_mult } }
     end,
@@ -282,7 +408,7 @@ Plains_land = SMODS.Enhancement {
     atlas = "plains",
     pos = { x = 0, y = 0 },
     config = { extra = { m_mult = 1.25 } },
-    weight = 1,
+    weight = 0,
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.m_mult } }
     end,
@@ -292,3 +418,45 @@ Plains_land = SMODS.Enhancement {
         end
       end
 }
+
+--[[
+Swamp_land = SMODS.Enhancement {
+    object_type = "Enhancement",
+    name = "mtg-Swamp_land",
+    key = "Swamp_land",
+    text = "Swamp",
+    atlas = "swamp",
+    pos = { x = 0, y = 0 },
+    config = { extra = { m_mult = 1.25 } },
+    weight = 0,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.m_mult } }
+    end,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+          return { mult = card.ability.extra.m_mult }
+        end
+      end
+}
+--]]
+
+-- [[
+Mountain_land = SMODS.Enhancement {
+    object_type = "Enhancement",
+    name = "mtg-Mountain_land",
+    key = "Mountain_land",
+    text = "Mountain",
+    atlas = "mountain",
+    pos = { x = 0, y = 0 },
+    config = { extra = { m_mult = 1.25 } },
+    weight = 0,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.m_mult } }
+    end,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+          return { mult = card.ability.extra.m_mult }
+        end
+      end
+}
+--]]

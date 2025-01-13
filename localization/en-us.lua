@@ -500,6 +500,13 @@ return {
                     "is scored give {X:mult,C:white}X#1#{} Mult"
                 },
             },
+            m_mtg_Mountain_land = {
+                name = "Mountain Land",
+                text = {
+                    "When card with the {C:heart}Heart{} suit",
+                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                },
+            },
         },
        
         Tarot = {
@@ -762,7 +769,7 @@ return {
                 name = "Forest",
                 text = {
                     "Converts up to",
-                    "{C:attention}3{} selected",
+                    "{C:attention}#1#{} selected",
                     "{C:clover}Clover{} cards to {C:clover}Forest{} cards"
                 },
             },
@@ -778,15 +785,16 @@ return {
                 name = "Mountain",
                 text = {
                     "Converts up to",
-                    "{C:attention}3{} selected cards",
-                    "to {C:heart}Hearts{}"
+                    "{C:attention}#1#{} selected card(s)",
+                    "to {C:heart}Mountain{}(s) if their suits are {C:heart}Hearts",
+                    "otherwise convert them to {C:heart}Heart{}(s)"
                 },
             },
             c_mtg_plains_land = {
                 name = "Plains",
                 text = {
                     "Converts up to",
-                    "{C:attention}3{} selected cards",
+                    "{C:attention}#1#{} selected cards",
                     "to {C:diamond}Diamonds{}"
                 },
             },
@@ -794,7 +802,7 @@ return {
                 name = "Swamp",
                 text = {
                     "Converts up to",
-                    "{C:attention}3{} selected cards",
+                    "{C:attention}#1#{} selected cards",
                     "to {C:club}Clubs{}"
                 },
             },
@@ -1028,7 +1036,7 @@ return {
             mtg_requires_restart = 'Requires game restart',
             
             include_clover_suit = "Include Clovers",
-            include_clover_suit_desc_1 = "Include the Clovers suit",
+            include_clover_suit_desc_1 = "Adds the Clovers suit",
             include_clover_suit_desc_2 = "and associated cards"
         },
         labels = {
