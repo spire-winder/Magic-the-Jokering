@@ -72,7 +72,7 @@ akroma.force_value = "Queen"
 akroma.force_suit = "Diamonds"
 --]]
 
--- [[
+--[[
 sublime = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "sublime",
@@ -266,7 +266,7 @@ token_octopus.force_value = "8"
 token_octopus.force_suit = "Clubs"
 --]]
 
---[[
+-- [[
 -- needs reworking
 --YAWGMOTH : His ability triggers before everything else because it doesn't make an event, maybe look at this?
 yawgmoth = SMODS.Enhancement {
@@ -281,7 +281,7 @@ yawgmoth = SMODS.Enhancement {
         return { vars = {card.ability.extra.current_mult, card.ability.extra.mult_per} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
@@ -301,10 +301,11 @@ yawgmoth = SMODS.Enhancement {
                     return true
                 end}))
                 card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
-                effect.mult = card.ability.extra.current_mult
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
-            
+                return {mult = card.ability.extra.current_mult}
         end
+        if context.main_scoring then        
+        return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+        end  
     end
 }
 yawgmoth.force_value = "King"
@@ -384,8 +385,8 @@ token_demon = SMODS.Enhancement {
         return { vars = { card.ability.extra.x_mult} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
-            effect.x_mult = card.ability.extra.x_mult
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
+            
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
@@ -411,10 +412,12 @@ token_demon = SMODS.Enhancement {
                     end
                     return true
                 end}))
-            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})
-            
-        end
-    end
+                if context.main_scoring then
+                    return {x_mult = card.ability.extra.x_mult}
+                end        
+                    return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+                end  
+            end
 }
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
@@ -554,8 +557,8 @@ yorvo = SMODS.Enhancement {
         return { vars = { card.ability.extra.bonus_mult, card.ability.extra.current_mult} }
 
 	end,
-    calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+   calculate = function(self, card, context, effect)
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do
                 if v ~= card and v:is_suit(suit_clovers.key) then clovers_total = clovers_total + 1 end
@@ -564,7 +567,7 @@ yorvo = SMODS.Enhancement {
                 card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.bonus_mult
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.ARGS.LOC_COLOURS.clover})
             end
-            effect.mult = card.ability.extra.current_mult
+            return {mult = card.ability.extra.current_mult}
         end
     end
 }
