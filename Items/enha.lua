@@ -12,7 +12,7 @@
 
 end]]
 
---[[
+-- [[
 odric = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "odric",
@@ -25,17 +25,15 @@ odric = SMODS.Enhancement {
         return { vars = { card.ability.extra.x_mult, card.ability.extra.extra } }
 	end,
     calculate = function(self, card, context, effect)
-       if context.other_card == G.play and not context.repetition and not card.debuff then 
+       if context.cardarea == G.hand and context.main_scoring then 
             local diamond_count = 0
             for i, v in pairs(G.play.cards) do
                 if v:is_suit("Diamonds") then
                     diamond_count = diamond_count + 1
                 end
             end
-                if diamond_count >= 1 and context.self == G.hand then
-                 return  {card.ability.extra.x_mult + diamond_count * card.ability.extra.extra}
-                end
-				return {x_mult = card.ability.extra.x_mult}
+               
+				return {x_mult = card.ability.extra.x_mult + diamond_count * card.ability.extra.extra}
             end
         end
 }
@@ -43,7 +41,7 @@ odric.force_value = "King"
 odric.force_suit = "Diamonds"
 --]]
 
---[[
+-- [[
 akroma = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "akroma",
@@ -56,10 +54,10 @@ akroma = SMODS.Enhancement {
         return { vars = {card.ability.extra.mult_x} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and context.main_scoring then
             if G.GAME.current_round.hands_played == 0 then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_haste_ex"), colour = G.ARGS.LOC_COLOURS.diamond})
-                effect.x_mult = card.ability.extra.mult_x
+                return {x_mult = card.ability.extra.mult_x}
             end
         end
     end
@@ -68,24 +66,22 @@ akroma.force_value = "Queen"
 akroma.force_suit = "Diamonds"
 --]]
 
---[[
+-- [[
 sublime = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "sublime",
 	atlas = "mtg_atlas",
 	pos = { x = 8, y = 5 },
-	config = { extra = {mult_solo = 2}},
+	config = { extra = { x_mult = 2}},
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.mult_solo} }
+        return { vars = { card.ability.extra.x_mult} }
 	end,
     
     calculate = function(self, card, context, effect)
-        print(inspect(context))
-
-        if context.cardarea == G.hand and not context.repetition and not card.debuff and context.main_scoring then
-         return card.ability.extra.mult_solo
+         if context.cardarea == G.hand and context.main_scoring then
+         return {x_mult = card.ability.extra.x_mult}
         
         
         end
@@ -149,7 +145,7 @@ urza = SMODS.Enhancement {
 
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and context.main_scoring then
             local non_steel_cards = {}
             for i = 1, #G.hand.cards do
                 if G.hand.cards[i].config.center_key ~= "m_steel" then non_steel_cards[#non_steel_cards+1] = G.hand.cards[i] end
