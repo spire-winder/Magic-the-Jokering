@@ -661,11 +661,7 @@ SMODS.Joker {
 		return { vars = { center.ability.extra.extra, center.ability.extra.x_mult} }
 	end,
 	calculate = function(self, card, context)
-		if
-			context.cardarea == G.jokers
-			and (card.ability.extra.x_mult > 1)
-			and not context.before
-			and not context.after
+		if context.joker_main		
 		then
 			return {
 				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
