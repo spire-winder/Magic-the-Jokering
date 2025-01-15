@@ -198,7 +198,7 @@ kiora.force_value = "Queen"
 kiora.force_suit = "Clubs"
 --]]
 
--- [[
+--[[
 stormcrow = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "stormcrow",
@@ -455,7 +455,7 @@ kikijiki.force_value = "King"
 kikijiki.force_suit = "Hearts"
 --]]
 
--- [[
+--[[
 ashling = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "ashling",
@@ -484,7 +484,7 @@ ashling.force_value = "Queen"
 ashling.force_suit = "Hearts"
 --]]
 
--- [[
+--[[
 shivan = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "shivan",
