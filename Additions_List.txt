@@ -4,97 +4,219 @@ Clovers
 
 
 - jokers
-   Ascendant Evincar
-   Beastmaster Ascension
-   Chromatic Lantern
-   Doubling Season
-   Dreamstone Hedron
-   Eldrazi Monument, Etherium Sculptor
-   Fiery Emancipation, First Response
-   Goblin Anarchomancer
-   Hardened Scales, Helm of Awakening
-   Ivy Lane Denizen
-   Jokulmorder
-   Knotvine Mystic
-   Labratory Maniac, Lantern of Insight, Light from Within
-   Omniscience
-   Power Matrix, Primalcrux
-   Reckless Bushwaker, Relentless Rats, Rule of Law
-   Sulfiric Vortex
-   "Torbran, Thane of Red Fell"
-   Urza's Mine, Urza's Power Plant, Urza's Tower
-   Waste Not
+Ascendant Evincar
+
+Beastmaster Ascension
+
+Blood Moon
+
+Chromatic Lantern
+
+Celestial Dawn
+
+Doubling Season
+
+Dreamstone Hedron
+
+Eldrazi Monument
+
+Etherium Sculptor
+
+Fiery Emancipation --disabled
+
+First Response
+
+Goblin Anarchomancer
+
+Hardened Scales
+
+Helm of Awakening
+
+Harbinger of the Seas
+
+Ivy Lane Denizen
+
+Jokulmorder
+
+Knotvine Mystic
+
+Labratory Maniac
+
+Lantern of Insight
+
+Light from Within
+
+Omniscience
+
+Power Matrix
+
+Primalcrux
+
+Reckless Bushwaker
+
+Relentless Rats
+
+Rule of Law --disabled
+
+Sulfiric Vortex --disabled
+
+Torbran, Thane of Red Fell
+
+Urza's Mine
+
+Urza's Power Plant
+
+Urza's Tower
+
+Urbor, Tomb of Yawgmoth
+
+Waste Not
+
+Yavimaya, Cradle of Growth
  
+
 - Consumables
-  -Tarots
-   Forest
-  -Spectrals
+-  -Tarots
+-   Forest
+
+
+-  -Spectrals
 Black Lotus
 
-   -Magic Cards (In WUBRG order)
+
+- Lands
+Forest
+
+Island
+
+Plains
+
+Mountain
+   
+Swamp 
+
+
+-Magic Cards (In WUBRG order)
 Astral Steel
+
 Defiant Strike
+
 Fell the Mighty
+
 Raise the Alarm
+
 Wrath of God
+
 Ancestral Recall
+
 Clone Legion
+
 Mind's Desire
-Negate
+
+Negate --disabled
+
 Bloodsoaker Altar
+
 Booster Tutor
+
 One with Nothing
+
 Reanimate
+
 Reaping the Graves
+
 Village Rites
+
 Andger of the Gods
+
 Empty the Warrens
+
 Flame Slash
-Grapeshot
-Lava Axe
-Lightning Bolt
-Obliterate 
+
+Grapeshot --disabled
+
+Lava Axe --disabled
+
+Lightning Bolt --disabled
+
+Obliterate --disabled
+
 Transmogrify
+
 Aspect of Hydra
+
 Chatterstorm
+
 Giant Growth
-Monstrous Onslaught
+
+Monstrous Onslaught - disabled
+
 Overrun
 
-  -Enhancments
+
+-  -Enhancments
 Odric, Master tactician - disabled
+
 Akroma, Angel of Wrath - disabled
+
 Sublime Archangel - disabled
+
 Soldier (token)
+
 Urza, Lord High Artificer
+
 Kiora, the Rising Tide
-Storm Crow
+
+Storm Crow - disabled
+
 Octopus (token)
+
 Sheoldred, Whispering One
+
 Tinybones, Bauble Burglar
+
 Yawgmoth, Thran Physician
+
 Demon (token)
+
 Kiki-Jiki, Mirror Breaker
-Ashling the Pilgrim
-Shivan Dragon
+
+Ashling the Pilgrim - disabled
+
+Shivan Dragon - disabled
+
 Goblin (token)
+
 Baru, Fist of Krosa
+
 Nissa, Vastwood Seer
+
 Yorvo, Lord of Garenbrig
+
 Squirrel (token)
 
-   - Booster Packs
-      - Magic Cards (consumables)
+
+-   - Booster Packs
+-      - Magic Cards (consumables)
 Fallen Empires
+
 Arabian Nights
+
 Mystery Booster 2
+
 Portal Three Kingdoms
-     - Enhancments
+
+
+-     - Enhancments
 Dominaria
 
-   - New Mechanics
+-   - Lands
+-  Bloomborrow
+
+-   - New Mechanics
 Storm
-Damage (Blind and Cards)
+Damage to cards
+Damage to blinds - disabled
 Draw
 Reanimate
-Relentless
+Relentless - does not properly work on "cryptid better-calc branch" (unsure if it works on the old calc version though)
