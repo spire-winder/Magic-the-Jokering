@@ -507,6 +507,13 @@ return {
                     "is scored give {X:mult,C:white}X#1#{} Mult"
                 },
             },
+            m_mtg_Swamp_land = {
+                name = "Swamp Land",
+                text = {
+                    "When card with the {C:spade}Spade{} suit",
+                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                },
+            },
         },
        
         Tarot = {
@@ -514,7 +521,7 @@ return {
                 name = "Forest",
                 text = {
                     "Converts up to",
-                    "{C:attention}3{} selected cards",
+                    "{C:attention}#1#{} selected cards",
                     "to {C:clover}Clovers{}"
                 },
             },
@@ -803,7 +810,7 @@ return {
                 text = {
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
-                    "to {C:club}Clubs{}"
+                    "to {C:spade}Spades{}"
                 },
             },
         },
@@ -994,6 +1001,13 @@ return {
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:Magic} Magic{} cards"
+                }
+            },
+            p_mtg_magic_pack_5 = {
+                name = "Bloomburrow Land Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:Magic} Land{} cards"
                 }
             },
             mtg_greedy_seal = {

@@ -23,7 +23,7 @@ SMODS.ConsumableType {
 SMODS.UndiscoveredSprite {
     object_type = "UndiscoveredSprite",
     key = "Magic",
-    atlas = "mtg_atlas",
+    atlas = "mtg_back",
     pos = {
         x = 0,
         y = 1,
@@ -1343,6 +1343,30 @@ SMODS.Booster {
   weight = 0.48,
   create_card = function(self, card)
       return create_card("Magic", G.pack_cards, nil, nil, true, true, nil, "mtg_magic")
+  end,
+  ease_background_colour = function(self)
+      ease_colour(G.C.DYN_UI.MAIN, G.C.SET.Magic)
+      ease_background_colour({ new_colour = G.C.SET.Magic, special_colour = G.C.BLACK, contrast = 2 })
+  end,
+  loc_vars = function(self, info_queue, card)
+      return { vars = { card.config.center.config.choose, card.ability.extra } }
+  end,
+  group_key = "k_mtg_magic_pack",
+}
+
+-- bloomborrow Land Cards
+SMODS.Booster {
+  object_type = "Booster",
+  key = "magic_pack_5",
+  kind = "Magic",
+  atlas = "land_pack",
+  pos = { x = 0, y = 0 },
+  config = {extra = 4, choose = 1 },
+  cost = 5,
+  order = 1,
+  weight = 0.48,
+  create_card = function(self, card)
+      return create_card("Land", G.pack_cards, nil, nil, true, true, nil, "mtg_magic")
   end,
   ease_background_colour = function(self)
       ease_colour(G.C.DYN_UI.MAIN, G.C.SET.Magic)
