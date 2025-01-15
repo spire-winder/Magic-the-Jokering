@@ -93,7 +93,7 @@ SMODS.Joker {
     end
 	end
 }
-
+--[[
 --Rule of Law
 SMODS.Joker { 
 	object_type = "Joker",
@@ -124,7 +124,8 @@ SMODS.Joker {
     end
 	end
 }
-
+--]]
+--[[
 --etherium sculptor
 SMODS.Joker { 
 	object_type = "Joker",
@@ -154,6 +155,8 @@ SMODS.Joker {
     end
   end
 }
+--]]
+
 
 --Harbinger of the seas
 SMODS.Joker {
@@ -365,7 +368,7 @@ SMODS.Joker {
       return { }
     end
 }
-
+--[[
 --Waste not, gives you money, cards, or +mult when you discard cards
 SMODS.Joker { 
 	object_type = "Joker",
@@ -407,6 +410,8 @@ SMODS.Joker {
     end
   end
 }
+--]]
+
 
 --Blood moon
 SMODS.Joker {
@@ -427,6 +432,7 @@ rarity = 3,
   end
 }
 
+--[[
 --Fiery Emancipation
 SMODS.Joker { 
 	object_type = "Joker",
@@ -472,6 +478,7 @@ SMODS.Joker {
     end
   end
 }
+--]
 
 --vortex
 SMODS.Joker { 
@@ -525,7 +532,7 @@ SMODS.Joker {
         end
     end
 }
-
+--]]
 --beastmaster
 SMODS.Joker { 
 	object_type = "Joker",
