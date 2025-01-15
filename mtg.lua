@@ -87,7 +87,7 @@ SMODS.Atlas({
 	py = 95,
 })
 --]]
---[[
+-- [[
 SMODS.Atlas({
 	object_type = "Atlas",
 	key = "swamp",
@@ -108,6 +108,13 @@ SMODS.Atlas({
 	object_type = "Atlas",
 	key = "mtg_back",
 	path = "un_back.png",
+	px = 71,
+	py = 95,
+})
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "land_pack",
+	path = "land_booster.png",
 	px = 71,
 	py = 95,
 })
