@@ -393,7 +393,7 @@ use = function(self, card, area, copier)
   end
 end,
 }
-
+--[[
 --Negate
 SMODS.Consumable {
   object_type = "Consumable",
@@ -426,8 +426,9 @@ G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
 end
 end,
 }
-
+--]]
 --Bloodsoaked Altar
+--
 SMODS.Consumable {
   object_type = "Consumable",
 set = "Magic",
@@ -752,7 +753,7 @@ use = function(self, card, area, copier)
     end
 end,
 }
-
+--[[
 --Grapeshot
 SMODS.Consumable {
   object_type = "Consumable",
@@ -926,7 +927,7 @@ use = function(self, card, area, copier)
             instant_win()
 end,
 }
-
+--]]
 --Transmogrify
 SMODS.Consumable {
   object_type = "Consumable",
@@ -1115,7 +1116,7 @@ use = function(self, card, area, copier)
   delay(0.5)
 end,
 }
-
+--[[
 --Monstrous Onslaught
 SMODS.Consumable {
   object_type = "Consumable",
@@ -1169,7 +1170,7 @@ end,
     end
   end,
 }
-
+--]]
 --overrun
 SMODS.Consumable {
   object_type = "Consumable",
