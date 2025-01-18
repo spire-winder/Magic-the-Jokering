@@ -431,7 +431,7 @@ kikijiki = SMODS.Enhancement {
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.hand and context.main_scoring then
-            if G.GAME.current_round.hands_played == 0 then
+            if G.GAME.current_round.hands_played == 0 and #G.play.cards == 1 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
