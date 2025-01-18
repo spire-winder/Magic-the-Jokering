@@ -4,6 +4,4 @@
  And also adds Magic the Gathering packs and a couple new tags
  toatling up to 80 new cards, 2 new tags, and 5 new boster packs
 
-the offical Magic the Jokering discord server
-https://discord.gg/MUnDwgTWky
    
