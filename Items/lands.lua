@@ -154,7 +154,7 @@ SMODS.Consumable {
 }
 --]]
 
--- [[
+--[[
 
 SMODS.Consumable {
     object_type = "Consumable",
