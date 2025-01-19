@@ -158,6 +158,7 @@ urza = SMODS.Enhancement {
         end
     end
 }
+--[[
 urza.force_value = "King"
 urza.force_suit = "Clubs"
 --]]
@@ -194,6 +195,7 @@ kiora = SMODS.Enhancement {
         end
     end
 }
+--[[
 kiora.force_value = "Queen"
 kiora.force_suit = "Clubs"
 --]]
@@ -229,6 +231,7 @@ stormcrow = SMODS.Enhancement {
         end
     end
 }
+--[[
 stormcrow.force_value = "Jack"
 stormcrow.force_suit = "Clubs"
 --]]
@@ -300,6 +303,7 @@ yawgmoth = SMODS.Enhancement {
         end  
     end
 }
+--[[
 
 yawgmoth.force_value = "King"
 yawgmoth.force_suit = "Spades"
@@ -360,6 +364,7 @@ tinybones = SMODS.Enhancement {
           end
     end
 }
+--[[
 tinybones.force_value = "Jack"
 tinybones.force_suit = "Spades"
 --]]
@@ -451,6 +456,7 @@ kikijiki = SMODS.Enhancement {
         end
     end
 }
+--[[
 kikijiki.force_value = "King"
 kikijiki.force_suit = "Hearts"
 --]]
@@ -480,6 +486,7 @@ ashling = SMODS.Enhancement {
         end
     end
 }
+--[[
 ashling.force_value = "Queen"
 ashling.force_suit = "Hearts"
 --]]
@@ -506,6 +513,7 @@ shivan = SMODS.Enhancement {
         end
     end
 }
+--[[
 shivan.force_value = "Jack"
 shivan.force_suit = "Hearts"
 --]]
@@ -564,6 +572,7 @@ yorvo = SMODS.Enhancement {
         end
     end
 }
+--[[
 yorvo.force_value = "King"
 yorvo.force_suit = suit_clovers.key
 --]]
@@ -599,6 +608,7 @@ nissa = SMODS.Enhancement {
         end
     end
 }
+--[[
 nissa.force_value = "Queen"
 nissa.force_suit = suit_clovers.key
 --]]
@@ -634,6 +644,7 @@ baru = SMODS.Enhancement {
           end
     end
 }
+--[[
 baru.force_value = "Jack"
 baru.force_suit = suit_clovers.key
 --]]
