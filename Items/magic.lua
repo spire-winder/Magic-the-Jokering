@@ -26,7 +26,7 @@ SMODS.UndiscoveredSprite {
     atlas = "mtg_back",
     pos = {
         x = 0,
-        y = 1,
+        y = 0,
     }
 }
 
