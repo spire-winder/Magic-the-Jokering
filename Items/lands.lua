@@ -154,7 +154,7 @@ SMODS.Consumable {
 }
 --]]
 
---[[
+-- [[
 
 SMODS.Consumable {
     object_type = "Consumable",
@@ -185,13 +185,13 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'suit_clovers.key' then
+                if G.hand.highlighted[i].base.suit == suit_clovers.key then
                   -- do clover things
                     Card.set_ability(G.hand.highlighted[i], Forest_land, nil)
                     
                 else
                   -- do non-clover things
-                    SMODS.change_base(G.hand.highlighted[i],'suit_clovers.key',nil)
+                    SMODS.change_base(G.hand.highlighted[i],suit_clovers.key,nil)
                 end
                 return true
               end,}))
