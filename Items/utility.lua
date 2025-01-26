@@ -443,6 +443,11 @@ function init_clovers()
 		ui_pos = { x = 0, y = 1 },
 		hc_colour = HEX('3dad2f'),
 		lc_colour = HEX('359229'),
+		in_pool = function(self, args)
+			if args and args.initial_deck then
+				return false
+			end
+		end
 	}
 end
 
