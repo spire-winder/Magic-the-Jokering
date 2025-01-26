@@ -293,7 +293,7 @@ yawgmoth = SMODS.Enhancement {
                 trigger = 'after',
                 delay = 0.15,
                 func = function()
-                    if #G.hand.cards then
+                    if #G.hand.cards and #G.hand.cards >= 1 then
                         local temp_ID = G.hand.cards[1].base.id
                         local smallest = G.hand.cards[1]
                         for i=1, #G.hand.cards do
