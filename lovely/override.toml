@@ -189,7 +189,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = 'self:calculate_joker{selling_self = true}'
+pattern = 'local eval, post = eval_card(self, {selling_self = true})'
 position = "before"
 payload = '''
 if self.config.center.set == 'Joker' then
