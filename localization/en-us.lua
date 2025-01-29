@@ -679,7 +679,7 @@ return {
                 },
             },
             c_mtg_clonelegion = {
-                name = "Clone legion",
+                name = "Clone Legion",
                 text = {
                     "{C:attention}Copy{} all cards","in your hand",
                     "{C:inactive}Their lust for battle was so",
