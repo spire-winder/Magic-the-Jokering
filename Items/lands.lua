@@ -127,7 +127,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Hearts' then
+                if G.hand.highlighted[i].base.suit == 'Hearts' or next(SMODS.find_card("j_mtg_bloodmoon")) then
                   -- do club things
                     Card.set_ability(G.hand.highlighted[i], Mountain_land, nil)
                     
@@ -185,7 +185,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == suit_clovers.key then
+                if G.hand.highlighted[i].base.suit == suit_clovers.key or next(SMODS.find_card("j_mtg_yavimaya")) then
                   -- do clover things
                     Card.set_ability(G.hand.highlighted[i], Forest_land, nil)
                     
@@ -242,7 +242,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Clubs' then
+                if G.hand.highlighted[i].base.suit == 'Clubs' or next(SMODS.find_card("j_mtg_harbinger")) then
                   -- do club things
                     Card.set_ability(G.hand.highlighted[i], Island_land, nil)
                     
@@ -303,7 +303,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Spades' then
+                if G.hand.highlighted[i].base.suit == 'Spades' or next(SMODS.find_card("j_mtg_urborg")) then
                   -- do spade things
                     Card.set_ability(G.hand.highlighted[i], Swamp_land, nil)
                     
@@ -362,7 +362,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Diamonds' then
+                if G.hand.highlighted[i].base.suit == 'Diamonds' or next(SMODS.find_card("j_mtg_celestialdawn")) then
                   -- do diamond things
                     Card.set_ability(G.hand.highlighted[i], Plains_land, nil)
                     
