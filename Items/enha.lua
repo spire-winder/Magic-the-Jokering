@@ -263,7 +263,7 @@ token_octopus = SMODS.Enhancement {
         return { vars = { card.ability.extra.mult} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and context.main_scoring then
             return {mult = card.ability.extra.mult}
         end
     end
@@ -306,13 +306,13 @@ yawgmoth = SMODS.Enhancement {
                         end
                     end
                     return true
-                end}))
-                card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
+            end}))
+            card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
                 return {mult = card.ability.extra.current_mult}
-        end
-        if context.main_scoring then        
-        return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
-        end  
+            end
+            if context.cardarea == G.play and context.before then
+                return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+            end
     end
 }
 -- [[
@@ -338,7 +338,7 @@ sheoldred = SMODS.Enhancement {
 	end,
     in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
                 if (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers) then
                     G.E_MANAGER:add_event(Event({func = function()
                         play_sound('timpani')
@@ -397,7 +397,6 @@ token_demon = SMODS.Enhancement {
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
-            
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
@@ -406,31 +405,22 @@ token_demon = SMODS.Enhancement {
                         local temp_ID = G.hand.cards[1].base.id
                         local smallest = G.hand.cards[1]
                         for i=1, #G.hand.cards do
-                            
                             if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_ID = G.hand.cards[i].base.id; smallest = G.hand.cards[i] end
                         end
                         if smallest.debuff then
                             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
                         else
                             destroy_cards({smallest})
-                            --[[G.E_MANAGER:add_event(Event({
-                                trigger = 'after',
-                                delay = 0.15,
-                                func = function()
-                                    destroy_cards({smallest})
-                                    return true
-                                end}))]]
                         end
                     end
                     return true
-                end}))
-                if context.main_scoring then
-                    return {x_mult = card.ability.extra.x_mult}
-                end        
-                    return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
-                end  
-            end
-}        
+            end}))
+        if context.main_scoring then
+            return {x_mult = card.ability.extra.x_mult, card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+        end
+    end
+end
+}
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
 --]]
@@ -521,7 +511,7 @@ shivan = SMODS.Enhancement {
 	end,
     in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
             bonus_damage(card, card.ability.extra.damage_per, 1)
             return {mult = card.ability.extra.mult}
         end
@@ -572,7 +562,7 @@ yorvo = SMODS.Enhancement {
 	end,
     in_pool = cardsleeves_in_pool_compat,
   calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do
                 if v ~= card and v:is_suit(suit_clovers.key) then clovers_total = clovers_total + 1 end
@@ -604,7 +594,7 @@ nissa = SMODS.Enhancement {
 	end,
     in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
             if #G.hand.cards then
                 local temp_ID = G.hand.cards[1].base.id
                 local smallest = G.hand.cards[1]
@@ -641,7 +631,7 @@ baru = SMODS.Enhancement {
 	end,
     in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
             local clovers = 0
             for k, v in ipairs(context.scoring_hand) do
               if v ~= card and v:is_suit(suit_clovers.key) then 
