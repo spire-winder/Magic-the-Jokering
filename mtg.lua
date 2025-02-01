@@ -136,3 +136,8 @@ assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
 assert(SMODS.load_file("items/lands.lua"))()
+--[[
+if next(SMODS.find_mod('Cryptid')) then
+	assert(SMODS.load_file("items/cross-mods/crypt.lua"))()
+end
+--]]
