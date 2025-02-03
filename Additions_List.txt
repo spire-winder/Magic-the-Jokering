@@ -30,6 +30,12 @@ Clovers
    Forest
   -Spectrals
 Black Lotus
+   - lands
+plains
+island
+swamp
+mountain
+forest
 
    -Magic Cards (In WUBRG order)
 Astral Steel
@@ -82,6 +88,7 @@ Baru, Fist of Krosa
 Nissa, Vastwood Seer
 Yorvo, Lord of Garenbrig
 Squirrel (token)
+(all basic lands)
 
    - Booster Packs
       - Magic Cards (consumables)
@@ -89,8 +96,9 @@ Fallen Empires
 Arabian Nights
 Mystery Booster 2
 Portal Three Kingdoms
-     - Enhancments
+     - Enhancments (as of rn these packs do contain vanilla cards but its not a high priority fix atm)
 Dominaria
+Bloomburrow (land specific)
 
    - New Mechanics
 Storm
