@@ -400,16 +400,20 @@ Forest_land = SMODS.Enhancement {
     key = "Forest_land",
     atlas = "forest",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit(suit_clovers.key) then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 --]]
 
@@ -422,16 +426,20 @@ Island_land = SMODS.Enhancement {
     text = "Island",
     atlas = "island",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Clubs") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 
 Plains_land = SMODS.Enhancement {
@@ -441,16 +449,20 @@ Plains_land = SMODS.Enhancement {
     text = "Plains",
     atlas = "plains",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Diamonds") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
         end
-      end
+    end
+end
 }
 
 -- [[
@@ -461,16 +473,20 @@ Swamp_land = SMODS.Enhancement {
     text = "Swamp",
     atlas = "swamp",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Spades") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 --]]
 
@@ -482,15 +498,19 @@ Mountain_land = SMODS.Enhancement {
     text = "Mountain",
     atlas = "mountain",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Hearts") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 --]]

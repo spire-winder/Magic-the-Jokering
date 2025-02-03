@@ -483,35 +483,40 @@ return {
                 name = "Forest Land",
                 text = {
                     "When card with the {C:clover}Clover{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Island_land = {
                 name = "Island Land",
                 text = {
                     "When card with the {C:club}Club{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Plains_land = {
                 name = "Plains Land",
                 text = {
                     "When card with the {C:diamond}Diamond{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Mountain_land = {
                 name = "Mountain Land",
                 text = {
                     "When card with the {C:heart}Heart{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "Other wise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Swamp_land = {
                 name = "Swamp Land",
                 text = {
                     "When card with the {C:spade}Spade{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
         },

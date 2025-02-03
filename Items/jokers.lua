@@ -197,7 +197,7 @@ SMODS.Joker {
   for k, v in ipairs(context.full_hand) do
     if v:is_suit('Clubs') then suits["Clubs"] = suits["Clubs"] + 1 end
   end
-   if suits["Clubs"] >= card.ability.extra.required then
+   if suits["Clubs"] >= card.ability.extra.required and card.ability.extra.awoken == false then
     card.ability.extra.awoken = true
     local eval = function() return not G.RESET_JIGGLES end
     juice_card_until(card, eval, true)
