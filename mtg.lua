@@ -136,6 +136,15 @@ assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
 assert(SMODS.load_file("items/lands.lua"))()
+SMODS.Language {key = 'Phyrexian', label = 'Magic the Jokering', font = {
+    file = "Phi_normal_3.0.ttf",
+    render_scale = G.TILESIZE*10,
+    TEXT_HEIGHT_SCALE = 0.83,
+    TEXT_OFFSET = {x=10,y=-20},
+    FONTSCALE = 0.1,
+    squish = 1,
+    DESCSCALE = 1
+}}
 --[[
 if next(SMODS.find_mod('Cryptid')) then
 	assert(SMODS.load_file("items/cross-mods/crypt.lua"))()
