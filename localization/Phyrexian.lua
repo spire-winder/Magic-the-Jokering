@@ -746,9 +746,9 @@ return {
             j_crafty={
                 name="χrafty joker",
                 text={
-                    "{C:čips}+#1#{} čips if played",
+                    "^{C:čips}+#1#{} čips if played",
                     "hand χontains",
-                    "a {C:attention}#2#",
+                    "a {C:attention}#2#.",
                 },
             },
             j_crazy={
