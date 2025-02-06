@@ -819,6 +819,14 @@ return {
                 },
             },
         },
+        Tokens = {
+            c_mtg_energy_token = {
+                name = "Energy Token",
+                text = {
+                    "Energy {C:attention}#1#{}",
+                },
+            },
+        },
         Tag = {
             tag_mtg_enhancementtag = {
                 name = "Magic Card Tag",
