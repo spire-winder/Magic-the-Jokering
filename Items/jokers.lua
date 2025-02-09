@@ -908,7 +908,7 @@ SMODS.Joker {
   rarity = 3,
   config = { },
   loc_vars = function(self, info_queue, center)
-    return { vars = { center.ability.extra.retriggers } }
+    return { }
   end,
   calculate = function(self, card, context)
     if context.repetition and context.cardarea == G.play then
