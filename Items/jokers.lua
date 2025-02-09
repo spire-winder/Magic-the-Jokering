@@ -699,7 +699,7 @@ rarity = 3,
     return { }
   end
 }
--- [[
+--[[
 --Whirler Virtuoso
 SMODS.Joker {
   object_type = "joker",
