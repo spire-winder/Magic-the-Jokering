@@ -311,6 +311,20 @@ return {
                     "cost {C:money}$#1#{} less"
                 },
             },
+            j_mtg_whirler = {
+                name = "Whirler Virtuoso",
+                text = {
+                    "Pay #2# {C:attention}energy{}:",
+                    "Add a {C:attention}Thopter{} to your hand",
+                    "{C:inactive}(Current Energy: #1#){}"
+                },
+            },
+            j_mtg_panharmonicon = {
+                name = "Panharmonicon",
+                text = {
+                    "When a card is scored, it scores again"
+                },
+            },
         },
         Enhanced = {
             m_mtg_octopus = {
@@ -477,6 +491,12 @@ return {
                     "a {C:clover}Clover{} suit get",
                     "{C:attention}+#1#{} rank when",
                     "this card is scored",
+                },
+            },
+            m_mtg_thopter = {
+                name = "Thopter",
+                text = {
+                    "{C:mult}+#1#{} Mult when scored",
                 },
             },
             m_mtg_Forest_land = {
@@ -819,11 +839,11 @@ return {
                 },
             },
         },
-        Tokens = {
-            c_mtg_energy_token = {
-                name = "Energy Token",
+        Card_token = {
+            c_mtg_energy = {
+                name = "energy token",
                 text = {
-                    "Energy {C:attention}#1#{}",
+                    "current energy: {C:attention}#1#{}"
                 },
             },
         },
@@ -1029,6 +1049,12 @@ return {
                     "Draw {C:attention}#1#{} cards when","this card is played and scored or discarded",
                 },
             },
+            mtg_energy = {
+                name = "Energy",
+                text = {
+                    "Current energy: {C:attention}#1#{}"
+                },
+            },
         }
     },
     misc = {
@@ -1058,6 +1084,7 @@ return {
             mtg_complete_ex = "Complete",
             mtg_slumber_ex = "Slumber",
             mtg_buff_ex = "Buff",
+            mtg_whirler_ex = "thop thop",
             b_take = "TAKE",
 
             mtg_requires_restart = 'Requires game restart',
@@ -1068,6 +1095,7 @@ return {
         },
         labels = {
             mtg_greedy_seal = "Greedy Seal",
+            mtg_energy = "Energy",
         },
         v_dictionary = {
             a_xchips = {"X#1# Chips"},

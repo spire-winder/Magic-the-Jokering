@@ -699,7 +699,46 @@ rarity = 3,
     return { }
   end
 }
-
+-- [[
+--Whirler Virtuoso
+SMODS.Joker {
+  object_type = "joker",
+  name = "Whirler Virtuoso",
+  key = "whirler",
+  pos = { x = 0, y = 1 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { extra = { energy = 1, require_token_count = 3}, mtg_energy = true },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count } }
+  end,
+  calculate = function(self, card, context)
+    if context.buying_card and context.cardarea ~= G.jokers then
+      card.ability.extra.energy = card.ability.extra.energy + 1
+    elseif context.pre_discard and context.cardarea == G.jokers then
+      if context.cardarea == G.jokers and context.other_card == self then
+        if context.card.ability.mtg_energy == true and G.GAME.current_round.hands_played == 0 then
+          if card.ability.extra.energy < 0 then
+            card.ability.extra.energy = 0
+        end
+      end
+    end
+    if context.cardarea == G.jokers then
+      if card.ability.extra.energy >= card.ability.extra.require_token_count then
+        require_token_count = card.ability.extra.require_token_count
+        return {
+          message = localize("k_upgrade_ex"),
+          card = card,
+          colour = G.C.MULT
+        }
+      end
+    end
+  end
+end
+}
+--]]
 --Goblin Anarchomancer
 --Played cards with Clover or Heart suit give x1.25 Mult when scored
 SMODS.Joker { 
@@ -853,6 +892,31 @@ SMODS.Joker {
           end
           return true
       end}))
+    end
+  end
+}
+
+--panharmonicon
+SMODS.Joker {
+  object_type = "Joker",
+  name = "mtg-panharmonicon",
+  key = "panharmonicon",
+  pos = { x = 0, y = 1 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.retriggers } }
+  end,
+  calculate = function(self, card, context)
+    if context.repetition and context.cardarea == G.play then
+      return {
+        message = localize("k_again_ex"),
+        repetitions = 1,
+        card = card
+      }
     end
   end
 }
