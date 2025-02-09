@@ -197,7 +197,7 @@ SMODS.Joker {
   for k, v in ipairs(context.full_hand) do
     if v:is_suit('Clubs') then suits["Clubs"] = suits["Clubs"] + 1 end
   end
-   if suits["Clubs"] >= card.ability.extra.required then
+   if suits["Clubs"] >= card.ability.extra.required and card.ability.extra.awoken == false then
     card.ability.extra.awoken = true
     local eval = function() return not G.RESET_JIGGLES end
     juice_card_until(card, eval, true)
@@ -833,7 +833,7 @@ SMODS.Joker {
       trigger = 'after',
       delay = 0.15,
       func = function()
-          if #G.hand.cards then
+          if #G.hand.cards and #G.hand.cards >= 1 then
               local temp_ID = G.hand.cards[1].base.id
               local smallest = G.hand.cards[1]
               for i=1, #G.hand.cards do
@@ -1017,12 +1017,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-urzamine",
 	key = "urzamine",
-	pos = { x = 0, y = 4 },
+	pos = { x = 0, y = 0 },
 	config = { extra = { base_chips = 50, bonus_chips = 200} },
   order = 18,
 	rarity = 1,
 	cost = 3,
-	atlas = "mtg_atlas",
+	atlas = "urza_mine",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_chips, center.ability.extra.bonus_chips} }
 	end,
@@ -1049,12 +1049,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-urzapower",
 	key = "urzapower",
-	pos = { x = 6, y = 3 },
+	pos = { x = 0, y = 0 },
 	config = { extra = { base_mult = 6, bonus_mult = 36} },
   order = 19,
 	rarity = 1,
 	cost = 4,
-	atlas = "mtg_atlas",
+	atlas = "urza-power",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_mult, center.ability.extra.bonus_mult} }
 	end,
@@ -1081,12 +1081,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-urzatower",
 	key = "urzatower",
-	pos = { x = 7, y = 3 },
+	pos = { x = 0, y = 0 },
 	config = { extra = { base_xmult = 1.5, bonus_xmult = 3} },
   order = 20,
 	rarity = 1,
 	cost = 3,
-	atlas = "mtg_atlas",
+	atlas = "urza-tower",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_xmult, center.ability.extra.bonus_xmult} }
 	end,

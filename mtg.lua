@@ -118,6 +118,27 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "urza_mine",
+	path = "urza-mine.png",
+	px = 71,
+	py = 95,
+})
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "urza-power",
+	path = "urza-plant.png",
+	px = 71,
+	py = 95,
+})
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "urza-tower",
+	path = "urza-tower.png",
+	px = 71,
+	py = 95,
+})
 
 --[[
 for checking if a mod is enabled
@@ -136,3 +157,18 @@ assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
 assert(SMODS.load_file("items/lands.lua"))()
+--assert(SMODS.load_file("items/tokens.lua"))()
+SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
+    file = "Phi_normal_3.0.ttf",
+    render_scale = G.TILESIZE*7,
+    TEXT_HEIGHT_SCALE = 0.63,
+    TEXT_OFFSET = {x=10,y=-20},
+    FONTSCALE = 0.1,
+    squish = 1,
+    DESCSCALE = 1
+}}
+--[[
+if next(SMODS.find_mod('Cryptid')) then
+	assert(SMODS.load_file("items/cross-mods/crypt.lua"))()
+end
+--]]

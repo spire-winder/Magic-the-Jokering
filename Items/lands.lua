@@ -127,10 +127,9 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Hearts' then
+                if G.hand.highlighted[i].base.suit == 'Hearts' or next(SMODS.find_card("j_mtg_bloodmoon")) then
                   -- do club things
                     Card.set_ability(G.hand.highlighted[i], Mountain_land, nil)
-                    
                 else
                   -- do non-club things
                     SMODS.change_base(G.hand.highlighted[i],'Hearts',nil)
@@ -138,19 +137,13 @@ SMODS.Consumable {
                 return true
               end,}))
         end
-   
-        
         for i=1, #G.hand.highlighted do
             local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
         end
-        
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
         delay(0.5)
-        
-        
-    end,        
-            
+    end,
 }
 --]]
 
@@ -185,13 +178,13 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'suit_clovers.key' then
+                if G.hand.highlighted[i].base.suit == suit_clovers.key or next(SMODS.find_card("j_mtg_yavimaya")) then
                   -- do clover things
                     Card.set_ability(G.hand.highlighted[i], Forest_land, nil)
                     
                 else
                   -- do non-clover things
-                    SMODS.change_base(G.hand.highlighted[i],'suit_clovers.key',nil)
+                    SMODS.change_base(G.hand.highlighted[i],suit_clovers.key,nil)
                 end
                 return true
               end,}))
@@ -242,7 +235,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Clubs' then
+                if G.hand.highlighted[i].base.suit == 'Clubs' or next(SMODS.find_card("j_mtg_harbinger")) then
                   -- do club things
                     Card.set_ability(G.hand.highlighted[i], Island_land, nil)
                     
@@ -303,7 +296,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Spades' then
+                if G.hand.highlighted[i].base.suit == 'Spades' or next(SMODS.find_card("j_mtg_urborg")) then
                   -- do spade things
                     Card.set_ability(G.hand.highlighted[i], Swamp_land, nil)
                     
@@ -362,7 +355,7 @@ SMODS.Consumable {
         delay(0.2)
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                if G.hand.highlighted[i].base.suit == 'Diamonds' then
+                if G.hand.highlighted[i].base.suit == 'Diamonds' or next(SMODS.find_card("j_mtg_celestialdawn")) then
                   -- do diamond things
                     Card.set_ability(G.hand.highlighted[i], Plains_land, nil)
                     
@@ -400,16 +393,20 @@ Forest_land = SMODS.Enhancement {
     key = "Forest_land",
     atlas = "forest",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit(suit_clovers.key) then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 --]]
 
@@ -422,16 +419,20 @@ Island_land = SMODS.Enhancement {
     text = "Island",
     atlas = "island",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Clubs") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 
 Plains_land = SMODS.Enhancement {
@@ -441,16 +442,20 @@ Plains_land = SMODS.Enhancement {
     text = "Plains",
     atlas = "plains",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Diamonds") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
         end
-      end
+    end
+end
 }
 
 -- [[
@@ -461,16 +466,20 @@ Swamp_land = SMODS.Enhancement {
     text = "Swamp",
     atlas = "swamp",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Spades") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 --]]
 
@@ -482,15 +491,19 @@ Mountain_land = SMODS.Enhancement {
     text = "Mountain",
     atlas = "mountain",
     pos = { x = 0, y = 0 },
-    config = { extra = { m_mult = 1.25 } },
+    config = { extra = { m_mult = 1.25, p_mult = 1.25 } },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.m_mult } }
+        return { vars = { card.ability.extra.m_mult, card.ability.extra.p_mult } }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-          return { mult = card.ability.extra.m_mult }
+            if card:is_suit("Hearts") then
+                return { Xmult = card.ability.extra.m_mult }
+            else
+                return { mult = card.ability.extra.p_mult }
+            end
         end
-      end
+    end
 }
 --]]

@@ -483,35 +483,40 @@ return {
                 name = "Forest Land",
                 text = {
                     "When card with the {C:clover}Clover{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Island_land = {
                 name = "Island Land",
                 text = {
                     "When card with the {C:club}Club{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Plains_land = {
                 name = "Plains Land",
                 text = {
                     "When card with the {C:diamond}Diamond{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Mountain_land = {
                 name = "Mountain Land",
                 text = {
                     "When card with the {C:heart}Heart{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "Other wise give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Swamp_land = {
                 name = "Swamp Land",
                 text = {
                     "When card with the {C:spade}Spade{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult"
+                    "is scored give {X:mult,C:white}X#1#{} Mult",
+                    "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
         },
@@ -679,7 +684,7 @@ return {
                 },
             },
             c_mtg_clonelegion = {
-                name = "Clone legion",
+                name = "Clone Legion",
                 text = {
                     "{C:attention}Copy{} all cards","in your hand",
                     "{C:inactive}Their lust for battle was so",
@@ -811,6 +816,14 @@ return {
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
                     "to {C:spade}Spades{}"
+                },
+            },
+        },
+        Tokens = {
+            c_mtg_energy_token = {
+                name = "Energy Token",
+                text = {
+                    "Energy {C:attention}#1#{}",
                 },
             },
         },

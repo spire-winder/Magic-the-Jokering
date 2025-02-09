@@ -168,6 +168,13 @@ function reanimate()
 	
 end
 
+function add_energy()
+	local energy = SMODS.find_card("c_mtg_energy")
+	if energy[1] then
+		energy[1].ability.extra.energy = energy[1].ability.extra.energy + 1
+	end
+end
+
 function increase_rank(card, amount)
 	for i=1,amount do
 		local rank_data = SMODS.Ranks[card.base.value]
@@ -443,6 +450,11 @@ function init_clovers()
 		ui_pos = { x = 0, y = 1 },
 		hc_colour = HEX('3dad2f'),
 		lc_colour = HEX('359229'),
+		in_pool = function(self, args)
+			if args and args.initial_deck then
+				return false
+			end
+		end
 	}
 end
 

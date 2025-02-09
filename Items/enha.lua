@@ -13,6 +13,14 @@
 end]]
 
 -- [[
+local function cardsleeves_in_pool_compat(self)
+  if CardSleeves and G.GAME.selected_back.effect.center.key == "b_abandoned" and G.GAME.selected_sleeve == "sleeve_casl_abandoned" then
+ return false
+end
+ return true
+end
+--]]
+-- [[
 odric = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "odric",
@@ -24,6 +32,7 @@ odric = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.x_mult, card.ability.extra.extra } }
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
        if context.cardarea == G.hand and context.main_scoring then 
             local diamond_count = 0
@@ -53,6 +62,7 @@ akroma = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         return { vars = {card.ability.extra.mult_x} }
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and context.main_scoring then
             if G.GAME.current_round.hands_played == 0 then
@@ -78,7 +88,7 @@ sublime = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.x_mult} }
 	end,
-    
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
          if context.cardarea == G.hand and context.main_scoring then
          return {x_mult = card.ability.extra.x_mult}
@@ -142,8 +152,8 @@ urza = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.m_steel
         return {  }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and context.main_scoring then
             local non_steel_cards = {}
@@ -158,6 +168,7 @@ urza = SMODS.Enhancement {
         end
     end
 }
+-- [[
 urza.force_value = "King"
 urza.force_suit = "Clubs"
 --]]
@@ -176,6 +187,7 @@ kiora = SMODS.Enhancement {
         info_queue[#info_queue + 1] = { key = "r_mtg_octopus", set = "Other", config = { extra = 1 } , vars = { 8 } }
         return { vars = { card.ability.extra.requried_discards, card.ability.extra.current_discards} }
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
             card.ability.extra.current_discards = card.ability.extra.current_discards + #context.full_hand
@@ -194,6 +206,7 @@ kiora = SMODS.Enhancement {
         end
     end
 }
+-- [[
 kiora.force_value = "Queen"
 kiora.force_suit = "Clubs"
 --]]
@@ -209,8 +222,8 @@ stormcrow = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return {  }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
@@ -229,6 +242,7 @@ stormcrow = SMODS.Enhancement {
         end
     end
 }
+-- [[
 stormcrow.force_value = "Jack"
 stormcrow.force_suit = "Clubs"
 --]]
@@ -249,7 +263,7 @@ token_octopus = SMODS.Enhancement {
         return { vars = { card.ability.extra.mult} }
 	end,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and context.main_scoring then
             return {mult = card.ability.extra.mult}
         end
     end
@@ -272,13 +286,14 @@ yawgmoth = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         return { vars = {card.ability.extra.current_mult, card.ability.extra.mult_per} }
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
                 func = function()
-                    if #G.hand.cards then
+                    if #G.hand.cards and #G.hand.cards >= 1 then
                         local temp_ID = G.hand.cards[1].base.id
                         local smallest = G.hand.cards[1]
                         for i=1, #G.hand.cards do
@@ -291,15 +306,16 @@ yawgmoth = SMODS.Enhancement {
                         end
                     end
                     return true
-                end}))
-                card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
+            end}))
+            card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_per
                 return {mult = card.ability.extra.current_mult}
-        end
-        if context.main_scoring then        
-        return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
-        end  
+            end
+            if context.cardarea == G.play and context.before then
+                return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+            end
     end
 }
+-- [[
 
 yawgmoth.force_value = "King"
 yawgmoth.force_suit = "Spades"
@@ -320,8 +336,9 @@ sheoldred = SMODS.Enhancement {
         info_queue[#info_queue + 1] = { key = "r_mtg_reanimate", set = "Other", config = {extra = 1}}
         return {  }
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
                 if (G.GAME.jokers_sold and #G.GAME.jokers_sold) and (#G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers) then
                     G.E_MANAGER:add_event(Event({func = function()
                         play_sound('timpani')
@@ -349,8 +366,8 @@ tinybones = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.money} }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
             if G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
@@ -360,6 +377,7 @@ tinybones = SMODS.Enhancement {
           end
     end
 }
+-- [[
 tinybones.force_value = "Jack"
 tinybones.force_suit = "Spades"
 --]]
@@ -379,12 +397,11 @@ token_demon = SMODS.Enhancement {
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
-            
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.15,
                 func = function()
-                    if #G.hand.cards then
+                    if #G.hand.cards and #G.hand.cards >= 1 then
                         local temp_ID = G.hand.cards[1].base.id
                         local smallest = G.hand.cards[1]
                         for i=1, #G.hand.cards do
@@ -394,24 +411,16 @@ token_demon = SMODS.Enhancement {
                             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_debuffed'),colour = G.C.RED})
                         else
                             destroy_cards({smallest})
-                            --[[G.E_MANAGER:add_event(Event({
-                                trigger = 'after',
-                                delay = 0.15,
-                                func = function()
-                                    destroy_cards({smallest})
-                                    return true
-                                end}))]]
                         end
                     end
                     return true
-                end}))
-                if context.main_scoring then
-                    return {x_mult = card.ability.extra.x_mult}
-                end        
-                    return {card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
-                end  
-            end
-}        
+            end}))
+        if context.main_scoring then
+            return {x_mult = card.ability.extra.x_mult, card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('mtg_sacrifice_ex'), colour = G.ARGS.LOC_COLOURS.spade})}
+        end
+    end
+end
+}
 token_demon.force_value = "6"
 token_demon.force_suit = "Spades"
 --]]
@@ -427,11 +436,11 @@ kikijiki = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return {  }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.hand and context.main_scoring then
-            if G.GAME.current_round.hands_played == 0 then
+            if G.GAME.current_round.hands_played == 0 and #G.play.cards == 1 then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
@@ -451,6 +460,7 @@ kikijiki = SMODS.Enhancement {
         end
     end
 }
+-- [[
 kikijiki.force_value = "King"
 kikijiki.force_suit = "Hearts"
 --]]
@@ -466,8 +476,8 @@ ashling = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return { vars = {card.ability.extra.damage_per} }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
         if context.pre_discard and not card.debuff then
             local heart_count = 0
@@ -480,6 +490,7 @@ ashling = SMODS.Enhancement {
         end
     end
 }
+-- [[
 ashling.force_value = "Queen"
 ashling.force_suit = "Hearts"
 --]]
@@ -497,15 +508,16 @@ shivan = SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
         return { vars = { card.ability.extra.mult, card.ability.extra.damage_per} }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
             bonus_damage(card, card.ability.extra.damage_per, 1)
             return {mult = card.ability.extra.mult}
         end
     end
 }
+-- [[
 shivan.force_value = "Jack"
 shivan.force_suit = "Hearts"
 --]]
@@ -523,7 +535,6 @@ token_goblin = SMODS.Enhancement {
     in_pool = function() return false end,
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.mult}}
-
 	end,
     calculate = function(self, card, context, effect)
         if context.cardarea == G.play and context.main_scoring then
@@ -548,10 +559,10 @@ yorvo = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.bonus_mult, card.ability.extra.current_mult} }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
   calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.other_card ~= self and context.main_scoring then
             local clovers_total = 0
             for k,v in pairs(context.scoring_hand) do
                 if v ~= card and v:is_suit(suit_clovers.key) then clovers_total = clovers_total + 1 end
@@ -564,6 +575,7 @@ yorvo = SMODS.Enhancement {
         end
     end
 }
+-- [[
 yorvo.force_value = "King"
 yorvo.force_suit = suit_clovers.key
 --]]
@@ -579,10 +591,10 @@ nissa = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return { vars = {card.ability.extra.strength} }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
             if #G.hand.cards then
                 local temp_ID = G.hand.cards[1].base.id
                 local smallest = G.hand.cards[1]
@@ -599,6 +611,7 @@ nissa = SMODS.Enhancement {
         end
     end
 }
+-- [[
 nissa.force_value = "Queen"
 nissa.force_suit = suit_clovers.key
 --]]
@@ -615,10 +628,10 @@ baru = SMODS.Enhancement {
     weight = 5,
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.strength} }
-
 	end,
+    in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff then
+        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
             local clovers = 0
             for k, v in ipairs(context.scoring_hand) do
               if v ~= card and v:is_suit(suit_clovers.key) then 
@@ -634,6 +647,7 @@ baru = SMODS.Enhancement {
           end
     end
 }
+-- [[
 baru.force_value = "Jack"
 baru.force_suit = suit_clovers.key
 --]]
