@@ -30,15 +30,28 @@ name = "mtg-energy",
 order = 1,
 cost = 3,
  config = { extra = { energy = 0 } },
+ in_pool function()
+        return false
+    end,
     loc_vars = function (self, info_queue, card)
-        return {vars = {card.ability.extra.energy}}
+        return { vars = { card.ability.extra.energy } }
     end,
     can_use = function (self, card)
-        return card.ability.extra.energy >= 0
+        if card.ability.mtg_energy or card.ability.extra.energy then
+            return true
+        end
     end,
     use = function (self, card, area, copier)
         local used_tarot = copier or card
-        card.ability.extra.energy = card.ability.extra.energy + 1
+       if area then
+        area:remove_from_highlighted(card)
+        end
+        if G.hand.highlighted[1] then
+            G.hand.highlighted[1].ability.mtg_energy = true
+        end
+        if G.jokers.highlighted[1] and card.ability.mtg_energy == true then
+            G.jokers.highlighted[1].ability.mtg_energy = true
+        end
     end,
 }
 --]]
