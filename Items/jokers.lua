@@ -699,7 +699,7 @@ rarity = 3,
     return { }
   end
 }
---[[
+
 --Whirler Virtuoso
 SMODS.Joker {
   object_type = "joker",
@@ -728,7 +728,7 @@ SMODS.Joker {
     end
   end,
 }
---]]
+
 --Goblin Anarchomancer
 --Played cards with Clover or Heart suit give x1.25 Mult when scored
 SMODS.Joker { 
