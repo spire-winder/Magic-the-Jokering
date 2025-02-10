@@ -511,7 +511,7 @@ shivan = SMODS.Enhancement {
 	end,
     in_pool = cardsleeves_in_pool_compat,
     calculate = function(self, card, context, effect)
-        if context.cardarea == G.play and not context.repetition and not card.debuff and context.main_scoring then
+        if context.cardarea == G.play and context.main_scoring then
             bonus_damage(card, card.ability.extra.damage_per, 1)
             return {mult = card.ability.extra.mult}
         end
@@ -678,6 +678,27 @@ token_squirrel.force_value = "2"
 token_squirrel.force_suit = suit_clovers.key
 --]]
 end
+
+token_thopter = SMODS.Enhancement {
+    object_type = "Enhancement",
+    key = "thopter",
+    atlas = "mtg_atlas",
+    pos = { x = 0, y = 1 },
+    config = { extra = {mult = 1}},
+    overrides_base_rank = true,
+    weight = 0,
+    in_pool = function() return false end,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.mult} }
+    end,
+    calculate = function(self, card, context, effect)
+        if context.cardarea == G.play and context.main_scoring then
+            return {mult = card.ability.extra.mult}
+        end
+    end
+}
+token_thopter.force_value = "2"
+token_thopter.force_suit = suit_suitless.key
 
 -- [[
 -- works as intended

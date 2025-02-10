@@ -168,11 +168,63 @@ function reanimate()
 	
 end
 
-function add_energy()
-	local energy = SMODS.find_card("c_mtg_energy")
-	if energy[1] then
-		energy[1].ability.extra.energy = energy[1].ability.extra.energy + 1
+--global table function things
+
+MTJ.energy_table= {
+	j_mtg_whirler = true,
+}
+
+--energy functions
+
+mtg_energy = G.energy
+
+G.energy = function (card, context)
+	if card.ability.mtg_energy then
+		if context.main_scoring or context.joker_main then
+			card.ability.extra.energy = card.ability.extra.energy + 1
+		end
+		if card.ability.extra.energy <= 0 or card.ability.extra.energy > 1e300 then
+			card.ability.extra.energy = 0
+		end
 	end
+end
+
+function mtg_increment_energy(card, context)
+	if card.ability.mtg_energy then
+		return (G.energy(card, context))
+	end
+end
+function require_token_count(card)
+	return card.ability.extra.energy >= card.ability.extra.require_token_count
+  end
+
+function use_energy(card)
+    card.ability.extra.energy = card.ability.extra.energy - card.ability.extra.require_token_count
+    SMODS.trigger_effects({eval_card(card, { use_energy = true })})
+end
+
+function G.FUNCS.can_use_energy(e)
+    local c1 = e.config.ref_table
+    if require_token_count(c1) then
+        e.config.colour = G.C.GOLD
+        e.config.button = 'use_energy'
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+end
+
+function G.FUNCS.use_energy(e)
+    local c1 = e.config.ref_table
+    G.E_MANAGER:add_event(Event({
+        trigger = "after",
+        delay = 0.1,
+        func = function()
+            use_energy(c1)
+            return true
+        end,
+    }))
+    G.jokers:unhighlight_all()
 end
 
 function increase_rank(card, amount)
@@ -458,6 +510,26 @@ function init_clovers()
 	}
 end
 
+function init_suitless()
+	suit_suitless = SMODS.Suit {
+		key = 'Suitless',
+		card_key = 'N',
+		hc_atlas = 'mtg_hc_cards',
+		lc_atlas = 'mtg_lc_cards',
+		hc_ui_atlas = 'mtg_hc_ui',
+		lc_ui_atlas = 'mtg_lc_ui',
+		pos = { y = 1 },
+		ui_pos = { x = 1, y = 1 },
+		hc_colour = HEX('FFFFFF'),
+		lc_colour = HEX('FFFFFF'),
+		in_pool = function(self, args)
+			if args and args.initial_deck then
+				return false
+			end
+		end
+	}
+end
+
 function update_ranks()
 	for k, v in pairs(SMODS.Ranks) do
 		for _, r in ipairs(v.next) do
@@ -530,7 +602,7 @@ G.FUNCS.can_use_loyalty_1 = function(e)
       	e.config.button = nil
 	end
 end
-
+-- [[
 local G_UIDEF_use_and_sell_buttons_ref = G.UIDEF.use_and_sell_buttons
 G.UIDEF.use_and_sell_buttons = function(card)
 	local retval = G_UIDEF_use_and_sell_buttons_ref(card)
@@ -551,7 +623,6 @@ G.UIDEF.use_and_sell_buttons = function(card)
 				}},
 			}}
 		end	
-	end
 	--[[if card.area and card.area.config.type == 'joker' and card.ability.set == 'Joker' then
 		local gx = 
 		{n=G.UIT.C, config={align = "cl"}, nodes={
@@ -594,9 +665,10 @@ G.UIDEF.use_and_sell_buttons = function(card)
 		table.insert(retval.nodes[1].nodes[2].nodes, gx)
 		return retval
 	end]]
+	end
 	return retval
 end
-
+--]]
 -- SMODS UI funcs (additions, config, collection)
 
 SMODS.current_mod.config_tab = function()

@@ -700,6 +700,38 @@ rarity = 3,
   end
 }
 
+--Whirler Virtuoso
+SMODS.Joker {
+  object_type = "joker",
+  name = "Whirler Virtuoso",
+  key = "whirler",
+  pos = { x = 0, y = 1 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { extra = { energy = 1, require_token_count = 3}, mtg_energy = true },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count } }
+  end,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers then
+      return (mtg_increment_energy(card, context))
+    end
+    if context.use_energy then
+      G.E_MANAGER:add_event(Event({
+        func = function() 
+          local _suit, _rank = SMODS.Suits[suit_suitless.key].card_key, "2"
+          create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_thopter}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+          G.hand:sort()
+          if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
+            return true
+          end}))
+          playing_card_joker_effects({true})
+    end
+  end,
+}
+
 --Goblin Anarchomancer
 --Played cards with Clover or Heart suit give x1.25 Mult when scored
 SMODS.Joker { 
@@ -856,6 +888,54 @@ SMODS.Joker {
     end
   end
 }
+
+--panharmonicon
+SMODS.Joker {
+  object_type = "Joker",
+  name = "mtg-panharmonicon",
+  key = "panharmonicon",
+  pos = { x = 0, y = 1 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { },
+  loc_vars = function(self, info_queue, center)
+    return { }
+  end,
+  calculate = function(self, card, context)
+    if context.repetition and context.cardarea == G.play then
+      return {
+        message = localize("k_again_ex"),
+        repetitions = 1,
+        card = card
+      }
+    end
+  end
+}
+
+--[[
+--Decoction Module
+SMODS.Joker {
+  object_type = "Joker",
+  name = "Decoction Module",
+  key = "decoction",
+  pos = { x = 0, y = 1 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { extra = { energy = 1}, mtg_energy = true },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count } }
+  end,
+  calculate = function(self, card, context)
+    if context.individual and context.cararea == G.play then
+      return (mtg_increment_energy(card, context))
+    end
+  end
+}
+--]]
 
 --dreamstone hedron
 SMODS.Joker { 

@@ -311,6 +311,27 @@ return {
                     "cost {C:money}$#1#{} less"
                 },
             },
+            j_mtg_whirler = {
+                name = "Whirler Virtuoso",
+                text = {
+                    "Pay #2# {C:attention}energy{}:",
+                    "Add a {C:attention}Thopter{} to your hand",
+                    "{C:inactive}(Current Energy: #1#){}"
+                },
+            },
+            j_mtg_panharmonicon = {
+                name = "Panharmonicon",
+                text = {
+                    "When a card is scored, it scores again"
+                },
+            },
+            j_mtg_decoction ={
+                name = "Decoction Module",
+                text = {
+                    "When a card is scored gain",
+                    "{C:attention}#1#{} {C:dark_edition}energy{}",
+                }
+            }
         },
         Enhanced = {
             m_mtg_octopus = {
@@ -479,6 +500,12 @@ return {
                     "this card is scored",
                 },
             },
+            m_mtg_thopter = {
+                name = "Thopter",
+                text = {
+                    "{C:mult}+#1#{} Mult when scored",
+                },
+            },
             m_mtg_Forest_land = {
                 name = "Forest Land",
                 text = {
@@ -519,6 +546,13 @@ return {
                     "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
+            m_mtg_Aether_Hub = {
+                name = "Aether Hub",
+                text = {
+                    "When this card is scored increase your energy",
+                    "by {C:attention}#1#{}"
+                }
+            }
         },
        
         Tarot = {
@@ -819,11 +853,11 @@ return {
                 },
             },
         },
-        Tokens = {
-            c_mtg_energy_token = {
-                name = "Energy Token",
+        Card_token = {
+            c_mtg_energy = {
+                name = "energy token",
                 text = {
-                    "Energy {C:attention}#1#{}",
+                    "current energy: {C:attention}#1#{}"
                 },
             },
         },
@@ -1029,14 +1063,22 @@ return {
                     "Draw {C:attention}#1#{} cards when","this card is played and scored or discarded",
                 },
             },
+            mtg_energy = {
+                name = "Energy",
+                text = {
+                    "Current energy: {C:attention}#1#{}"
+                },
+            },
         }
     },
     misc = {
         suits_singular = {
-            mtg_Clovers = "Clover"
+            mtg_Clovers = "Clover",
+            mtg_Suitless = "suitless"
         },
         suits_plural = {
-            mtg_Clovers = "Clovers"
+            mtg_Clovers = "Clovers",
+            mtg_Suitless = "Suitless"
         },
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",
@@ -1058,6 +1100,7 @@ return {
             mtg_complete_ex = "Complete",
             mtg_slumber_ex = "Slumber",
             mtg_buff_ex = "Buff",
+            mtg_whirler_ex = "thop thop",
             b_take = "TAKE",
 
             mtg_requires_restart = 'Requires game restart',
@@ -1068,6 +1111,7 @@ return {
         },
         labels = {
             mtg_greedy_seal = "Greedy Seal",
+            mtg_energy = "Energy",
         },
         v_dictionary = {
             a_xchips = {"X#1# Chips"},
