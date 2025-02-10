@@ -24,6 +24,7 @@ Clovers
    "Torbran, Thane of Red Fell"
    Urza's Mine, Urza's Power Plant, Urza's Tower
    Waste Not
+   Whirler Virtuoso
  
 - Consumables
   -Tarots
@@ -88,7 +89,9 @@ Baru, Fist of Krosa
 Nissa, Vastwood Seer
 Yorvo, Lord of Garenbrig
 Squirrel (token)
+Thopter
 (all basic lands)
+Aether Hub
 
    - Booster Packs
       - Magic Cards (consumables)
@@ -106,3 +109,4 @@ Damage (Blind and Cards)
 Draw
 Reanimate
 Relentless
+Energy
