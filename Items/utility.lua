@@ -168,7 +168,32 @@ function reanimate()
 	
 end
 
+--global table function things
+
+MTJ.energy_table= {
+	j_mtg_whirler = true,
+}
+
 --energy functions
+
+mtg_energy = G.energy
+
+G.energy = function (card, context)
+	if card.ability.mtg_energy then
+		if context.main_scoring or context.joker_main then
+			card.ability.extra.energy = card.ability.extra.energy + 1
+		end
+		if card.ability.extra.energy <= 0 or card.ability.extra.energy > 1e300 then
+			card.ability.extra.energy = 0
+		end
+	end
+end
+
+function mtg_increment_energy(card, context)
+	if card.ability.mtg_energy then
+		return (G.energy(card, context))
+	end
+end
 function require_token_count(card)
 	return card.ability.extra.energy >= card.ability.extra.require_token_count
   end
@@ -477,6 +502,26 @@ function init_clovers()
 		ui_pos = { x = 0, y = 1 },
 		hc_colour = HEX('3dad2f'),
 		lc_colour = HEX('359229'),
+		in_pool = function(self, args)
+			if args and args.initial_deck then
+				return false
+			end
+		end
+	}
+end
+
+function init_suitless()
+	suit_suitless = SMODS.Suit {
+		key = 'Suitless',
+		card_key = 'N',
+		hc_atlas = 'mtg_hc_cards',
+		lc_atlas = 'mtg_lc_cards',
+		hc_ui_atlas = 'mtg_hc_ui',
+		lc_ui_atlas = 'mtg_lc_ui',
+		pos = { y = 1 },
+		ui_pos = { x = 1, y = 1 },
+		hc_colour = HEX('FFFFFF'),
+		lc_colour = HEX('FFFFFF'),
 		in_pool = function(self, args)
 			if args and args.initial_deck then
 				return false

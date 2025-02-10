@@ -30,7 +30,7 @@ name = "mtg-energy",
 order = 1,
 cost = 3,
  config = { extra = { energy = 0 } },
- in_pool function()
+ in_pool = function()
         return false
     end,
     loc_vars = function (self, info_queue, card)

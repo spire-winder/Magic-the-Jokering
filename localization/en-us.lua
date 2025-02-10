@@ -539,6 +539,13 @@ return {
                     "otherwise give {C:mult}+#2#{} Mult"
                 },
             },
+            m_mtg_Aether_Hub = {
+                name = "Aether Hub",
+                text = {
+                    "When this card is scored increase your energy",
+                    "by {C:attention}#1#{}"
+                }
+            }
         },
        
         Tarot = {
@@ -1059,10 +1066,12 @@ return {
     },
     misc = {
         suits_singular = {
-            mtg_Clovers = "Clover"
+            mtg_Clovers = "Clover",
+            mtg_Suitless = "suitless"
         },
         suits_plural = {
-            mtg_Clovers = "Clovers"
+            mtg_Clovers = "Clovers",
+            mtg_Suitless = "Suitless"
         },
         dictionary = {
             k_mtg_magic_pack = "Magic Pack",

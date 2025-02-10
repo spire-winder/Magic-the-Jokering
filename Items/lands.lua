@@ -64,7 +64,6 @@ SMODS.Consumable {
 ]]
 
 
-
 SMODS.ConsumableType {
     object_type = "ConsumableType",
     key = 'Land',
@@ -503,6 +502,27 @@ Mountain_land = SMODS.Enhancement {
             else
                 return { mult = card.ability.extra.p_mult }
             end
+        end
+    end
+}
+--]]
+
+-- [[
+Aether_Hub = SMODS.Enhancement {
+    object_type = "Enhancement",
+    name = "mtg-Aether_Hub",
+    key = "Aether_Hub",
+    text = "Aether Hub",
+    atlas = "mtg_atlas",
+    pos = { x = 0, y = 1 },
+    config = { extra = { energy = 2 } },
+    weight = 0,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.energy}, mtg_energy = true }
+    end,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+           return (G.energy(card, context))
         end
     end
 }

@@ -2,6 +2,10 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
+if not MTJ then
+	MTJ = {}
+end
+
 MagicTheJokering = SMODS.current_mod
 -- Load Options
 MagicTheJokering_config = MagicTheJokering.config
@@ -155,6 +159,7 @@ for checking if a mod is enabled
 
 assert(SMODS.load_file("items/utility.lua"))()
 init_planeswalkers()
+init_suitless()
 if MagicTheJokering.config.include_clover_suit then
 	init_clovers()
 end
@@ -164,8 +169,8 @@ assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
 assert(SMODS.load_file("items/lands.lua"))()
---assert(SMODS.load_file("items/tokens.lua"))()
---assert(SMODS.load_file("items/seals.lua"))()
+assert(SMODS.load_file("items/tokens.lua"))()
+assert(SMODS.load_file("items/seals.lua"))()
 SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
     file = "Phi_normal_3.0.ttf",
     render_scale = G.TILESIZE*7,

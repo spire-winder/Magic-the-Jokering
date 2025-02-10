@@ -13,9 +13,10 @@ SMODS.Sticker {
     end,
     calculate = function (self, card, context)
         if card.ability.mtg_energy then
-            if card.ability.extra.energy >= card.ability.require_token_count then
-            return true
+            if card.ability.extra.energy and context.main_scoring then
+                card.ability.extra.energy = card.ability.extra.energy + 1
+            end
         end
     end
-end
+
 }

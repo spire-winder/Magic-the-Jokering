@@ -698,7 +698,7 @@ token_thopter = SMODS.Enhancement {
     end
 }
 token_thopter.force_value = "2"
-token_thopter.force_suit = "Diamonds"
+token_thopter.force_suit = suit_suitless.key
 
 -- [[
 -- works as intended
