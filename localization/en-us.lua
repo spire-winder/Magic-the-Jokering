@@ -325,6 +325,13 @@ return {
                     "When a card is scored, it scores again"
                 },
             },
+            j_mtg_decoction ={
+                name = "Decoction Module",
+                text = {
+                    "When a card is scored gain",
+                    "{C:attention}#1#{} {C:dark_edition}energy{}",
+                }
+            }
         },
         Enhanced = {
             m_mtg_octopus = {

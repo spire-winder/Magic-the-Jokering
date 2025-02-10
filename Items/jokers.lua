@@ -914,6 +914,29 @@ SMODS.Joker {
   end
 }
 
+--[[
+--Decoction Module
+SMODS.Joker {
+  object_type = "Joker",
+  name = "Decoction Module",
+  key = "decoction",
+  pos = { x = 0, y = 1 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { extra = { energy = 1}, mtg_energy = true },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count } }
+  end,
+  calculate = function(self, card, context)
+    if context.individual and context.cararea == G.play then
+      return (mtg_increment_energy(card, context))
+    end
+  end
+}
+--]]
+
 --dreamstone hedron
 SMODS.Joker { 
 	object_type = "Joker",
