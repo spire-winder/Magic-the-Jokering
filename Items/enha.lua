@@ -475,6 +475,7 @@ ashling = SMODS.Enhancement {
     overrides_base_rank = true,
     weight = 5,
 	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = { key = "r_mtg_damage_blind", set = "Other", config = {extra = 1}, vars = { current_blind_life() or "?"}}
         return { vars = {card.ability.extra.damage_per} }
 	end,
     in_pool = cardsleeves_in_pool_compat,
@@ -682,8 +683,8 @@ end
 token_thopter = SMODS.Enhancement {
     object_type = "Enhancement",
     key = "thopter",
-    atlas = "mtg_atlas",
-    pos = { x = 0, y = 1 },
+    atlas = "thopter",
+    pos = { x = 0, y = 0 },
     config = { extra = {mult = 1}},
     overrides_base_rank = true,
     weight = 0,
