@@ -12,6 +12,7 @@ position = "after"
 payload = '''
     mtg_storm_count = 0,
     mtg_bonus_chips = 0,
+	mtg_energy_storage = 0,
 '''
 match_indent = true
 
@@ -244,6 +245,7 @@ payload = '''
 '''
 match_indent = true
 
+# Use Energy button
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"

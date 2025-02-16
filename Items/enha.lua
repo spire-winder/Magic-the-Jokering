@@ -160,7 +160,7 @@ urza = SMODS.Enhancement {
             for i = 1, #G.hand.cards do
                 if G.hand.cards[i].config.center_key ~= "m_steel" then non_steel_cards[#non_steel_cards+1] = G.hand.cards[i] end
             end
-            if #non_steel_cards > 0 and #G.hand.cards and #G.hand.cards >= 1 then then
+            if #non_steel_cards > 0 and #G.hand.cards and #G.hand.cards >= 1 then
                 local card_to_enhance = pseudorandom_element(non_steel_cards, pseudoseed('urza'))
                 G.FUNCS.buff_cards({card_to_enhance},0, 0, "m_steel")
                 card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("mtg_steel_ex"), colour = G.ARGS.LOC_COLOURS.club})

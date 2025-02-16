@@ -168,63 +168,73 @@ function reanimate()
 	
 end
 
---global table function things
+-- local array of stuff and things
 
-MTJ.energy_table= {
-	j_mtg_whirler = true,
+mtg = {
+	config = {
+		energy_array = {
+			'j_mtg_whirler',
+			'j_mtg_decoction'
+		},
+	},
 }
 
 --energy functions
 
 mtg_energy = G.energy
 
+function energy_storage_increase(card, amount)
+	local amount = card.ability.extra.add_energy
+	G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage + amount
+end
+
 G.energy = function (card, context)
 	if card.ability.mtg_energy then
 		if context.main_scoring or context.joker_main then
-			card.ability.extra.energy = card.ability.extra.energy + 1
+			 G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage + card.ability.extra.add_energy
 		end
-		if card.ability.extra.energy <= 0 or card.ability.extra.energy > 1e300 then
-			card.ability.extra.energy = 0
+		if G.GAME.mtg_energy_storage <= 0 or G.GAME.mtg_energy_storage > 1e300 then
+			G.GAME.mtg_energy_storage = 0
 		end
 	end
 end
 
 function mtg_increment_energy(card, context)
-	if card.ability.mtg_energy then
+	if card.ability.mtg_energy or mtg.config.energy_array == true then
 		return (G.energy(card, context))
 	end
 end
-function require_token_count(card)
-	return card.ability.extra.energy >= card.ability.extra.require_token_count
-  end
+function require_token_count(card, context)
+	return G.GAME.mtg_energy_storage >= card.ability.extra.require_token_count
+end
 
 function use_energy(card)
-    card.ability.extra.energy = card.ability.extra.energy - card.ability.extra.require_token_count
-    SMODS.trigger_effects({eval_card(card, { use_energy = true })})
+	G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage - card.ability.extra.require_token_count
+	SMODS.trigger_effects({eval_card(card, { use_energy = true })})
 end
 
 function G.FUNCS.can_use_energy(e)
-    local c1 = e.config.ref_table
-    if require_token_count(c1) then
-        e.config.colour = G.C.GOLD
-        e.config.button = 'use_energy'
-    else
-        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-        e.config.button = nil
-    end
+	local c1 = e.config.ref_table
+	if require_token_count(c1) then
+		e.config.colour = G.C.GOLD
+		e.config.button = 'use_energy'
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	end
 end
 
 function G.FUNCS.use_energy(e)
-    local c1 = e.config.ref_table
-    G.E_MANAGER:add_event(Event({
-        trigger = "after",
-        delay = 0.1,
-        func = function()
-            use_energy(c1)
-            return true
-        end,
-    }))
-    G.jokers:unhighlight_all()
+	 local c1 = e.config.ref_table
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.1,
+		func = function()
+			use_energy(c1)
+			return true
+		end,
+	}))
+	G.jokers:unhighlight_all()
 end
 
 function increase_rank(card, amount)
