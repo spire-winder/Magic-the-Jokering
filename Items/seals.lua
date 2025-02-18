@@ -18,5 +18,4 @@ SMODS.Sticker {
             end
         end
     end
-
 }

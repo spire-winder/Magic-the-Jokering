@@ -181,6 +181,15 @@ mtg = {
 
 --energy functions
 
+function mtg_check_for_decoction(energy_array)
+    for k, v in ipairs(energy_array) do
+       if v ==  'j_mtg_decoction' then
+		return true
+	   end
+    end
+    return false
+end
+
 mtg_energy = G.energy
 
 function energy_storage_increase(card, amount)
@@ -189,20 +198,18 @@ function energy_storage_increase(card, amount)
 end
 
 G.energy = function (card, context)
-	if card.ability.mtg_energy then
-		if context.main_scoring or context.joker_main then
-			 G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage + card.ability.extra.add_energy
-		end
-		if G.GAME.mtg_energy_storage <= 0 or G.GAME.mtg_energy_storage > 1e300 then
-			G.GAME.mtg_energy_storage = 0
-		end
+	--if context.main_scoring or context.joker_main then
+		G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage + card.ability.extra.add_energy
+	--end
+	if G.GAME.mtg_energy_storage <= 0 or G.GAME.mtg_energy_storage > 1e300 then
+		G.GAME.mtg_energy_storage = 0
 	end
 end
 
 function mtg_increment_energy(card, context)
-	if card.ability.mtg_energy or mtg.config.energy_array == true then
-		return (G.energy(card, context))
-	end
+   -- if card.ability.mtg_energy or mtg_check_for_decoction(mtg.config.energy_array) == true then
+        return (G.energy(card, context))
+   -- end
 end
 function require_token_count(card, context)
 	return G.GAME.mtg_energy_storage >= card.ability.extra.require_token_count

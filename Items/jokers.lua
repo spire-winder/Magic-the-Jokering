@@ -300,7 +300,7 @@ SMODS.Joker {
 		return { vars = { center.ability.extra.bonus_mult, center.ability.extra.neg_mult} }
 	end,
 	calculate = function(self, card, context)
-    if context.individual and not context.repetition then
+    if context.main_scoring then
       if context.cardarea == G.play then
         if context.other_card:is_suit('Spades') then
           return {
@@ -661,8 +661,7 @@ SMODS.Joker {
 		return { vars = { center.ability.extra.extra, center.ability.extra.x_mult} }
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main		
-		then
+		if context.joker_main then
 			return {
 				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.x_mult } }),
 				Xmult_mod = card.ability.extra.x_mult,
@@ -710,12 +709,16 @@ SMODS.Joker {
   cost = 8,
   order = 14,
   rarity = 3,
-  config = { extra = { energy = 1, require_token_count = 3}, mtg_energy = true },
+  config = { extra = { energy = 0, require_token_count = 3, add_energy = 1}, mtg_energy = true },
   loc_vars = function(self, info_queue, center)
-    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count } }
+    info_queue[#info_queue+1] = { key = "r_mtg_current_energy", set = "Other", config = {extra = G.GAME.mtg_energy_storage}, vars = { G.GAME.mtg_energy_storage or "?"}}
+    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count, center.ability.extra.add_energy } }
   end,
   calculate = function(self, card, context)
-    if context.cardarea == G.jokers then
+    if context.buying_card and context.other_card == self then
+      return (energy_storage_increase(card, context))
+    end
+    if context.cardarea == G.jokers and context.joker_main then
       return (mtg_increment_energy(card, context))
     end
     if context.use_energy then
@@ -914,7 +917,7 @@ SMODS.Joker {
   end
 }
 
---[[
+-- [[
 --Decoction Module
 SMODS.Joker {
   object_type = "Joker",
@@ -925,12 +928,13 @@ SMODS.Joker {
   cost = 8,
   order = 14,
   rarity = 3,
-  config = { extra = { energy = 1}, mtg_energy = true },
+  config = { extra = { energy = 1, add_energy = 1} },
   loc_vars = function(self, info_queue, center)
-    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count } }
+    info_queue[#info_queue+1] = { key = "r_mtg_current_energy", set = "Other", config = {extra = G.GAME.mtg_energy_storage}, vars = { G.GAME.mtg_energy_storage or "?"}}
+    return { vars = { center.ability.extra.energy } }
   end,
   calculate = function(self, card, context)
-    if context.individual and context.cararea == G.play then
+    if context.cardarea == G.play and context.individual then
       return (mtg_increment_energy(card, context))
     end
   end

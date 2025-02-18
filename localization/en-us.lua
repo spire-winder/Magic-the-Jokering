@@ -315,8 +315,7 @@ return {
                 name = "Whirler Virtuoso",
                 text = {
                     "Pay #2# {C:attention}energy{}:",
-                    "Add a {C:attention}Thopter{} to your hand",
-                    "{C:inactive}(Current Energy: #1#){}"
+                    "Add a {C:attention}Thopter{} to your hand"
                 },
             },
             j_mtg_panharmonicon = {
@@ -975,6 +974,12 @@ return {
                     "{C:inactive}Current storm count: {C:attention}#1#{}"
                 }
             },
+            r_mtg_current_energy = {
+                name = "Current Energy",
+                text = {
+                    "Current energy: {C:attention}#1#{}"
+                }
+            },
             p_mtg_enhancement_pack = {
                 name = "Magic Card Pack",
                 text = {
@@ -1101,6 +1106,7 @@ return {
             mtg_slumber_ex = "Slumber",
             mtg_buff_ex = "Buff",
             mtg_whirler_ex = "thop thop",
+            mtg_gain_energy = "Energize",
             b_take = "TAKE",
 
             mtg_requires_restart = 'Requires game restart',

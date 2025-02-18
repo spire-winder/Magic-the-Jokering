@@ -127,10 +127,10 @@ SMODS.Consumable {
         for i=1, #G.hand.highlighted do
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                 if G.hand.highlighted[i].base.suit == 'Hearts' or next(SMODS.find_card("j_mtg_bloodmoon")) then
-                  -- do club things
+                  -- do Hearts things
                     Card.set_ability(G.hand.highlighted[i], Mountain_land, nil)
                 else
-                  -- do non-club things
+                  -- do non-Hearts things
                     SMODS.change_base(G.hand.highlighted[i],'Hearts',nil)
                 end
                 return true
@@ -515,14 +515,14 @@ Aether_Hub = SMODS.Enhancement {
     text = "Aether Hub",
     atlas = "mtg_atlas",
     pos = { x = 0, y = 1 },
-    config = { extra = { energy = 2 } },
+    config = { extra = { energy = 2, add_energy = 2 }, mtg_energy = true },
     weight = 0,
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.energy}, mtg_energy = true }
+        return { vars = { card.ability.extra.add_energy} }
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-           return (G.energy(card, context))
+           return (mtg_increment_energy(card, context))
         end
     end
 }
