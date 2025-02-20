@@ -187,8 +187,9 @@ SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
     squish = 1,
     DESCSCALE = 1
 }}
---[[
+-- [[
 if next(SMODS.find_mod('Cryptid')) then
-	assert(SMODS.load_file("items/cross-mods/crypt.lua"))()
+	assert(SMODS.load_file("items/cross-mods/cryptid/crypt.lua"))()
+	assert(SMODS.load_file("items/cross-mods/cryptid/jokers.lua"))()
 end
 --]]

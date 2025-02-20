@@ -329,8 +329,21 @@ return {
                 text = {
                     "When a card is scored gain",
                     "{C:attention}#1#{} {C:dark_edition}energy{}",
-                }
-            }
+                },
+            },
+            j_mtg_jetmir = {
+                name = "Jetmir, Nexus of Revels",
+                text = {
+                    "If you have a cat tag that is level 3 or more then",
+                    "every scored card gives an additional {C:chips}+#1#{} Chips",
+                    "then If you have a cat tag that is level 6 or more then",
+                    "every scored card gives an additional {C:mult}+#2#{} Mult",
+                    "then if you have a cat tag that is level 9 or more then",
+                    "every scored card gives an additional",
+                    "{X:dark_edition,C:white}^#3#{} to your chips and mult",
+                    "equal to your highest level cat tag"
+                },
+            },
         },
         Enhanced = {
             m_mtg_octopus = {
