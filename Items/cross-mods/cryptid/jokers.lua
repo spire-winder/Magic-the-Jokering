@@ -11,7 +11,7 @@ SMODS.Joker {
     pos = { x = 0, y = 1 },
     atlas = "mtg_atlas",
     order = 1,
-    rarity = 3, -- might change to epic if this is too strong
+    rarity = "cry_epic", -- might change to epic if this is too strong
     cost = 13,
     loc_vars = function(self, info_queue, center)
         return { vars = { center.ability.extra.mult, center.ability.extra.x_mult, center.ability.extra.power } }
@@ -23,7 +23,7 @@ SMODS.Joker {
                 level = math.max(G.GAME.tags[i].ability.level or 1, level)
             end
         end
-        if context.joker_main and context.cardarea == G.jokers then
+        if context.individual and context.cardarea == G.play then
             if level >= 9 then
                 return {
                     Emult_mod = 10,
