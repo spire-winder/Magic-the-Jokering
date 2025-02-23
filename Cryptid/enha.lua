@@ -1,6 +1,6 @@
 -- cryptid enhancements
-
-SMODS.Enhancement {
+local leonin ={
+    object_type = "Enhancement",
     name = 'leonin warleader',
     key = 'leonin_warleader',
     atlas = 'mtg_atlas',
@@ -30,4 +30,16 @@ SMODS.Enhancement {
 			end }))
         end
     end
+}
+
+
+
+local ret_items = {
+    leonin,
+}
+
+return {
+    name = "MTJ enhancements",
+    init = function() end,
+    items = ret_items,
 }

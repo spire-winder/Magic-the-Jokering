@@ -8,11 +8,11 @@ local jetmir = {
     object_type = "Joker",
     name = "mtg-jetmir",
     key = "jetmir",
+    order = 15,
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
         modest = {disabled = true},
-        mainline = {extra = {mult = 2, x_mult = 2, power = 2}},
-        madness = {extra = {mult = 10, x_mult = 10, power = 10}},
+        mainline = {extra = {mult = 2, x_mult = 2, power = 2}, disabled = false},
     },
     dependincies = {
         items = {
@@ -22,7 +22,6 @@ local jetmir = {
     },
     pos = { x = 0, y = 1 },
     atlas = "mtg_atlas",
-    order = 1,
     rarity = "cry_epic",
     cost = 13,
     loc_vars = function(self, info_queue, center)
@@ -75,9 +74,12 @@ local jetmir = {
 
 
 
+local ret_items = {
+    jetmir,
+}
+
 return {
     name = "MTJ jokers",
-    items = {
-        jetmir,
-    },
+    init = function() end,
+    items = ret_items,
 }
