@@ -8,7 +8,7 @@ local jetmir = {
     object_type = "Joker",
     name = "mtg-jetmir",
     key = "jetmir",
-    order = 15,
+    order = 0,
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
         modest = {disabled = true},
@@ -16,6 +16,7 @@ local jetmir = {
     },
     dependincies = {
         items = {
+            "j_cry_epic",
             "set_cry_epic",
             "set_cry_tag",
         },
@@ -68,14 +69,19 @@ local jetmir = {
 
 
 
-
+SMODS.Atlas({
+	key = "mtg_atlas",
+	path = "mtg_atlas.png",
+	px = 71,
+	py = 95,
+})
 
 
 
 
 
 local ret_items = {
-    jetmir,
+   jetmir,
 }
 
 return {
