@@ -4,10 +4,22 @@
 
 
 -- jetmir, nexus of revels
-SMODS.Joker {
+local jetmir = {
+    object_type = "Joker",
     name = "jetmir",
     key = "jetmir",
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
+    gameset_config = {
+        modest = {disabled = true},
+        mainline = {extra = {mult = 2, x_mult = 2, power = 2}},
+        madness = {extra = {mult = 10, x_mult = 10, power = 10}},
+    },
+    dependincies = {
+        items = {
+            "set_cry_epic",
+            "set_cry_tag",
+        },
+    },
     pos = { x = 0, y = 1 },
     atlas = "mtg_atlas",
     order = 1,
@@ -42,4 +54,30 @@ SMODS.Joker {
             end
         end
     end
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+return {
+    name = "MTJ jokers",
+    items = {
+        jetmir,
+    }
 }

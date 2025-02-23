@@ -1029,16 +1029,14 @@ SMODS.Joker {
 	calculate = function(self, card, context)
         if context.joker_main then
             if G.deck.cards[1] then
+              card.ability.extra.mult_per = 2
                 local top_card = G.deck.cards[#G.deck.cards] or nil
                 return {
                     mult_mod = top_card.base.nominal * card.ability.extra.mult_per,
                     message = localize({ type = "variable", key = "a_mult", vars = { top_card.base.nominal * card.ability.extra.mult_per } })
                 }
             end
-
-
         end
-
     end
 }
 --[[mightstone

@@ -7,6 +7,17 @@ SMODS.Enhancement {
     pos = { x = 0, y = 1 },
     order = 0,
     config = {mtg_energy = false},
+    gameset_config = {
+		modest = { disabled = true },
+		mainline = { disabled = false },
+		madness = { disabled = false },
+		experimental = {},
+    },
+    dependincies = {
+        items = {
+            'set_cry_tag',
+        },
+    },
     weight = 1,
     loc_vars = function(self, info_queue, center)
         return {  }

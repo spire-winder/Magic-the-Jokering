@@ -12,10 +12,8 @@ SMODS.Sticker {
         info_queue[#info_queue+1] = {type = "sticker", key = "mtg_energy", set = "other"}
     end,
     calculate = function (self, card, context)
-        if card.ability.mtg_energy then
-            if context.main_scoring or context.joker_main then
-                G.energy_storage = G.energy_storage + 1
-            end
+        if context.main_scoring or context.joker_main then
+            G.energy_storage = card.ability.extra.energy + 1
         end
     end
 }
