@@ -69,12 +69,12 @@ local jetmir = {
 
 
 
-SMODS.Atlas({
+--[[SMODS.Atlas({
 	key = "mtg_atlas",
 	path = "mtg_atlas.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
 
 
@@ -86,6 +86,7 @@ local ret_items = {
 
 return {
     name = "MTJ jokers",
-    init = function() end,
+    init = function(self)
+    end,
     items = ret_items,
 }
