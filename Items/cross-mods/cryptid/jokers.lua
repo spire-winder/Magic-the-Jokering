@@ -6,7 +6,7 @@
 -- jetmir, nexus of revels
 local jetmir = {
     object_type = "Joker",
-    name = "jetmir",
+    name = "mtg-jetmir",
     key = "jetmir",
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
@@ -23,7 +23,7 @@ local jetmir = {
     pos = { x = 0, y = 1 },
     atlas = "mtg_atlas",
     order = 1,
-    rarity = "cry_epic", -- might change to epic if this is too strong
+    rarity = "cry_epic",
     cost = 13,
     loc_vars = function(self, info_queue, center)
         return { vars = { center.ability.extra.mult, center.ability.extra.x_mult, center.ability.extra.power } }
@@ -79,5 +79,5 @@ return {
     name = "MTJ jokers",
     items = {
         jetmir,
-    }
+    },
 }
