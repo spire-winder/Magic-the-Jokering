@@ -1,20 +1,16 @@
--- cryptid jokers for cross mod
 
-
-
-
--- jetmir, nexus of revels
 local jetmir = {
     object_type = "Joker",
     name = "mtg-jetmir",
     key = "jetmir",
     order = 0,
+    take_ownership = true,
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
         modest = {disabled = true},
         mainline = {extra = {mult = 2, x_mult = 2, power = 2}, disabled = false},
     },
-    dependincies = {
+    dependencies = {
         items = {
             "j_cry_epic",
             "set_cry_epic",
@@ -55,37 +51,11 @@ local jetmir = {
         end
     end
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[SMODS.Atlas({
-	key = "mtg_atlas",
-	path = "mtg_atlas.png",
-	px = 71,
-	py = 95,
-})]]
-
-
-
-
-
 local ret_items = {
    jetmir,
 }
-
 return {
-    name = "MTJ jokers",
+    name = "MTG jokers",
     init = function(self)
     end,
     items = ret_items,
