@@ -1,14 +1,15 @@
 
 local jetmir = {
     object_type = "Joker",
-    name = "mtg-jetmir",
+    name = "jetmir",
     key = "jetmir",
     order = 0,
-    take_ownership = true,
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
-        modest = {disabled = true},
-        mainline = {extra = {mult = 2, x_mult = 2, power = 2}, disabled = false},
+		modest = { disabled = true },
+		mainline = { disabled = true },
+		madness = { disabled = true },
+		experimental = {disabled = true},
     },
     dependencies = {
         items = {
@@ -56,7 +57,7 @@ local ret_items = {
 }
 return {
     name = "MTG jokers",
-    init = function(self)
+    init = function()
     end,
     items = ret_items,
 }

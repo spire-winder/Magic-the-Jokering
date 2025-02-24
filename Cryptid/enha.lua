@@ -9,9 +9,9 @@ local leonin ={
     config = {mtg_energy = false},
     gameset_config = {
 		modest = { disabled = true },
-		mainline = { disabled = false },
-		madness = { disabled = false },
-		experimental = {},
+		mainline = { disabled = true },
+		madness = { disabled = true },
+		experimental = {disabled = true},
     },
     dependincies = {
         items = {
