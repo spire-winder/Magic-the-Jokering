@@ -1,19 +1,18 @@
 
 local jetmir = {
     object_type = "Joker",
-    name = "jetmir",
+    name = "mtg-jetmir",
     key = "jetmir",
-    order = 0,
+    order = 17,
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
 		modest = { disabled = true },
-		mainline = { disabled = true },
-		madness = { disabled = true },
+		mainline = { extra = { mult = 2, x_mult = 2, power = 2 }, disabled = true },
+		madness = { extra = { mult = 10, x_mult = 10, power = 10 }, disabled = true },
 		experimental = {disabled = true},
     },
     dependencies = {
         items = {
-            "j_cry_epic",
             "set_cry_epic",
             "set_cry_tag",
         },
@@ -35,18 +34,18 @@ local jetmir = {
         if context.individual and context.cardarea == G.play then
             if level >= 9 then
                 return {
-                    Emult_mod = 10,
-                    Xmult_mod = 10,
-                    mult_mod = 10,
+                    Emult_mod = self.config.extra.power,
+                    Xmult_mod = self.config.extra.x_mult,
+                    mult_mod = self.config.extra.mult,
                 }
             elseif level <= 8 and level >= 6 then
                 return {
-                    Xmult_mod = 10,
-                    mult_mod = 10,
+                    Xmult_mod = self.config.extra.x_mult,
+                    mult_mod = self.config.extra.mult,
                 }
             elseif level <= 5 and level >= 3 then
                 return {
-                    mult_mod = 10,
+                    mult_mod = self.config.extra.mult,
                 }
             end
         end
@@ -56,8 +55,7 @@ local ret_items = {
    jetmir,
 }
 return {
-    name = "MTG jokers",
-    init = function()
-    end,
-    items = ret_items,
+	name = "M Jokers",
+	init = function() end,
+	items = ret_items,
 }
