@@ -10,7 +10,7 @@ local leonin ={
     gameset_config = {
 		modest = { disabled = true },
 		mainline = { disabled = true },
-		madness = { disabled = true },
+		madness = { disabled = false },
 		experimental = {disabled = true},
     },
     dependincies = {
@@ -35,7 +35,7 @@ local leonin ={
 
 
 local ret_items = {
-    leonin,
+   -- leonin,
 }
 
 return {

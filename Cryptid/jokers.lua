@@ -7,8 +7,8 @@ local jetmir = {
     config = {extra = { mult = 10, x_mult = 10, power = 10}},
     gameset_config = {
 		modest = { disabled = true },
-		mainline = { extra = { mult = 2, x_mult = 2, power = 2 }, disabled = true },
-		madness = { extra = { mult = 10, x_mult = 10, power = 10 }, disabled = true },
+		mainline = { extra = { mult = 2, x_mult = 2, power = 2 }, disabled = false },
+		madness = { extra = { mult = 10, x_mult = 10, power = 10 }, disabled = false },
 		experimental = {disabled = true},
     },
     dependencies = {
@@ -52,7 +52,7 @@ local jetmir = {
     end
 }
 local ret_items = {
-   jetmir,
+  -- jetmir,
 }
 return {
 	name = "M Jokers",
