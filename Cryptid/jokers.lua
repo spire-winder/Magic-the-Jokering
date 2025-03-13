@@ -51,8 +51,18 @@ local jetmir = {
         end
     end
 }
+
+local mtg_atlas = {
+    object_type = "Atlas",
+    key = 'mtg_atlas',
+    path = 'mtg_atlas.png',
+    px = 0,
+    py = 1,
+}
+
+
 local ret_items = {
-  -- jetmir,
+   --jetmir,
 }
 return {
 	name = "M Jokers",
