@@ -28,6 +28,7 @@ name = "mtg-energy",
     atlas = "mtg_atlas",
     pos = { x = 0, y = 1 },
 order = 1,
+no_doe = true,
 cost = 3,
  config = { extra = { energy = 0 } },
  in_pool = function()
