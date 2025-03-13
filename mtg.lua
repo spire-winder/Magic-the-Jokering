@@ -17,6 +17,7 @@ SMODS.Atlas { key = 'mtg_hc_cards', path = '8BitDeck_opt2.png', px = 71, py = 95
 SMODS.Atlas { key = 'mtg_lc_ui', path = 'ui_assets.png', px = 18, py = 18 }
 SMODS.Atlas { key = 'mtg_hc_ui', path = 'ui_assets_opt2.png', px = 18, py = 18 }
 SMODS.Atlas({
+	raw_key = true,
 	key = "mtg_atlas",
 	path = "mtg_atlas.png",
 	px = 71,
@@ -189,6 +190,7 @@ SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
 }}
 --[[
 if next(SMODS.find_mod('Cryptid')) then
-	assert(SMODS.load_file("items/cross-mods/crypt.lua"))()
+	assert(SMODS.load_file("Cryptid/jokers.lua"))()
+	assert(SMODS.load_file("Cryptid/enha.lua"))()
 end
 --]]

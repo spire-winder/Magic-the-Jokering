@@ -329,8 +329,21 @@ return {
                 text = {
                     "When a card is scored gain",
                     "{C:attention}#1#{} {C:dark_edition}energy{}",
-                }
-            }
+                },
+            },
+            j_mtg_jetmir = {
+                name = "Jetmir, Nexus of Revels",
+                text = {
+                    "If you have a cat tag that is {C:attention}level 3{} or more then",
+                    "every scored card gives an additional {C:mult}+#1#{} Mult",
+                    "then If you have a cat tag that is {C:attention}level 6{} or more then",
+                    "every scored card gives an additional {X:red}X#2#{} Mult",
+                    "then if you have a cat tag that is {C:attention}level 9{} or more then",
+                    "every scored card gives an additional",
+                    "{X:dark_edition,C:white}^#3#{} to your mult",
+                    "equal to your highest level cat tag"
+                },
+            },
         },
         Enhanced = {
             m_mtg_octopus = {
@@ -550,8 +563,14 @@ return {
                 text = {
                     "When this card is scored increase your energy",
                     "by {C:attention}#1#{}"
-                }
-            }
+                },
+            },
+            m_mtg_leonin_warleader = {
+                name = "Leonin Warleader",
+                text = {
+                    "when scored add {C:attention}#1#{} cat tags"
+                },
+            },
         },
        
         Tarot = {
