@@ -1015,6 +1015,7 @@ SMODS.Joker {
   order = 16,
 	rarity = 1,
 	cost = 4,
+  immutable = true,
 	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
      if G.deck and G.deck.cards[1] then

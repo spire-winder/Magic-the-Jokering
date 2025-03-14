@@ -1,3 +1,35 @@
+local leonin ={
+    object_type = "Enhancement",
+    name = 'leonin warleader',
+    key = 'leonin_warleader',
+    atlas = 'atlas',
+    pos = { x = 0, y = 1 },
+    order = 0,
+    config = {mtg_energy = false},
+    gameset_config = {
+		modest = { disabled = true },
+		mainline = { disabled = true },
+		madness = { disabled = false },
+		experimental = {disabled = true},
+    },
+    dependincies = {
+        items = {
+            'set_cry_tag',
+        },
+    },
+    weight = 1,
+    loc_vars = function(self, info_queue, center)
+        return {  }
+    end,
+    calculate = function(self, card, context)
+        if context.main_scoring and context.cardarea == G.play then
+            G.E_MANAGER:add_event(Event({trigger = 'after', func = function()
+				add_tag(Tag('tag_cry_cat'))
+				return true
+			end }))
+        end
+    end
+}
 
 local jetmir = {
     object_type = "Joker",
@@ -18,7 +50,7 @@ local jetmir = {
         },
     },
     pos = { x = 0, y = 1 },
-    atlas = "mtg_atlas",
+    atlas = "atlas",
     rarity = "cry_epic",
     cost = 13,
     loc_vars = function(self, info_queue, center)
@@ -51,11 +83,23 @@ local jetmir = {
         end
     end
 }
-local ret_items = {
-  -- jetmir,
+
+local mtg_atlas = {
+    object_type = "Atlas",
+    key = 'atlas',
+    path = 'mtg_atlas.png',
+    px = 71,
+    py = 95,
 }
+
+
+local ret_items = {
+    jetmir,
+    leonin,
+}
+
 return {
-	name = "M Jokers",
-	init = function() end,
-	items = ret_items,
+    name = "MTJ cards",
+    init = function()end,
+    items = ret_items,
 }

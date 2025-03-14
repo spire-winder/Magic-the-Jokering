@@ -337,11 +337,10 @@ return {
                     "If you have a cat tag that is {C:attention}level 3{} or more then",
                     "every scored card gives an additional {C:mult}+#1#{} Mult",
                     "then If you have a cat tag that is {C:attention}level 6{} or more then",
-                    "every scored card gives an additional {X:red}X#2#{} Mult",
+                    "every scored card gives an additional {X:mult,C:White}X#2#{} Mult",
                     "then if you have a cat tag that is {C:attention}level 9{} or more then",
                     "every scored card gives an additional",
-                    "{X:dark_edition,C:white}^#3#{} to your mult",
-                    "equal to your highest level cat tag"
+                    "{X:dark_edition,C:White}^#3#{} Mult",
                 },
             },
         },
@@ -568,7 +567,7 @@ return {
             m_mtg_leonin_warleader = {
                 name = "Leonin Warleader",
                 text = {
-                    "when scored add {C:attention}#1#{} cat tags"
+                    "when scored add {C:attention}1{} cat tag"
                 },
             },
         },
