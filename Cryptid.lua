@@ -2,7 +2,7 @@ local leonin ={
     object_type = "Enhancement",
     name = 'leonin warleader',
     key = 'leonin_warleader',
-    atlas = 'mtg_atlas',
+    atlas = 'atlas',
     pos = { x = 0, y = 1 },
     order = 0,
     config = {mtg_energy = false},
@@ -50,7 +50,7 @@ local jetmir = {
         },
     },
     pos = { x = 0, y = 1 },
-    atlas = "mtg_atlas",
+    atlas = "atlas",
     rarity = "cry_epic",
     cost = 13,
     loc_vars = function(self, info_queue, center)
@@ -86,7 +86,7 @@ local jetmir = {
 
 local mtg_atlas = {
     object_type = "Atlas",
-    key = 'mtg_atlas',
+    key = 'atlas',
     path = 'mtg_atlas.png',
     px = 71,
     py = 95,
@@ -94,8 +94,8 @@ local mtg_atlas = {
 
 
 local ret_items = {
-  --  jetmir,
-  --  leonin,
+    jetmir,
+    leonin,
 }
 
 return {
