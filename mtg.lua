@@ -16,6 +16,12 @@ SMODS.Atlas { key = 'mtg_lc_cards', path = '8BitDeck.png', px = 71, py = 95 }
 SMODS.Atlas { key = 'mtg_hc_cards', path = '8BitDeck_opt2.png', px = 71, py = 95 }
 SMODS.Atlas { key = 'mtg_lc_ui', path = 'ui_assets.png', px = 18, py = 18 }
 SMODS.Atlas { key = 'mtg_hc_ui', path = 'ui_assets_opt2.png', px = 18, py = 18 }
+SMODS.Atlas ({
+	key = "modicon",
+	path = "Magic_icon.png",
+	px = 34,
+	py = 34,
+})
 SMODS.Atlas({
 	key = "mtg_atlas",
 	path = "mtg_atlas.png",
