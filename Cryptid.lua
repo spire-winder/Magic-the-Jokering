@@ -3,7 +3,7 @@ local leonin ={
     name = 'leonin warleader',
     key = 'leonin_warleader',
     atlas = 'atlas',
-    pos = { x = 0, y = 1 },
+    pos = { x = 10, y = 6 },
     order = 0,
     config = {mtg_energy = false},
     gameset_config = {
@@ -49,7 +49,7 @@ local jetmir = {
             "set_cry_tag",
         },
     },
-    pos = { x = 0, y = 1 },
+    pos = { x = 9, y = 6 },
     atlas = "atlas",
     rarity = "cry_epic",
     cost = 13,
