@@ -507,7 +507,7 @@ Mountain_land = SMODS.Enhancement {
 }
 --]]
 
--- [[
+--[[
 Aether_Hub = SMODS.Enhancement {
     object_type = "Enhancement",
     name = "mtg-Aether_Hub",
@@ -522,7 +522,7 @@ Aether_Hub = SMODS.Enhancement {
     end,
     calculate = function(self, card, context)
         if context.main_scoring and context.cardarea == G.play then
-           return (mtg_increment_energy(card, context))
+            return (mtg_increment_energy(card, context))
         end
     end
 }
