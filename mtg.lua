@@ -171,6 +171,7 @@ for checking if a mod is enabled
 ]]
 
 assert(SMODS.load_file("lib/utility.lua"))()
+assert(SMODS.load_file("lib/Damage.lua"))()
 init_planeswalkers()
 init_suitless()
 if MagicTheJokering.config.include_clover_suit then
@@ -182,7 +183,6 @@ assert(SMODS.load_file("items/jokers.lua"))()
 assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
 assert(SMODS.load_file("items/lands.lua"))()
-assert(SMODS.load_file("items/tokens.lua"))()
 assert(SMODS.load_file("items/seals.lua"))()
 SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
     file = "Phi_normal_3.0.ttf",
