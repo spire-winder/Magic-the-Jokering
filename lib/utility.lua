@@ -450,27 +450,28 @@ function damage_blind(card, amount, repetition)
 	  delay = 0.2,
 	  func = (function(t) return math.floor(t) end)
 	}))
-
-	G.E_MANAGER:add_event(Event({
-	  func = (function(t) if G.GAME.chips >=  G.GAME.blind.chips then 
-		G.E_MANAGER:add_event(
-			Event({
-				trigger = "immediate",
-				func = function()
-					if G.STATE ~= G.STATES.SELECTING_HAND then
-						return false
-					end
-					G.STATE = G.STATES.HAND_PLAYED
-					G.STATE_COMPLETE = true
-					end_round()
-					return true
-				end,
-			}),
-			"other"
-		)
-	   end
-	  return true end)
-	}))
+	if not SMODS.find_mod("NotJustYet") then
+		G.E_MANAGER:add_event(Event({
+		func = (function(t) if G.GAME.chips >=  G.GAME.blind.chips then 
+			G.E_MANAGER:add_event(
+				Event({
+					trigger = "immediate",
+					func = function()
+						if G.STATE ~= G.STATES.SELECTING_HAND then
+							return false
+						end
+						G.STATE = G.STATES.HAND_PLAYED
+						G.STATE_COMPLETE = true
+						end_round()
+						return true
+					end,
+				}),
+				"other"
+			)
+		end
+		return true end)
+		}))
+	end
 end
 
 --damage_blind: creates an event to damage the blind, use this when other events are happening
