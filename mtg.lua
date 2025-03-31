@@ -172,6 +172,7 @@ for checking if a mod is enabled
 
 assert(SMODS.load_file("lib/utility.lua"))()
 assert(SMODS.load_file("lib/Damage.lua"))()
+assert(SMODS.load_file("lib/energy.lua"))()
 init_planeswalkers()
 init_suitless()
 if MagicTheJokering.config.include_clover_suit then
