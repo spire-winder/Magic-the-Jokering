@@ -1,3 +1,9 @@
+
+SMODS.current_mod.optional_features = {
+	retrigger_joker = true,
+}
+
+
 function pseudorandom_i_range(seed, min, max)
 	local val
 	while not val do

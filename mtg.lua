@@ -163,12 +163,13 @@ SMODS.Atlas({
 	px = 71,
 	py = 96,
 })
---
---[[
-for checking if a mod is enabled
-	
-	
-]]
+SMODS.Atlas({
+	object_type = "Atlas",
+	key = "mtg_atlas2",
+	path = "Jokers.png",
+	px = 71,
+	py = 95,
+})
 
 assert(SMODS.load_file("lib/utility.lua"))()
 assert(SMODS.load_file("lib/Damage.lua"))()
@@ -185,6 +186,13 @@ assert(SMODS.load_file("items/enha.lua"))()
 assert(SMODS.load_file("items/misc.lua"))()
 assert(SMODS.load_file("items/lands.lua"))()
 assert(SMODS.load_file("items/seals.lua"))()
+
+-- other mod stuff
+if not next(SMODS.find_mod('ScryfallHomepage')) then
+	assert(SMODS.load_file("items/scryfall.lua"))()
+end
+
+--language stuff
 SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
     file = "Phi_normal_3.0.ttf",
     render_scale = G.TILESIZE*7,
@@ -194,9 +202,3 @@ SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
     squish = 1,
     DESCSCALE = 1
 }}
---[[
-if next(SMODS.find_mod('Cryptid')) then
-	assert(SMODS.load_file("Cryptid/jokers.lua"))()
-	assert(SMODS.load_file("Cryptid/enha.lua"))()
-end
---]]

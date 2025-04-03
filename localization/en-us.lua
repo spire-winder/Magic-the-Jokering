@@ -343,6 +343,60 @@ return {
                     "{X:dark_edition,C:White}^#3#{} Mult",
                 },
             },
+            j_mtg_jesterhat={
+                name="Jester's Hat",
+                text={
+                    "Sell this joker to create",
+                    "two {C:attention}Hanged Man{} tarot",
+                    "cards"
+                },
+            },
+            j_mtg_impseal={
+                name="Imperial Seal",
+                text={
+                    "{X:mult,C:white} X0.75{} Mult for each card",
+                    "with a seal in you deck",
+                    "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)"
+                },
+            },
+            j_mtg_birds={
+                name="Birds of Paradise",
+                text={
+                    "Retrigger all played cards",
+                    "if poker hand contains a",
+                    "{C:diamonds}Diamond{} card, {C:clubs}Club{} card,",
+                    "{C:hearts}Heart{} card, and {C:spades}Spade{} card",
+                },
+            },
+            j_mtg_balance={
+                name="Balance",
+                text={
+                    "Avarage chips and mult",
+                    "before scoring",
+                },
+            },
+            j_mtg_cycrift={
+                name="Cyclonic Rift",
+                text={
+                    "Gains {C:chips}#2#{} Chips and {X:mult,C:white} X#4#",
+                    "Mult when blind selected",
+                    "{C:inactive}(Currently {C:chips}#1#{} Chips{C:inactive} and {X:mult,C:white} X#3# {C:inactive} Mult)"
+                },
+            },
+            j_mtg_bolas={
+                name="Nicol Bolas",
+                text={
+                    "Copies ability of {C:attention}Joker{} to",
+                    "the left, twice",
+                },
+            },
+            j_mtg_bolt={
+                name="Lightning Bolt",
+                text={
+                    "Sell this joker to add",
+                    "{C:chips}+500{} chips",
+                },
+            },
         },
         Enhanced = {
             m_mtg_octopus = {
