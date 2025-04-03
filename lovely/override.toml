@@ -53,14 +53,9 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = "function Card:is_suit(suit, bypass_debuff, flush_calc)"
-position = "after"
+pattern = '''return self.base.suit == suit'''
+position = "before"
 payload = '''
-	if flush_calc then
-
-	else 
-		if self.debuff and not bypass_debuff then return end
-	end
     if self.ability.effect == 'Gold Card' and next(SMODS.find_card("j_mtg_chromaticlantern")) then
         return true
     end
