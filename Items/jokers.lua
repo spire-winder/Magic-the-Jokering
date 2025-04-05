@@ -1022,6 +1022,10 @@ SMODS.Joker {
       local current_value = G.deck and G.deck.cards[#G.deck.cards].base.nominal * center.ability.extra.mult_per or "?"
       local suit_prefix = (G.deck and G.deck.cards[#G.deck.cards].base.id or "?")
       local rank_suffix = (G.deck and G.deck.cards[#G.deck.cards].base.suit or '?')
+      if suit_prefix == 14 then suit_prefix = 'Ace' end
+      if suit_prefix == 13 then suit_prefix = 'King' end
+      if suit_prefix == 12 then suit_prefix = 'Queen' end
+      if suit_prefix == 11 then suit_prefix = 'Jack' end
       return { vars = { center.ability.extra.mult_per, current_value, suit_prefix.." of "..rank_suffix }}
     else
       return { vars = {center.ability.extra.mult_per, 0, 'None'}}

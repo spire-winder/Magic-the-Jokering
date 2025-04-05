@@ -1,8 +1,6 @@
 SMODS.ConsumableType {
     object_type = "ConsumableType",
     key = 'Magic',
-    can_stack = true,
-    can_divide = true,
     default = 'c_mtg_obliterate',
     collection_rows = { 3,4 },
     primary_colour = HEX("321d0e"),
