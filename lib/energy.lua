@@ -24,6 +24,8 @@ end
 
 mtg_energy = G.energy
 
+mtg_inc1 = mtg_energy_storage_inc1
+
 function energy_storage_increase(card, amount)
 	local amount = card.ability.extra.add_energy
 	G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage + amount
@@ -36,6 +38,10 @@ G.energy = function (card, context)
 	if G.GAME.mtg_energy_storage <= 0 or G.GAME.mtg_energy_storage > 1e300 then
 		G.GAME.mtg_energy_storage = 0
 	end
+end
+
+function mtg_energy_storage_inc1(card, context)
+	G.GAME.mtg_energy_storage = G.GAME.mtg_energy_storage + 1
 end
 
 function mtg_increment_energy(card, context)
