@@ -621,7 +621,7 @@ return {
             m_mtg_leonin_warleader = {
                 name = "Leonin Warleader",
                 text = {
-                    "when scored add {C:attention}1{} cat tag"
+                    "when scored add {C:attention}2{} cat tag"
                 },
             },
         },
@@ -1151,7 +1151,7 @@ return {
     misc = {
         suits_singular = {
             mtg_Clovers = "Clover",
-            mtg_Suitless = "suitless"
+            mtg_Suitless = "Suitless"
         },
         suits_plural = {
             mtg_Clovers = "Clovers",
@@ -1182,7 +1182,7 @@ return {
             b_take = "TAKE",
 
             mtg_requires_restart = 'Requires game restart',
-            
+          
             include_clover_suit = "Include Clovers",
             include_clover_suit_desc_1 = "Adds the Clovers suit",
             include_clover_suit_desc_2 = "and associated cards"
