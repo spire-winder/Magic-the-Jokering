@@ -192,6 +192,33 @@ if not next(SMODS.find_mod('ScryfallHomepage')) then
 	assert(SMODS.load_file("items/scryfall.lua"))()
 end
 
+if Cryptid then
+	if Cryptid.aliases then
+		local aliases = {
+			celdawn = 'celestial dawn',
+			oneresponse = 'first response',
+			lfromw = 'light from within',
+			ruleofl = "rule of law",
+			esculp = 'etherium sculptor',
+			hofthesea = "Harbinger of the Seas",
+			jokulmor = "jokulmorder",
+			labman = "laboratory maniac",
+			ascendentEvi = "ascendant evincar",
+			reckbush = "reckless bushwhacker",
+			ttofrf = "Torbran, Thane of Red Fell",
+			hscale = "hardened scales",
+			wvirt = "whirler virtuoso",
+			umine = "urza's mine",
+			upower = "urza's power plant",
+			utower = "urza's tower",
+			relrats = "relentless rats",
+		}
+		for k, v in pairs(aliases) do
+			Cryptid.aliases[k] = v
+		end
+	end
+end
+
 --language stuff
 SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
     file = "Phi_normal_3.0.ttf",

@@ -103,27 +103,5 @@ return {
     init = function()end,
     items = ret_items,
 }
---[[
-local aliases = {
-    celdawn = 'celestial dawn',
-    oneresponse = 'first response',
-    lfromw = 'light from within',
-    ruleofl = "rule of law",
-    esculp = 'etherium sculptor',
-    hofthesea = "Harbinger of the Seas",
-    jokulmor = "jokulmorder",
-    labman = "laboratory maniac",
-    ascendentEvi = "ascendant evincar",
-    reckbush = "reckless bushwhacker",
-    ttofrf = "Torbran, Thane of Red Fell",
-    hscale = "hardened scales",
-    wvirt = "whirler virtuoso",
-    umine = "urza's mine",
-    upower = "urza's power plant",
-    utower = "urza's tower",
-    relrats = "relentless rats",
-}
-for k, v in pairs(aliases) do
-    Cryptid.aliases[k] = v
-end
+
 --]]
