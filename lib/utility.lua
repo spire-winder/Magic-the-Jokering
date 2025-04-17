@@ -136,6 +136,23 @@ G.FUNCS.buff_cards = function(cards, amount, repetition, enhancement)
 		}))]]
 end
 
+function increase_rank(card, amount)
+	for i=1,amount do
+		local rank_data = SMODS.Ranks[card.base.value]
+		local behavior = rank_data.strength_effect or { fixed = 1, ignore = false, random = false }
+		local new_rank
+		if behavior.ignore or not next(rank_data.next) then
+				return true
+		elseif behavior.random then
+				new_rank = pseudorandom_element(rank_data.next, pseudoseed('buff_card'))
+		else
+			local ii = (behavior.fixed and rank_data.next[behavior.fixed]) and behavior.fixed or 1
+			new_rank = rank_data.next[ii]
+		end
+		assert(SMODS.change_base(card, nil, new_rank))
+	end
+end
+
 function stop_debuff_card(card)
 	G.E_MANAGER:add_event(Event({
 		func = function()
