@@ -685,7 +685,7 @@ token_thopter = SMODS.Enhancement {
     key = "thopter",
     atlas = "thopter",
     pos = { x = 0, y = 0 },
-    config = { extra = {mult = 1}},
+    config = { extra = {mult = 2}},
     overrides_base_rank = true,
     weight = 0,
     in_pool = function() return false end,
