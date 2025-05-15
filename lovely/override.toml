@@ -284,3 +284,137 @@ payload = '''
           }},
 '''
 match_indent = true
+
+# polterworx
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS jen "Jen.lua"]'''
+pattern = '''overpowered_rarities = {
+		'jen_ritualistic',
+		'jen_wondrous',
+		'jen_extraordinary',
+		'jen_transcendent',
+		'jen_omegatranscendent',
+		'jen_omnipotent',
+		'jen_miscellaneous','''
+position = "after"
+payload = ''''mtg_Eldrazi_Titan','''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS jen "Jen.lua"]'''
+pattern = '''for k, v in ipairs(omegaconsumables) do
+			if cen.key == ('c_' .. v) and G.P_CENTERS['c_jen_' .. v .. '_omega'] and not G.GAME.banned_keys['c_jen_' .. v .. '_omega'] and jl.chance('omega_replacement', chance_for_omega(v), true) then
+				G.E_MANAGER:add_event(Event({trigger = 'after', blockable = false, blocking = false, func = function()
+					if card and not card.no_omega then
+						card:set_ability(G.P_CENTERS['c_jen_' .. v .. '_omega'])
+						card:set_cost()
+						if chance_for_omega(v) > 10 then play_sound('jen_omegacard', 1, 0.4) end
+						card:juice_up(1.5, 1.5)
+						if omegas_found <= 0 then
+							Q(function() play_sound_q('jen_chime', 1, 0.65); jl.a('Omega!' .. (omegas_found > 1 and (' x ' .. number_format(omegas_found)) or ''), G.SETTINGS.GAMESPEED, 1, G.C.jen_RGB); jl.rd(1); omegas_found = 0; return true end)
+						end
+						omegas_found = omegas_found + 1
+					end
+					return true
+				end }))
+				break
+			end'''
+position = "after"
+payload = '''if cen.key == ('c_mtg_' .. v) and G.P_CENTERS['c_mtg_' .. v .. '_omega'] and not G.GAME.banned_keys['c_mtg_' .. v .. '_omega'] and jl.chance('omega_replacement', chance_for_omegal(v), true) then
+				G.E_MANAGER:add_event(Event({trigger = 'after', blockable = false, blocking = false, func = function()
+					if card and not card.no_omega then
+						card:set_ability(G.P_CENTERS['c_mtg_' .. v .. '_omega'])
+						card:set_cost()
+						if chance_for_omegal(v) > 10 then play_sound('jen_omegacard', 1, 0.4) end
+						card:juice_up(1.5, 1.5)
+						if omegas_found <= 0 then
+							Q(function() play_sound_q('jen_chime', 1, 0.65); jl.a('Omega!' .. (omegas_found > 1 and (' x ' .. number_format(omegas_found)) or ''), G.SETTINGS.GAMESPEED, 1, G.C.jen_RGB); jl.rd(1); omegas_found = 0; return true end)
+						end
+						omegas_found = omegas_found + 1
+					end
+					return true
+				end }))
+				break
+			end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS jen "Jen.lua"]'''
+pattern = '''local omegaconsumables = {
+	'ankh',
+	'aura',
+	'black_hole',
+	'ceres',
+	'chariot',
+	'cryptid',
+	'death',
+	'deja_vu',
+	'devil',
+	'earth',
+	'ectoplasm',
+	'emperor',
+	'empress',
+	'eris',
+	'familiar',
+	'fool',
+	'grim',
+	'hanged_man',
+	'hermit',
+	'hex',
+	'hierophant',
+	'high_priestess',
+	'immolate',
+	'incantation',
+	'judgement',
+	'jupiter',
+	'justice',
+	'lovers',
+	'magician',
+	'mars',
+	'medium',
+	'mercury',
+	'moon',
+	'neptune',
+	'ouija',
+	'planet_x',
+	'pluto',
+	'saturn',
+	'sigil',
+	'soul',
+	'star',
+	'strength',
+	'sun',
+	'talisman',
+	'temperance',
+	'tower',
+	'trance',
+	'uranus',
+	'venus',
+	'wheel_of_fortune',
+	'world','''
+position = "after"
+payload = '''
+	'blacklotus',
+	'mountain_land',
+	'forest_land',
+	'forest',
+	'Wastes',
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS jen "Jen.lua"]'''
+pattern = '''function get_kosmos()
+	return jl.fc('j_jen_kosmos')
+end'''
+position = "after"
+payload = '''
+function get_Kozilek()
+	return jl.fc('j_mtg_Kozilek')
+end
+'''
+match_indent = true

@@ -635,6 +635,14 @@ return {
                     "to {C:clover}Clovers{}"
                 },
             },
+            c_mtg_Wastes = {
+                name = "Wastes",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {C:white}Suitless{}"
+                },
+            },
         },
         Spectral = {
             c_mtg_blacklotus = {
@@ -984,7 +992,7 @@ return {
                     "{X:mult,C:white} X#1# {} Mult",
                     "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
                     "held in hand when played and scored"
-            },
+                },
             },
             r_mtg_octopus = {
                 name = "Octopus",
@@ -1010,6 +1018,17 @@ return {
                 name = "Squirrel",
                 text = {
                     "{C:mult}+1d#1#{} Mult",
+                }
+            },
+            r_mtg_jenlev = {
+                name = "Leviathan",
+                text = {
+                    'If played hand contains {C:attention}only one card{}, and that',
+                    'card is a {C:attention}Steel 7 of any suit{},',
+                    '{C:red}destroy it{} and then set the',
+                    '{C:attention}current Blind size{} to {C:attention}1',
+                    'If the only card is instead a {C:attention}Stone Card{},',
+                    "{C:red}destroy it{} and {C:attention}sharpen Leviathan's axe{} by {C:attention}1{} point",
                 }
             },
             r_mtg_any_target = {
