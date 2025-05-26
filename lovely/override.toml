@@ -416,5 +416,66 @@ payload = '''
 function get_Kozilek()
 	return jl.fc('j_mtg_Kozilek')
 end
+function get_Emrakul()
+	return jl.fc('j_mtg_emerkul')
+end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS jen "Jen.lua"]'''
+pattern = '''function add_malice(mod, now, unscaled)
+	if jl.invalid_number(number_format(mod)) then return end
+	if now or not Jen.config.safer_kosmos then
+		if get_final_operator(true) >= (maxArrow + 1) then return end
+		local kosmos = get_kosmos()
+		if not kosmos then return end'''
+position = "after"
+payload = '''
+		local Kozilek = get_Kozilek()
+		if not Kozilek then return end
+		local emerkul = get_Emrakul()
+		if not emerkul then return end'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS jen "Jen.lua"]'''
+pattern = '''if not kosmos.cumulative_malice then
+			kosmos.cumulative_malice = (kosmos.cumulative_malice or to_big(0)) + mod
+			QR(function() if kosmos then
+				card_status_text(kosmos, '+' .. number_format(kosmos.cumulative_malice or to_big(0)), nil, 0.05*kosmos.T.h, G.C.RED, 0.6, 0.6, 0.4, 0.4, 'bm', 'jen_enchant', 0.5, 1)
+				jl.a('Malice : ' .. number_format(orig_malice + (kosmos.cumulative_malice or to_big(0))) .. ' / ' .. number_format(orig_maxmalice), 3, 0.75, G.C.RED)
+				kosmos.cumulative_malice = nil
+				check_malice(G.GAME.malice)
+			end return true end, 50)
+		else
+			kosmos.cumulative_malice = (kosmos.cumulative_malice or to_big(0)) + mod
+		end'''
+position = "after"
+payload = '''
+	if not Kozilek.cumulative_malice then
+		Kozilek.cumulative_malice = (Kozilek.cumulative_malice or to_big(0)) + mod
+		QR(function() if Kozilek then
+			card_status_text(Kozilek, '+' .. number_format(Kozilek.cumulative_malice or to_big(0)), nil, 0.05*Kozilek.T.h, G.C.RED, 0.6, 0.6, 0.4, 0.4, 'bm', 'jen_enchant', 0.5, 1)
+			jl.a('Malice : ' .. number_format(orig_malice + (Kozilek.cumulative_malice or to_big(0))) .. ' / ' .. number_format(orig_maxmalice), 3, 0.75, G.C.RED)
+			Kozilek.cumulative_malice = nil
+			check_malice(G.GAME.malice)
+		end return true end, 50)
+	else
+		Kozilek.cumulative_malice = (Kozilek.cumulative_malice or to_big(0)) + mod
+	end
+	if not emerkul.cumulative_malice then
+		emerkul.cumulative_malice = (emerkul.cumulative_malice or to_big(0)) + mod
+		QR(function() if emerkul then
+			card_status_text(emerkul, '+' .. number_format(emerkul.cumulative_malice or to_big(0)), nil, 0.05*emerkul.T.h, G.C.RED, 0.6, 0.6, 0.4, 0.4, 'bm', 'jen_enchant', 0.5, 1)
+			jl.a('Malice : ' .. number_format(orig_malice + (emerkul.cumulative_malice or to_big(0))) .. ' / ' .. number_format(orig_maxmalice), 3, 0.75, G.C.RED)
+			emerkul.cumulative_malice = nil
+			check_malice(G.GAME.malice)
+		end return true end, 50)
+	else
+		emerkul.cumulative_malice = (emerkul.cumulative_malice or to_big(0)) + mod
+	end'''
+match_indent = true
+

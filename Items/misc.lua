@@ -47,7 +47,7 @@ SMODS.Consumable {
 	set = "Tarot",
 	name = "mtg-Wastes",
 	key = "Wastes",
-	pos = { x = 12, y = 1 },
+	pos = { x = 15, y = 3 },
   cost=3,
 	atlas = "mtg_atlas",
 	can_use = function(self, card)

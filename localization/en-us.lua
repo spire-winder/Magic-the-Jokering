@@ -574,41 +574,49 @@ return {
             m_mtg_Forest_land = {
                 name = "Forest Land",
                 text = {
-                    "When card with the {C:clover}Clover{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:clover}Clover{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Island_land = {
                 name = "Island Land",
                 text = {
-                    "When card with the {C:club}Club{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:club}Club{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Plains_land = {
                 name = "Plains Land",
                 text = {
-                    "When card with the {C:diamond}Diamond{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:diamond}Diamond{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Mountain_land = {
                 name = "Mountain Land",
                 text = {
-                    "When card with the {C:heart}Heart{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "Other wise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:heart}Heart{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Swamp_land = {
                 name = "Swamp Land",
                 text = {
-                    "When card with the {C:spade}Spade{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:spade}Spade{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
+                },
+            },
+            m_mtg_Waste_land = {
+                name = "Wastes Land",
+                text = {
+                    "If enhanced card is {C:white}Suitless{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Aether_Hub = {
@@ -929,6 +937,14 @@ return {
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
                     "to {C:spade}Spades{}"
+                },
+            },
+            c_mtg_waste_land = {
+                name = "Wastes",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {C:white}Suitless{}"
                 },
             },
         },
