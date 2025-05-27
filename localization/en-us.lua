@@ -331,6 +331,27 @@ return {
                     "{C:attention}#1#{} {C:dark_edition}energy{}",
                 },
             },
+            j_mtg_mycosynth_lattice = {
+                name = "Mycosynth Lattice",
+                text = {
+                    "All card are {C:white}suitless{} in addition to their other suits",
+                },
+            },
+            j_mtg_cheif_of_the_foundry = {
+                name = "Chief of the Foundry",
+                text = {
+                    "Played {C:white}Suitless{} cards give",
+                    "{C:mult}+#1#{} Chips when scored"
+                },
+            },
+            j_mtg_omarthis = {
+                name = "Omarthis, ghostfire Initiate",
+                text = {
+                    "if scored card is {C:white}Suitless{} then",
+                    "increase the amount of chips omarthis, ghostfire initiate gives by {C:chips}+#2#{}",
+                    "{C:inactive}currently {C:chips}+#1#{C:inactive} Chips",
+                },
+            },
             j_mtg_jetmir = {
                 name = "Jetmir, Nexus of Revels",
                 text = {
@@ -574,41 +595,49 @@ return {
             m_mtg_Forest_land = {
                 name = "Forest Land",
                 text = {
-                    "When card with the {C:clover}Clover{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:clover}Clover{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Island_land = {
                 name = "Island Land",
                 text = {
-                    "When card with the {C:club}Club{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:club}Club{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Plains_land = {
                 name = "Plains Land",
                 text = {
-                    "When card with the {C:diamond}Diamond{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:diamond}Diamond{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Mountain_land = {
                 name = "Mountain Land",
                 text = {
-                    "When card with the {C:heart}Heart{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "Other wise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:heart}Heart{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Swamp_land = {
                 name = "Swamp Land",
                 text = {
-                    "When card with the {C:spade}Spade{} suit",
-                    "is scored give {X:mult,C:white}X#1#{} Mult",
-                    "otherwise give {C:mult}+#2#{} Mult"
+                    "If enhanced card is a {C:spade}Spade{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
+                },
+            },
+            m_mtg_Waste_land = {
+                name = "Wastes Land",
+                text = {
+                    "If enhanced card is {C:white}Suitless{}",
+                    "Then this card gives {X:mult,C:white}X#1#{} Mult",
+                    "Otherwise it will give {C:mult}+#2#{} Mult"
                 },
             },
             m_mtg_Aether_Hub = {
@@ -633,6 +662,14 @@ return {
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
                     "to {C:clover}Clovers{}"
+                },
+            },
+            c_mtg_Wastes = {
+                name = "Wastes",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {C:white}Suitless{}"
                 },
             },
         },
@@ -923,6 +960,14 @@ return {
                     "to {C:spade}Spades{}"
                 },
             },
+            c_mtg_waste_land = {
+                name = "Wastes",
+                text = {
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {C:white}Suitless{}"
+                },
+            },
         },
         Card_token = {
             c_mtg_energy = {
@@ -984,7 +1029,7 @@ return {
                     "{X:mult,C:white} X#1# {} Mult",
                     "{C:attention}Destroy{} the {C:attention}lowest{} ranked card",
                     "held in hand when played and scored"
-            },
+                },
             },
             r_mtg_octopus = {
                 name = "Octopus",
@@ -1010,6 +1055,17 @@ return {
                 name = "Squirrel",
                 text = {
                     "{C:mult}+1d#1#{} Mult",
+                }
+            },
+            r_mtg_jenlev = {
+                name = "Leviathan",
+                text = {
+                    'If played hand contains {C:attention}only one card{}, and that',
+                    'card is a {C:attention}Steel 7 of any suit{},',
+                    '{C:red}destroy it{} and then set the',
+                    '{C:attention}current Blind size{} to {C:attention}1',
+                    'If the only card is instead a {C:attention}Stone Card{},',
+                    "{C:red}destroy it{} and {C:attention}sharpen Leviathan's axe{} by {C:attention}1{} point",
                 }
             },
             r_mtg_any_target = {

@@ -253,6 +253,23 @@ SMODS.Joker {
 	end
 }
 
+-- encroaching mycosynth
+--[[
+SMODS.Joker {
+  key = "mtg-encroachingmycosynth",
+  name = "Encroaching Mycosynth",
+  pos = { x = 13, y = 5 },
+  cost = 8,
+  atlas = "mtg_atlas",
+  order = 3,
+  rarity = 3,
+  config = {},
+  loc_vars = function(self, info_queue, card)
+    return { }
+  end
+}
+--]]
+
 --omniscience
 SMODS.Joker { 
 	object_type = "Joker",
@@ -699,42 +716,6 @@ rarity = 3,
   end
 }
 
---Whirler Virtuoso
-SMODS.Joker {
-  object_type = "joker",
-  name = "Whirler Virtuoso",
-  key = "whirler",
-  pos = { x = 0, y = 1 },
-  atlas = "mtg_atlas",
-  cost = 8,
-  order = 14,
-  rarity = 3,
-  config = { extra = { energy = 0, require_token_count = 3, add_energy = 1}, mtg_energy = true },
-  loc_vars = function(self, info_queue, center)
-    info_queue[#info_queue+1] = { key = "r_mtg_current_energy", set = "Other", config = {extra = G.GAME.mtg_energy_storage}, vars = { G.GAME.mtg_energy_storage or "?"}}
-    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count, center.ability.extra.add_energy } }
-  end,
-  calculate = function(self, card, context)
-    if context.buying_card and context.other_card == self then
-      return (energy_storage_increase(card, context))
-    end
-    if context.cardarea == G.jokers and context.joker_main then
-      return (mtg_increment_energy(card, context))
-    end
-    if context.use_energy then
-      G.E_MANAGER:add_event(Event({
-        func = function() 
-          local _suit, _rank = SMODS.Suits[suit_suitless.key].card_key, "2"
-          create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_thopter}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
-          G.hand:sort()
-          if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
-            return true
-          end}))
-          playing_card_joker_effects({true})
-    end
-  end,
-}
-
 --Goblin Anarchomancer
 --Played cards with Clover or Heart suit give x1.25 Mult when scored
 SMODS.Joker { 
@@ -799,17 +780,123 @@ SMODS.Joker {
 }
 end
 
+--Whirler Virtuoso
+SMODS.Joker {
+  object_type = "joker",
+  name = "Whirler Virtuoso",
+  key = "whirler",
+  pos = { x = 12, y = 5 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = { extra = { energy = 0, require_token_count = 3, add_energy = 1}, mtg_energy = true },
+  loc_vars = function(self, info_queue, center)
+    info_queue[#info_queue+1] = { key = "r_mtg_current_energy", set = "Other", config = {extra = G.GAME.mtg_energy_storage}, vars = { G.GAME.mtg_energy_storage or "?"}}
+    return { vars = { center.ability.extra.energy, center.ability.extra.require_token_count, center.ability.extra.add_energy } }
+  end,
+  calculate = function(self, card, context)
+    if context.buying_card and context.other_card == self then
+      return (energy_storage_increase(card, context))
+    end
+    if context.cardarea == G.jokers and context.joker_main then
+      return (mtg_increment_energy(card, context))
+    end
+    if context.use_energy then
+      G.E_MANAGER:add_event(Event({
+        func = function() 
+          local _suit, _rank = SMODS.Suits[suit_suitless.key].card_key, "2"
+          create_playing_card({front = G.P_CARDS[_suit..'_'.._rank], center = token_thopter}, G.hand, nil, i ~= 1, {G.C.SECONDARY_SET.Magic})
+          G.hand:sort()
+          if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
+            return true
+          end}))
+          playing_card_joker_effects({true})
+    end
+  end,
+}
+
+-- mycosynth lattice
+SMODS.Joker {
+  object_type = "Joker",
+  name = "mtg-mycosynthlattice",
+  key = "mycosynth_lattice",
+  pos = { x = 14, y = 5 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 3,
+  config = {},
+  loc_vars = function(self, info_queue, card)
+    return { }
+  end
+}
+
+SMODS.Joker {
+  object_type = "Joker",
+  name = "mtg-cheif_of_the_foundry",
+  key = "cheif_of_the_foundry",
+  pos = { x = 15, y = 5 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 1,
+ config = { extra = { mult = 3 } },
+ loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.mult } }
+  end,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      if context.other_card:is_suit(suit_suitless.key) then
+        return {
+          mult = card.ability.extra.mult,
+          card = card
+        }
+      end
+    end
+  end
+}
+
+SMODS.Joker {
+  name = "mtg-omarthis",
+  key = "omarthis",
+  pos = { x = 12, y = 6 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 2,
+  config = { extra = { chips = 1, chip_mod = 2.5 } },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod } }
+  end,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      if context.other_card:is_suit(suit_suitless.key) then
+        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+      end
+    end
+    if context.joker_main then
+      return {
+        chips = card.ability.extra.chips,
+        message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chips } }),
+        colour = G.C.CHIPS,
+        card = card
+      }
+    end
+  end
+}
+
 --chromatic lantern
 SMODS.Joker { 
 	object_type = "Joker",
 	name = "mtg-chromaticlantern",
 	key = "chromaticlantern",
-	pos = { x = 0, y = 0 },
+	pos = { x = 4, y = 5 },
 	config = { extra = {bonus_mult = 0.25, suits = {}}},
 	rarity = 3,
   order = 14,
 	cost = 8,
-	atlas = "chromatic",
+	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
     info_queue[#info_queue+1] = G.P_CENTERS.m_gold
 		return { vars = {center.ability.extra.bonus_mult, center.ability.x_mult}}
@@ -897,7 +984,7 @@ SMODS.Joker {
   object_type = "Joker",
   name = "mtg-panharmonicon",
   key = "panharmonicon",
-  pos = { x = 0, y = 1 },
+  pos = { x = 15, y = 4 },
   atlas = "mtg_atlas",
   cost = 8,
   order = 14,
@@ -1075,12 +1162,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-powermatrix",
 	key = "powermatrix",
-	pos = { x = 0, y = 0 },
+	pos = { x = 0, y = 5 },
 	config = { extra = {buff = 1}},
   order = 17,
 	rarity = 2,
 	cost = 6,
-	atlas = "power",
+	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { vars = {center.ability.extra.buff}}
 	end,
@@ -1104,12 +1191,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-urzamine",
 	key = "urzamine",
-	pos = { x = 0, y = 0 },
+	pos = { x = 0, y = 4 },
 	config = { extra = { base_chips = 50, bonus_chips = 200} },
   order = 18,
 	rarity = 1,
 	cost = 3,
-	atlas = "urza_mine",
+	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_chips, center.ability.extra.bonus_chips} }
 	end,
@@ -1136,12 +1223,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-urzapower",
 	key = "urzapower",
-	pos = { x = 0, y = 0 },
+	pos = { x = 6, y = 3 },
 	config = { extra = { base_mult = 6, bonus_mult = 36} },
   order = 19,
 	rarity = 1,
 	cost = 4,
-	atlas = "urza-power",
+	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_mult, center.ability.extra.bonus_mult} }
 	end,
@@ -1168,12 +1255,12 @@ SMODS.Joker {
 	object_type = "Joker",
 	name = "mtg-urzatower",
 	key = "urzatower",
-	pos = { x = 0, y = 0 },
+	pos = { x = 7, y = 3 },
 	config = { extra = { base_xmult = 1.5, bonus_xmult = 3} },
   order = 20,
 	rarity = 1,
 	cost = 3,
-	atlas = "urza-tower",
+	atlas = "mtg_atlas",
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.base_xmult, center.ability.extra.bonus_xmult} }
 	end,
