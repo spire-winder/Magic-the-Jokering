@@ -331,6 +331,12 @@ return {
                     "{C:attention}#1#{} {C:dark_edition}energy{}",
                 },
             },
+            j_mtg_mycosynth_lattice = {
+                name = "Mycosynth Lattice",
+                text = {
+                    "All card are {C:white}suitless{} in addition to their other suits",
+                },
+            },
             j_mtg_jetmir = {
                 name = "Jetmir, Nexus of Revels",
                 text = {

@@ -73,6 +73,9 @@ payload = '''
 			return true 
 		end
 	end
+	if suit == suit_suitless.key and next(SMODS.find_card("j_mtg_mycosynth_lattice")) then
+		return true
+	end
 '''
 match_indent = true
 
