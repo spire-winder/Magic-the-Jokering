@@ -337,6 +337,21 @@ return {
                     "All card are {C:white}suitless{} in addition to their other suits",
                 },
             },
+            j_mtg_cheif_of_the_foundry = {
+                name = "Chief of the Foundry",
+                text = {
+                    "Played {C:white}Suitless{} cards give",
+                    "{C:mult}+#1#{} Chips when scored"
+                },
+            },
+            j_mtg_omarthis = {
+                name = "Omarthis, ghostfire Initiate",
+                text = {
+                    "if scored card is {C:white}Suitless{} then",
+                    "increase the amount of chips omarthis, ghostfire initiate gives by {C:chips}+#2#{}",
+                    "{C:inactive}currently {C:chips}+#1#{C:inactive} Chips",
+                },
+            },
             j_mtg_jetmir = {
                 name = "Jetmir, Nexus of Revels",
                 text = {

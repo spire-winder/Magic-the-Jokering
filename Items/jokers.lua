@@ -832,6 +832,60 @@ SMODS.Joker {
   end
 }
 
+SMODS.Joker {
+  object_type = "Joker",
+  name = "mtg-cheif_of_the_foundry",
+  key = "cheif_of_the_foundry",
+  pos = { x = 15, y = 5 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 1,
+ config = { extra = { mult = 3 } },
+ loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.mult } }
+  end,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      if context.other_card:is_suit(suit_suitless.key) then
+        return {
+          mult = card.ability.extra.mult,
+          card = card
+        }
+      end
+    end
+  end
+}
+
+SMODS.Joker {
+  name = "mtg-omarthis",
+  key = "omarthis",
+  pos = { x = 12, y = 6 },
+  atlas = "mtg_atlas",
+  cost = 8,
+  order = 14,
+  rarity = 2,
+  config = { extra = { chips = 1, chip_mod = 2.5 } },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod } }
+  end,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      if context.other_card:is_suit(suit_suitless.key) then
+        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+      end
+    end
+    if context.joker_main then
+      return {
+        chips = card.ability.extra.chips,
+        message = localize({ type = "variable", key = "a_chips", vars = { card.ability.extra.chips } }),
+        colour = G.C.CHIPS,
+        card = card
+      }
+    end
+  end
+}
+
 --chromatic lantern
 SMODS.Joker { 
 	object_type = "Joker",
