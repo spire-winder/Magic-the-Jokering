@@ -191,11 +191,6 @@ assert(SMODS.load_file("items/seals.lua"))()
 if not next(SMODS.find_mod('ScryfallHomepage')) then
 	assert(SMODS.load_file("items/scryfall.lua"))()
 end
--- [[
-if SMODS.find_mod('jen') then
-	assert(SMODS.load_file("items/polterworx.lua"))()
-end
---]]
 
 --language stuff
 SMODS.Language {key = 'Phyrexian', label = '^new phyrexia.', font = {
