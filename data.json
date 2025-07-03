@@ -14,7 +14,4 @@
 		"Talisman (>=2.0.9)",
 		"Steamodded (>=1.0.0~ALPHA-1326a)",
 	],
-	"conflicts": [
-		"mayhem"
-	],
 }
