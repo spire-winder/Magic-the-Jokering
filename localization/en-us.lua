@@ -341,7 +341,7 @@ return {
                 name = "Chief of the Foundry",
                 text = {
                     "Played {C:white}Suitless{} cards give",
-                    "{C:mult}+#1#{} Chips when scored"
+                    "{C:mult}+#1#{} Mult when scored"
                 },
             },
             j_mtg_omarthis = {
