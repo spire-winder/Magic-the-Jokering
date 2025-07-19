@@ -121,7 +121,7 @@ function damage_blind(card, amount, repetition)
 	  delay = 0.2,
 	  func = (function(t) return math.floor(t) end)
 	}))
-	if not SMODS.find_mod("NotJustYet") then
+	if not next(SMODS.find_mod("NotJustYet")) then
 		G.E_MANAGER:add_event(Event({
 		func = (function(t) if G.GAME.chips >=  G.GAME.blind.chips then 
 			G.E_MANAGER:add_event(
