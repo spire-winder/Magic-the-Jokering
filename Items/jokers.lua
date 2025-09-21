@@ -30,6 +30,7 @@ name = "mtg-celestialdawn",
 cost = 8,
 order = 1,
 rarity = 3,
+unlocked = false,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
@@ -168,6 +169,7 @@ name = "mtg-harbinger",
 cost = 8,
 order = 3,
 rarity = 3,
+unlocked = false,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
@@ -377,6 +379,7 @@ SMODS.Joker {
   cost = 8,
   order = 7,
   rarity = 3,
+unlocked = false,
     config = {},
     loc_vars = function(self, info_queue, card)
       return { }
@@ -438,6 +441,7 @@ name = "mtg-bloodmoon",
 cost = 8,
 order = 8,
 rarity = 3,
+unlocked = false,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
@@ -595,6 +599,8 @@ SMODS.Joker {
 	rarity = 2,
 	cost = 6,
 	atlas = "mtg_atlas",
+	unlocked = false,
+	discovered = false,
   config = { extra = { repetitions = 1 } },
   calculate = function(self, card, context)
     -- Checks that the current cardarea is G.play, or the cards that have been played, then checks to see if it's time to check for repetition.
@@ -674,6 +680,7 @@ SMODS.Joker {
 	rarity = 2,
 	cost = 7,
 	atlas = "mtg_atlas",
+	unlocked = false,
 	loc_vars = function(self, info_queue, center)
 		return { vars = { center.ability.extra.extra, center.ability.extra.x_mult} }
 	end,
@@ -710,6 +717,7 @@ name = "mtg-yavimaya",
 cost = 8,
 order = 13,
 rarity = 3,
+unlocked = false,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
@@ -826,6 +834,7 @@ SMODS.Joker {
   cost = 8,
   order = 14,
   rarity = 3,
+unlocked = false,
   config = {},
   loc_vars = function(self, info_queue, card)
     return { }
@@ -865,6 +874,7 @@ SMODS.Joker {
   cost = 8,
   order = 14,
   rarity = 2,
+	unlocked = false,
   config = { extra = { chips = 1, chip_mod = 2.5 } },
   loc_vars = function(self, info_queue, center)
     return { vars = { center.ability.extra.chips, center.ability.extra.chip_mod } }

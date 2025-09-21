@@ -15,13 +15,17 @@ return {
                 text = {
                 "Retrigger all",
                 "played {C:clover}Clover{} cards"
-                }
+                },
+				unlock = {
+					"Play {C:attention}100{} cards",
+					"With the {C:clover}Clover{} suit",
+				},
             },
             j_mtg_mightstone = {
                 name = "Mightstone",
                 text = {
                     "Played cards give",
-                    "{C:mult}+#1#{} Mult when scored"
+                    "{C:mult}+#1#{} Mult when scored",
                 },
             },
             j_mtg_labman = {
@@ -86,6 +90,11 @@ return {
                     "{C:clover}Clover{} suit is scored",
                     "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
                 },
+				unlock = {
+					"Have at least {C:attention}30{}",
+					"cards with the {C:clover}Clovers{}",
+					"suit in your deck",
+				},
             },
             j_mtg_chromaticlantern = {
                 name = "Chromatic Lantern",
@@ -147,6 +156,9 @@ return {
                     "Cards are considered to be {C:clover}Clovers{}",
                     "in addition to its other suits"
                 },
+				unlock = {
+					"Win a run with {C:attention}Primalcrux",
+				},
             },
             j_mtg_urborg = {
                 name = "Urborg, Tomb of Yawgmoth",
@@ -154,6 +166,9 @@ return {
                     "Cards are considered to be {C:spade}Spades{}",
                     "in addition to its other suits"
                 },
+				unlock = {
+					"Win a run with {C:attention}Arrowhead",
+				},
             },
             j_mtg_celestialdawn = {
                 name = "Celestial Dawn",
@@ -161,6 +176,9 @@ return {
                     "Cards are considered to be {C:diamond}Diamonds{}",
                     "in addition to its other suits"
                 },
+				unlock = {
+					"Win a run with {C:attention}Rough Gem",
+				},
             },
             j_mtg_harbinger = {
                 name = "Harbinger of the Seas",
@@ -168,6 +186,9 @@ return {
                     "Cards are considered to be {C:club}Clubs{}",
                     "in addition to its other suits"
                 },
+				unlock = {
+					"Win a run with {C:attention}Onyx Agate",
+				},
             },
             j_mtg_bloodmoon = {
                 name = "Blood Moon",
@@ -175,6 +196,9 @@ return {
                     "Cards are considered to be {C:heart}Hearts{}",
                     "in addition to its other suits"
                 },
+				unlock = {
+					"Win a run with {C:attention}Bloodstone",
+				},
             },
             j_mtg_emancipation = {
                 name = "Fiery Emancipation",
@@ -336,6 +360,10 @@ return {
                 text = {
                     "All card are {C:white}suitless{} in addition to their other suits",
                 },
+				unlock = {
+					"Win a run with",
+					"{C:attention}Omarthis, Ghostfire Initiate",
+				},
             },
             j_mtg_cheif_of_the_foundry = {
                 name = "Chief of the Foundry",
@@ -345,12 +373,17 @@ return {
                 },
             },
             j_mtg_omarthis = {
-                name = "Omarthis, ghostfire Initiate",
+                name = "Omarthis, Ghostfire Initiate",
                 text = {
                     "if scored card is {C:white}Suitless{} then",
-                    "increase the amount of chips omarthis, ghostfire initiate gives by {C:chips}+#2#{}",
+                    "increase the amount of chips this joker gives by {C:chips}+#2#{}",
                     "{C:inactive}currently {C:chips}+#1#{C:inactive} Chips",
                 },
+				unlock = {
+					"Have at least {C:attention}30{}",
+					"cards with the {C:white}Suitless{}",
+					"suit in your deck",
+				},
             },
             j_mtg_jetmir = {
                 name = "Jetmir, Nexus of Revels",
@@ -362,60 +395,6 @@ return {
                     "then if you have a cat tag that is {C:attention}level 9{} or more then",
                     "every scored card gives an additional",
                     "{X:dark_edition,C:White}^#3#{} Mult",
-                },
-            },
-            j_mtg_jesterhat={
-                name="Jester's Hat",
-                text={
-                    "Sell this joker to create",
-                    "two {C:attention}Hanged Man{} tarot",
-                    "cards"
-                },
-            },
-            j_mtg_impseal={
-                name="Imperial Seal",
-                text={
-                    "{X:mult,C:white} X0.75{} Mult for each card",
-                    "with a seal in you deck",
-                    "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)"
-                },
-            },
-            j_mtg_birds={
-                name="Birds of Paradise",
-                text={
-                    "Retrigger all played cards",
-                    "if poker hand contains a",
-                    "{C:diamonds}Diamond{} card, {C:clubs}Club{} card,",
-                    "{C:hearts}Heart{} card, and {C:spades}Spade{} card",
-                },
-            },
-            j_mtg_balance={
-                name="Balance",
-                text={
-                    "Avarage chips and mult",
-                    "before scoring",
-                },
-            },
-            j_mtg_cycrift={
-                name="Cyclonic Rift",
-                text={
-                    "Gains {C:chips}#2#{} Chips and {X:mult,C:white} X#4#",
-                    "Mult when blind selected",
-                    "{C:inactive}(Currently {C:chips}#1#{} Chips{C:inactive} and {X:mult,C:white} X#3# {C:inactive} Mult)"
-                },
-            },
-            j_mtg_bolas={
-                name="Nicol Bolas",
-                text={
-                    "Copies ability of {C:attention}Joker{} to",
-                    "the left, twice",
-                },
-            },
-            j_mtg_bolt={
-                name="Lightning Bolt",
-                text={
-                    "Sell this joker to add",
-                    "{C:chips}+500{} chips",
                 },
             },
         },
@@ -971,7 +950,7 @@ return {
         },
         Card_token = {
             c_mtg_energy = {
-                name = "energy token",
+                name = "Energy Token",
                 text = {
                     "current energy: {C:attention}#1#{}"
                 },
@@ -1055,17 +1034,6 @@ return {
                 name = "Squirrel",
                 text = {
                     "{C:mult}+1d#1#{} Mult",
-                }
-            },
-            r_mtg_jenlev = {
-                name = "Leviathan",
-                text = {
-                    'If played hand contains {C:attention}only one card{}, and that',
-                    'card is a {C:attention}Steel 7 of any suit{},',
-                    '{C:red}destroy it{} and then set the',
-                    '{C:attention}current Blind size{} to {C:attention}1',
-                    'If the only card is instead a {C:attention}Stone Card{},',
-                    "{C:red}destroy it{} and {C:attention}sharpen Leviathan's axe{} by {C:attention}1{} point",
                 }
             },
             r_mtg_any_target = {
@@ -1233,7 +1201,7 @@ return {
             mtg_complete_ex = "Complete",
             mtg_slumber_ex = "Slumber",
             mtg_buff_ex = "Buff",
-            mtg_whirler_ex = "thop thop",
+            mtg_whirler_ex = "Thop Thop",
             mtg_gain_energy = "Energize",
             b_take = "TAKE",
 
