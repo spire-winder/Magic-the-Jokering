@@ -1,4 +1,4 @@
--- Energy system for MTG Jokering
+-- Energy system for MTJ
 
 -- local array of stuff and things
 
