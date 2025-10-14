@@ -358,8 +358,8 @@ sheoldred.force_suit = "Spades"
 tinybones = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "tinybones",
-	atlas = "tiny",
-	pos = { x = 0, y = 0 },
+	atlas = "mtg_atlas",
+	pos = { x = 2, y = 6 },
 	config = { extra = {money = 3}},
     overrides_base_rank = true,
     force_suit = G.C.SUITS.Spades,
@@ -429,8 +429,8 @@ token_demon.force_suit = "Spades"
 kikijiki = SMODS.Enhancement {
 	object_type = "Enhancement",
 	key = "kikijiki",
-	atlas = "kiki",
-	pos = { x = 0, y = 0 },
+	atlas = "mtg_atlas",
+	pos = { x = 8, y = 0 },
 	config = { },
     overrides_base_rank = true,
     weight = 5,
